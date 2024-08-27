@@ -1,4 +1,4 @@
-import api/pokemon as api
+import api/pokemon.{type Pokemon}
 import client/pokemon as client
 import gleam/list
 import gleeunit/should
@@ -15,7 +15,7 @@ pub fn get_pokemon_by_name_test() {
   |> should_be_bulbasaur
 }
 
-fn should_be_bulbasaur(pokemon: api.Pokemon) {
+fn should_be_bulbasaur(pokemon: Pokemon) {
   pokemon.id
   |> should.equal(1)
 
@@ -24,10 +24,10 @@ fn should_be_bulbasaur(pokemon: api.Pokemon) {
 
   let assert Ok(ability) = pokemon.abilities |> list.first
 
-  ability.ability.name
+  ability.name
   |> should.equal("overgrow")
 
-  ability.ability.url
+  ability.affordance.url
   |> should.equal("https://pokeapi.co/api/v2/ability/65/")
 
   ability.is_hidden
@@ -59,7 +59,7 @@ fn should_be_bulbasaur(pokemon: api.Pokemon) {
 
   let assert Ok(index) = pokemon.game_indices |> list.first
 
-  index.game_index
+  index.index
   |> should.equal(153)
 
   index.version.name
@@ -79,21 +79,21 @@ fn should_be_bulbasaur(pokemon: api.Pokemon) {
 
   let assert Ok(move) = pokemon.moves |> list.first
 
-  move.move.name
+  move.name
   |> should.equal("razor-wind")
 
-  move.move.url
+  move.affordance.url
   |> should.equal("https://pokeapi.co/api/v2/move/13/")
 
-  let assert Ok(details) = move.version_group_details |> list.first
+  let assert Ok(details) = move.version_details |> list.first
 
-  details.level_learned_at
+  details.learn_level
   |> should.equal(0)
 
-  details.move_learn_method.name
+  details.learn_method.name
   |> should.equal("egg")
 
-  details.move_learn_method.url
+  details.learn_method.url
   |> should.equal("https://pokeapi.co/api/v2/move-learn-method/2/")
 
   details.version_group.name
@@ -119,21 +119,21 @@ fn should_be_bulbasaur(pokemon: api.Pokemon) {
   stat.effort
   |> should.equal(0)
 
-  stat.stat.name
+  stat.name
   |> should.equal("hp")
 
-  stat.stat.url
+  stat.affordance.url
   |> should.equal("https://pokeapi.co/api/v2/stat/1/")
 
-  let assert Ok(typ) = pokemon.types |> list.first
+  let assert Ok(type_) = pokemon.types |> list.first
 
-  typ.slot
+  type_.slot
   |> should.equal(1)
 
-  typ.type_a.name
+  type_.name
   |> should.equal("grass")
 
-  typ.type_a.url
+  type_.affordance.url
   |> should.equal("https://pokeapi.co/api/v2/type/12/")
 
   pokemon.weight

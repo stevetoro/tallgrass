@@ -4,13 +4,13 @@ import gleam/list
 import gleeunit/should
 
 pub fn get_pokemon_by_id_test() {
-  let assert Ok(pokemon) = client.get_by_id(1)
+  let assert Ok(pokemon) = client.fetch_by_id(1)
   pokemon
   |> should_be_bulbasaur
 }
 
 pub fn get_pokemon_by_name_test() {
-  let assert Ok(pokemon) = client.get_by_name("bulbasaur")
+  let assert Ok(pokemon) = client.fetch_by_name("bulbasaur")
   pokemon
   |> should_be_bulbasaur
 }

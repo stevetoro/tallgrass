@@ -16,7 +16,7 @@ import pokegleam/client/pokemon
 pub fn main() {
   use clefairy <- result.try(pokemon.fetch_by_id(35))
   io.println(clefairy.name <> " has entered the BEAM!")
-  // Clefairy has entered the BEAM!
+  Ok(clefairy)
 }
 ```
 

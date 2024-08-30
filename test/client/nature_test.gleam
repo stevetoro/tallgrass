@@ -4,13 +4,11 @@ import gleam/list
 import gleeunit/should
 
 pub fn fetch_by_id_test() {
-  let assert Ok(nature) = client.fetch_by_id(2)
-  nature |> should_be_bold
+  client.fetch_by_id(2) |> should.be_ok |> should_be_bold
 }
 
 pub fn fetch_by_name_test() {
-  let assert Ok(nature) = client.fetch_by_name("hardy")
-  nature |> should_be_hardy
+  client.fetch_by_name("hardy") |> should.be_ok |> should_be_hardy
 }
 
 fn should_be_bold(nature: Nature) {

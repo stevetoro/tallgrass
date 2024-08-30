@@ -4,13 +4,11 @@ import gleam/list
 import gleeunit/should
 
 pub fn fetch_by_id_test() {
-  let assert Ok(pokemon) = client.fetch_by_id(1)
-  pokemon |> should_be_bulbasaur
+  client.fetch_by_id(1) |> should.be_ok |> should_be_bulbasaur
 }
 
 pub fn fetch_by_name_test() {
-  let assert Ok(pokemon) = client.fetch_by_name("bulbasaur")
-  pokemon |> should_be_bulbasaur
+  client.fetch_by_name("bulbasaur") |> should.be_ok |> should_be_bulbasaur
 }
 
 fn should_be_bulbasaur(pokemon: Pokemon) {
@@ -38,8 +36,7 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
     "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/1.ogg",
   )
 
-  let assert Ok(ability) = pokemon.abilities |> list.first
-
+  let ability = pokemon.abilities |> list.first |> should.be_ok
   ability.name |> should.equal("overgrow")
   ability.is_hidden |> should.be_false
   ability.slot |> should.equal(1)
@@ -47,25 +44,21 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   ability.affordance.url
   |> should.equal("https://pokeapi.co/api/v2/ability/65/")
 
-  let assert Ok(form) = pokemon.forms |> list.first
-
+  let form = pokemon.forms |> list.first |> should.be_ok
   form.name |> should.equal("bulbasaur")
   form.url |> should.equal("https://pokeapi.co/api/v2/pokemon-form/1/")
 
-  let assert Ok(index) = pokemon.game_indices |> list.first
-
+  let index = pokemon.game_indices |> list.first |> should.be_ok
   index.index |> should.equal(153)
   index.version.name |> should.equal("red")
   index.version.url |> should.equal("https://pokeapi.co/api/v2/version/1/")
 
-  let assert Ok(move) = pokemon.moves |> list.first
-
+  let move = pokemon.moves |> list.first |> should.be_ok
   move.name |> should.equal("razor-wind")
   move.affordance.name |> should.equal("razor-wind")
   move.affordance.url |> should.equal("https://pokeapi.co/api/v2/move/13/")
 
-  let assert Ok(details) = move.version_details |> list.first
-
+  let details = move.version_details |> list.first |> should.be_ok
   details.learn_level |> should.equal(0)
   details.learn_method.name |> should.equal("egg")
   details.learn_method.url
@@ -74,8 +67,7 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   details.version_group.url
   |> should.equal("https://pokeapi.co/api/v2/version-group/3/")
 
-  let assert Ok(stat) = pokemon.stats |> list.first
-
+  let stat = pokemon.stats |> list.first |> should.be_ok
   stat.base_stat |> should.equal(45)
   stat.effort |> should.equal(0)
   stat.name |> should.equal("hp")
@@ -83,8 +75,7 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   stat.affordance.url
   |> should.equal("https://pokeapi.co/api/v2/stat/1/")
 
-  let assert Ok(type_) = pokemon.types |> list.first
-
+  let type_ = pokemon.types |> list.first |> should.be_ok
   type_.slot |> should.equal(1)
   type_.name |> should.equal("grass")
   type_.affordance.name |> should.equal("grass")

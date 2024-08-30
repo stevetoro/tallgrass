@@ -11,7 +11,7 @@ pub type EggGroup {
 }
 
 pub type Name {
-  Description(name: String, language: Affordance)
+  Name(name: String, language: Affordance)
 }
 
 pub fn egg_group() {
@@ -32,7 +32,7 @@ fn name() {
   decode.into({
     use name <- decode.parameter
     use language <- decode.parameter
-    Description(name, language)
+    Name(name, language)
   })
   |> decode.field("name", decode.string)
   |> decode.field("language", affordance())

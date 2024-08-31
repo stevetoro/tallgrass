@@ -9,13 +9,10 @@ pokegleam's API is still not finalized. Expect breaking changes prior to version
 gleam add pokegleam
 ```
 ```gleam
-import gleam/io
-import gleam/result
-import pokegleam/client/pokemon
+import pokegleam/pokemon/pokemon/client as pokemon
 
 pub fn main() {
-  use clefairy <- result.try(pokemon.fetch_by_id(35))
-  io.println(clefairy.name <> " has entered the BEAM!")
+  let clefairy = pokemon.fetch_by_id(35)
   Ok(clefairy)
 }
 ```

@@ -5,6 +5,7 @@ import gleam/http/response.{type Response}
 import gleam/json
 import gleam/option.{type Option, None, Some}
 import gleam/result
+import gleam/string
 
 const api_url = "pokeapi.co/api/v2"
 
@@ -14,9 +15,14 @@ pub type Error {
 }
 
 pub fn get(resource resource: Option(String), at path: String) {
-  let path = case resource {
-    Some(identifier) -> path <> "/" <> identifier
-    None -> path
+  let split_path = path |> string.split(on: ",")
+
+  // TODO: super hacky but didn't want to write another get function
+  // since location_area is the only nested resource in pokeapi.
+  let path = case resource, split_path {
+    Some(r), [p, ..rest] -> [p, r, ..rest] |> string.join(with: "/")
+    Some(r), _ -> path <> "/" <> r
+    None, _ -> split_path |> string.join(with: "/")
   }
 
   request.new()

@@ -1,4 +1,5 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/name.{type Name, Name, name}
 import decode
 
 pub type Shape {
@@ -9,10 +10,6 @@ pub type Shape {
     awesome_names: List(Name),
     pokemon_species: List(Affordance),
   )
-}
-
-pub type Name {
-  Name(name: String, language: Affordance)
 }
 
 pub fn shape() {
@@ -29,16 +26,6 @@ pub fn shape() {
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("awesome_names", decode.list(of: awesome_name()))
   |> decode.field("pokemon_species", decode.list(of: affordance()))
-}
-
-fn name() {
-  decode.into({
-    use name <- decode.parameter
-    use language <- decode.parameter
-    Name(name, language)
-  })
-  |> decode.field("name", decode.string)
-  |> decode.field("language", affordance())
 }
 
 fn awesome_name() {

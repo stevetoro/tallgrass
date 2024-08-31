@@ -1,4 +1,5 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/description.{type Description, description}
 import decode
 
 pub type Characteristic {
@@ -9,10 +10,6 @@ pub type Characteristic {
     highest_stat: Affordance,
     descriptions: List(Description),
   )
-}
-
-pub type Description {
-  Description(text: String, language: Affordance)
 }
 
 pub fn characteristic() {
@@ -29,14 +26,4 @@ pub fn characteristic() {
   |> decode.field("possible_values", decode.list(of: decode.int))
   |> decode.field("highest_stat", affordance())
   |> decode.field("descriptions", decode.list(of: description()))
-}
-
-fn description() {
-  decode.into({
-    use text <- decode.parameter
-    use language <- decode.parameter
-    Description(text, language)
-  })
-  |> decode.field("description", decode.string)
-  |> decode.field("language", affordance())
 }

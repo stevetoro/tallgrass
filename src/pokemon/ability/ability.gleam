@@ -1,4 +1,8 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/name.{type Name, Name, name}
+import common/pokemon.{
+  type PokemonWithHidden, PokemonWithHidden, pokemon_with_hidden,
+}
 import decode
 
 pub type Ability {
@@ -10,12 +14,8 @@ pub type Ability {
     names: List(Name),
     effect_entries: List(Effect),
     flavor_text_entries: List(FlavorText),
-    pokemon: List(Pokemon),
+    pokemon: List(PokemonWithHidden),
   )
-}
-
-pub type Name {
-  Name(name: String, language: Affordance)
 }
 
 pub type Effect {
@@ -24,10 +24,6 @@ pub type Effect {
 
 pub type FlavorText {
   FlavorText(text: String, language: Affordance, version_group: Affordance)
-}
-
-pub type Pokemon {
-  Pokemon(is_hidden: Bool, slot: Int, affordance: Affordance)
 }
 
 pub fn ability() {
@@ -58,65 +54,29 @@ pub fn ability() {
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("effect_entries", decode.list(of: effect()))
   |> decode.field("flavor_text_entries", decode.list(of: flavor_text()))
-  |> decode.field("pokemon", decode.list(of: pokemon()))
-}
-
-fn name() {
-  decode.into({
-    use name <- decode.parameter
-    use language_name <- decode.parameter
-    use language_url <- decode.parameter
-    Name(name, Affordance(language_name, language_url))
-  })
-  |> decode.field("name", decode.string)
-  |> decode.subfield(["language", "name"], decode.string)
-  |> decode.subfield(["language", "url"], decode.string)
+  |> decode.field("pokemon", decode.list(of: pokemon_with_hidden()))
 }
 
 fn effect() {
   decode.into({
     use effect <- decode.parameter
     use short_effect <- decode.parameter
-    use language_name <- decode.parameter
-    use language_url <- decode.parameter
-    Effect(effect, short_effect, Affordance(language_name, language_url))
+    use language <- decode.parameter
+    Effect(effect, short_effect, language)
   })
   |> decode.field("effect", decode.string)
   |> decode.field("short_effect", decode.string)
-  |> decode.subfield(["language", "name"], decode.string)
-  |> decode.subfield(["language", "url"], decode.string)
+  |> decode.field("language", affordance())
 }
 
 fn flavor_text() {
   decode.into({
     use text <- decode.parameter
-    use language_name <- decode.parameter
-    use language_url <- decode.parameter
-    use version_group_name <- decode.parameter
-    use version_group_url <- decode.parameter
-    FlavorText(
-      text,
-      Affordance(language_name, language_url),
-      Affordance(version_group_name, version_group_url),
-    )
+    use language <- decode.parameter
+    use version_group <- decode.parameter
+    FlavorText(text, language, version_group)
   })
   |> decode.field("flavor_text", decode.string)
-  |> decode.subfield(["language", "name"], decode.string)
-  |> decode.subfield(["language", "url"], decode.string)
-  |> decode.subfield(["version_group", "name"], decode.string)
-  |> decode.subfield(["version_group", "url"], decode.string)
-}
-
-fn pokemon() {
-  decode.into({
-    use is_hidden <- decode.parameter
-    use slot <- decode.parameter
-    use pokemon_name <- decode.parameter
-    use pokemon_url <- decode.parameter
-    Pokemon(is_hidden, slot, Affordance(pokemon_name, pokemon_url))
-  })
-  |> decode.field("is_hidden", decode.bool)
-  |> decode.field("slot", decode.int)
-  |> decode.subfield(["pokemon", "name"], decode.string)
-  |> decode.subfield(["pokemon", "url"], decode.string)
+  |> decode.field("language", affordance())
+  |> decode.field("version_group", affordance())
 }

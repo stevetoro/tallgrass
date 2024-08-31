@@ -1,4 +1,5 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/name.{type Name, Name, name}
 import decode
 
 pub type Species {
@@ -23,10 +24,6 @@ pub type Species {
     generation: Affordance,
     names: List(Name),
   )
-}
-
-pub type Name {
-  Name(name: String, language: Affordance)
 }
 
 pub fn species() {
@@ -91,14 +88,4 @@ pub fn species() {
   |> decode.field("evolves_from_species", affordance())
   |> decode.field("generation", affordance())
   |> decode.field("names", decode.list(of: name()))
-}
-
-fn name() {
-  decode.into({
-    use name <- decode.parameter
-    use language <- decode.parameter
-    Name(name, language)
-  })
-  |> decode.field("name", decode.string)
-  |> decode.field("language", affordance())
 }

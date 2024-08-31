@@ -37,7 +37,6 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   )
 
   let ability = pokemon.abilities |> list.first |> should.be_ok
-  ability.name |> should.equal("overgrow")
   ability.is_hidden |> should.be_false
   ability.slot |> should.equal(1)
   ability.affordance.name |> should.equal("overgrow")
@@ -54,7 +53,6 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   index.version.url |> should.equal("https://pokeapi.co/api/v2/version/1/")
 
   let move = pokemon.moves |> list.first |> should.be_ok
-  move.name |> should.equal("razor-wind")
   move.affordance.name |> should.equal("razor-wind")
   move.affordance.url |> should.equal("https://pokeapi.co/api/v2/move/13/")
 
@@ -70,14 +68,12 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   let stat = pokemon.stats |> list.first |> should.be_ok
   stat.base_stat |> should.equal(45)
   stat.effort |> should.equal(0)
-  stat.name |> should.equal("hp")
   stat.affordance.name |> should.equal("hp")
   stat.affordance.url
   |> should.equal("https://pokeapi.co/api/v2/stat/1/")
 
   let type_ = pokemon.types |> list.first |> should.be_ok
   type_.slot |> should.equal(1)
-  type_.name |> should.equal("grass")
   type_.affordance.name |> should.equal("grass")
   type_.affordance.url |> should.equal("https://pokeapi.co/api/v2/type/12/")
 }

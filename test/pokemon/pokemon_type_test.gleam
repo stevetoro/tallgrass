@@ -93,7 +93,7 @@ fn should_be_steel(pokemon_type: PokemonType) {
   |> should.equal("https://pokeapi.co/api/v2/type/2/")
 
   let game_index = pokemon_type.game_indices |> list.first |> should.be_ok
-  game_index.game_index |> should.equal(9)
+  game_index.index |> should.equal(9)
   game_index.generation.name |> should.equal("generation-ii")
   game_index.generation.url
   |> should.equal("https://pokeapi.co/api/v2/generation/2/")

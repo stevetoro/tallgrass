@@ -1,4 +1,9 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/game_index.{
+  type GameIndexGeneration, GameIndexGeneration, game_index_generation,
+}
+import common/name.{type Name, Name, name}
+import common/pokemon.{type Pokemon, Pokemon, pokemon}
 import decode
 
 pub type PokemonType {
@@ -7,7 +12,7 @@ pub type PokemonType {
     name: String,
     damage_relations: DamageRelations,
     past_damage_relations: List(PastDamageRelations),
-    game_indices: List(GameIndex),
+    game_indices: List(GameIndexGeneration),
     generation: Affordance,
     move_damage_class: Affordance,
     names: List(Name),
@@ -29,18 +34,6 @@ pub type DamageRelations {
 
 pub type PastDamageRelations {
   PastDamageRelations(generation: Affordance, damage_relations: DamageRelations)
-}
-
-pub type GameIndex {
-  GameIndex(game_index: Int, generation: Affordance)
-}
-
-pub type Pokemon {
-  Pokemon(slot: Int, pokemon: Affordance)
-}
-
-pub type Name {
-  Name(name: String, language: Affordance)
 }
 
 pub fn pokemon_type() {
@@ -75,7 +68,7 @@ pub fn pokemon_type() {
     "past_damage_relations",
     decode.list(of: past_damage_relations()),
   )
-  |> decode.field("game_indices", decode.list(of: game_index()))
+  |> decode.field("game_indices", decode.list(of: game_index_generation()))
   |> decode.field("generation", affordance())
   |> decode.field("move_damage_class", affordance())
   |> decode.field("names", decode.list(of: name()))
@@ -116,34 +109,4 @@ fn damage_relations() {
   |> decode.field("no_damage_from", decode.list(of: affordance()))
   |> decode.field("half_damage_from", decode.list(of: affordance()))
   |> decode.field("double_damage_from", decode.list(of: affordance()))
-}
-
-fn game_index() {
-  decode.into({
-    use index <- decode.parameter
-    use generation <- decode.parameter
-    GameIndex(index, generation)
-  })
-  |> decode.field("game_index", decode.int)
-  |> decode.field("generation", affordance())
-}
-
-fn name() {
-  decode.into({
-    use name <- decode.parameter
-    use language <- decode.parameter
-    Name(name, language)
-  })
-  |> decode.field("name", decode.string)
-  |> decode.field("language", affordance())
-}
-
-fn pokemon() {
-  decode.into({
-    use slot <- decode.parameter
-    use pokemon <- decode.parameter
-    Pokemon(slot, pokemon)
-  })
-  |> decode.field("slot", decode.int)
-  |> decode.field("pokemon", affordance())
 }

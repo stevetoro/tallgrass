@@ -17,7 +17,7 @@ fn should_be_slow(growth_rate: GrowthRate) {
   growth_rate.formula |> should.equal("\\frac{5x^3}{4}")
 
   let description = growth_rate.descriptions |> list.first |> should.be_ok
-  description.description |> should.equal("lente")
+  description.text |> should.equal("lente")
   description.language.name |> should.equal("fr")
   description.language.url
   |> should.equal("https://pokeapi.co/api/v2/language/5/")

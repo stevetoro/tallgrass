@@ -1,4 +1,5 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/name.{type Name, Name, name}
 import decode
 import gleam/option.{type Option}
 
@@ -26,10 +27,6 @@ pub type MoveBattleStylePreference {
     high_hp_preference: Int,
     move_battle_style: Affordance,
   )
-}
-
-pub type Name {
-  Name(name: String, language: Affordance)
 }
 
 pub fn nature() {
@@ -96,14 +93,4 @@ fn move_battle_style_preference() {
   |> decode.field("low_hp_preference", decode.int)
   |> decode.field("high_hp_preference", decode.int)
   |> decode.field("move_battle_style", affordance())
-}
-
-fn name() {
-  decode.into({
-    use name <- decode.parameter
-    use language <- decode.parameter
-    Name(name, language)
-  })
-  |> decode.field("name", decode.string)
-  |> decode.field("language", affordance())
 }

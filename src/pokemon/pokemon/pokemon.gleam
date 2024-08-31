@@ -1,4 +1,9 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/game_index.{
+  type GameIndexVersion, GameIndexVersion, game_index_version,
+}
+import common/pokemon_type.{type Type, Type, types}
+
 import decode
 
 pub type Pokemon {
@@ -9,7 +14,7 @@ pub type Pokemon {
     base_experience: Int,
     cries: Cry,
     forms: List(Affordance),
-    game_indices: List(GameIndex),
+    game_indices: List(GameIndexVersion),
     height: Int,
     is_default: Bool,
     location_area_encounters: String,
@@ -23,23 +28,15 @@ pub type Pokemon {
 }
 
 pub type Ability {
-  Ability(name: String, affordance: Affordance, is_hidden: Bool, slot: Int)
+  Ability(affordance: Affordance, is_hidden: Bool, slot: Int)
 }
 
 pub type Cry {
   Cry(latest: String, legacy: String)
 }
 
-pub type GameIndex {
-  GameIndex(index: Int, version: Affordance)
-}
-
 pub type Move {
-  Move(
-    name: String,
-    affordance: Affordance,
-    version_details: List(MoveVersionDetails),
-  )
+  Move(affordance: Affordance, version_details: List(MoveVersionDetails))
 }
 
 pub type MoveVersionDetails {
@@ -51,11 +48,7 @@ pub type MoveVersionDetails {
 }
 
 pub type Stat {
-  Stat(name: String, affordance: Affordance, base_stat: Int, effort: Int)
-}
-
-pub type Type {
-  Type(name: String, affordance: Affordance, slot: Int)
+  Stat(affordance: Affordance, base_stat: Int, effort: Int)
 }
 
 pub fn pokemon() {
@@ -101,7 +94,7 @@ pub fn pokemon() {
   |> decode.field("base_experience", decode.int)
   |> decode.field("cries", cry())
   |> decode.field("forms", decode.list(of: affordance()))
-  |> decode.field("game_indices", decode.list(of: game_index()))
+  |> decode.field("game_indices", decode.list(of: game_index_version()))
   |> decode.field("height", decode.int)
   |> decode.field("is_default", decode.bool)
   |> decode.field("location_area_encounters", decode.string)
@@ -115,14 +108,12 @@ pub fn pokemon() {
 
 fn ability() {
   decode.into({
-    use name <- decode.parameter
-    use url <- decode.parameter
+    use ability <- decode.parameter
     use is_hidden <- decode.parameter
     use slot <- decode.parameter
-    Ability(name, Affordance(name, url), is_hidden, slot)
+    Ability(ability, is_hidden, slot)
   })
-  |> decode.subfield(["ability", "name"], decode.string)
-  |> decode.subfield(["ability", "url"], decode.string)
+  |> decode.field("ability", affordance())
   |> decode.field("is_hidden", decode.bool)
   |> decode.field("slot", decode.int)
 }
@@ -137,27 +128,13 @@ fn cry() {
   |> decode.field("legacy", decode.string)
 }
 
-fn game_index() {
-  decode.into({
-    use index <- decode.parameter
-    use name <- decode.parameter
-    use url <- decode.parameter
-    GameIndex(index, Affordance(name, url))
-  })
-  |> decode.field("game_index", decode.int)
-  |> decode.subfield(["version", "name"], decode.string)
-  |> decode.subfield(["version", "url"], decode.string)
-}
-
 fn move() {
   decode.into({
-    use name <- decode.parameter
-    use url <- decode.parameter
+    use move <- decode.parameter
     use version_details <- decode.parameter
-    Move(name, Affordance(name, url), version_details)
+    Move(move, version_details)
   })
-  |> decode.subfield(["move", "name"], decode.string)
-  |> decode.subfield(["move", "url"], decode.string)
+  |> decode.field("move", affordance())
   |> decode.field(
     "version_group_details",
     decode.list(of: move_version_details()),
@@ -167,45 +144,23 @@ fn move() {
 fn move_version_details() {
   decode.into({
     use level_learned <- decode.parameter
-    use learn_method_name <- decode.parameter
-    use learn_method_url <- decode.parameter
-    use version_group_name <- decode.parameter
-    use version_group_url <- decode.parameter
-    MoveVersionDetails(
-      level_learned,
-      Affordance(learn_method_name, learn_method_url),
-      Affordance(version_group_name, version_group_url),
-    )
+    use learn_method <- decode.parameter
+    use version_group <- decode.parameter
+    MoveVersionDetails(level_learned, learn_method, version_group)
   })
   |> decode.field("level_learned_at", decode.int)
-  |> decode.subfield(["move_learn_method", "name"], decode.string)
-  |> decode.subfield(["move_learn_method", "url"], decode.string)
-  |> decode.subfield(["version_group", "name"], decode.string)
-  |> decode.subfield(["version_group", "url"], decode.string)
+  |> decode.field("move_learn_method", affordance())
+  |> decode.field("version_group", affordance())
 }
 
 fn stat() {
   decode.into({
-    use name <- decode.parameter
-    use url <- decode.parameter
+    use stat <- decode.parameter
     use base_stat <- decode.parameter
     use effort <- decode.parameter
-    Stat(name, Affordance(name, url), base_stat, effort)
+    Stat(stat, base_stat, effort)
   })
-  |> decode.subfield(["stat", "name"], decode.string)
-  |> decode.subfield(["stat", "url"], decode.string)
+  |> decode.field("stat", affordance())
   |> decode.field("base_stat", decode.int)
   |> decode.field("effort", decode.int)
-}
-
-fn types() {
-  decode.into({
-    use name <- decode.parameter
-    use url <- decode.parameter
-    use slot <- decode.parameter
-    Type(name, Affordance(name, url), slot)
-  })
-  |> decode.subfield(["type", "name"], decode.string)
-  |> decode.subfield(["type", "url"], decode.string)
-  |> decode.field("slot", decode.int)
 }

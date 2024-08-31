@@ -1,4 +1,5 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/name.{type Name, Name, name}
 import decode
 
 pub type Stat {
@@ -12,10 +13,6 @@ pub type Stat {
     move_damage_class: Affordance,
     names: List(Name),
   )
-}
-
-pub type Name {
-  Name(name: String, language: Affordance)
 }
 
 pub type AffectingNatures {
@@ -59,16 +56,6 @@ pub fn stat() {
   |> decode.field("affecting_natures", affecting_natures())
   |> decode.field("move_damage_class", affordance())
   |> decode.field("names", decode.list(of: name()))
-}
-
-fn name() {
-  decode.into({
-    use name <- decode.parameter
-    use language <- decode.parameter
-    Name(name, language)
-  })
-  |> decode.field("name", decode.string)
-  |> decode.field("language", affordance())
 }
 
 fn affecting_natures() {

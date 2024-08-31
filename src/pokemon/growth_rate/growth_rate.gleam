@@ -1,4 +1,5 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/description.{type Description, description}
 import decode
 
 pub type GrowthRate {
@@ -10,10 +11,6 @@ pub type GrowthRate {
     levels: List(Level),
     pokemon_species: List(Affordance),
   )
-}
-
-pub type Description {
-  Description(description: String, language: Affordance)
 }
 
 pub type Level {
@@ -36,16 +33,6 @@ pub fn growth_rate() {
   |> decode.field("descriptions", decode.list(of: description()))
   |> decode.field("levels", decode.list(of: level()))
   |> decode.field("pokemon_species", decode.list(of: affordance()))
-}
-
-fn description() {
-  decode.into({
-    use description <- decode.parameter
-    use language <- decode.parameter
-    Description(description, language)
-  })
-  |> decode.field("description", decode.string)
-  |> decode.field("language", affordance())
 }
 
 fn level() {

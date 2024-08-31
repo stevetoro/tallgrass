@@ -1,4 +1,5 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
+import common/name.{type Name, Name, name}
 import decode
 
 pub type PokeathlonStat {
@@ -8,10 +9,6 @@ pub type PokeathlonStat {
     names: List(Name),
     affecting_natures: AffectingNatures,
   )
-}
-
-pub type Name {
-  Name(name: String, language: Affordance)
 }
 
 pub type AffectingNatures {
@@ -34,16 +31,6 @@ pub fn pokeathlon_stat() {
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("affecting_natures", affecting_natures())
-}
-
-fn name() {
-  decode.into({
-    use name <- decode.parameter
-    use language <- decode.parameter
-    Name(name, language)
-  })
-  |> decode.field("name", decode.string)
-  |> decode.field("language", affordance())
 }
 
 fn affecting_natures() {

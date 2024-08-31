@@ -1,4 +1,4 @@
-import affordance/affordance.{type Affordance, Affordance, affordance}
+import common/affordance.{type Affordance, Affordance, affordance}
 import decode
 
 pub type LocationArea {

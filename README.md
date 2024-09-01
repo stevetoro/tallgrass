@@ -13,7 +13,6 @@ import pokegleam/client/pokemon
 
 pub fn main() {
   let assert Ok(ditto) = pokemon.fetch_by_id(132)
-  Ok(ditto)
 }
 ```
 

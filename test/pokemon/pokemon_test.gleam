@@ -1,7 +1,7 @@
-import client/pokemon as client
 import gleam/list
 import gleeunit/should
-import internal/pokemon/pokemon/pokemon.{type Pokemon}
+import tallgrass/client/pokemon as client
+import tallgrass/internal/pokemon/pokemon/pokemon.{type Pokemon}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(1) |> should.be_ok |> should_be_bulbasaur

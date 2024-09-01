@@ -1,7 +1,7 @@
-import client/stat as client
 import gleam/list
 import gleeunit/should
-import internal/pokemon/stat/stat.{type Stat}
+import tallgrass/client/stat as client
+import tallgrass/internal/pokemon/stat/stat.{type Stat}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(2) |> should.be_ok |> should_be_attack

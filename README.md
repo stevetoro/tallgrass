@@ -12,8 +12,8 @@ gleam add pokegleam
 import pokegleam/client/pokemon
 
 pub fn main() {
-  let clefairy = pokemon.fetch_by_id(35)
-  Ok(clefairy)
+  let assert Ok(ditto) = pokemon.fetch_by_id(132)
+  Ok(ditto)
 }
 ```
 

@@ -1,5 +1,7 @@
 import decode
-import tallgrass/internal/common/affordance.{type Affordance, Affordance, affordance}
+import tallgrass/internal/common/affordance.{
+  type Affordance, Affordance, affordance,
+}
 import tallgrass/internal/common/name.{type Name, Name, name}
 
 pub type Species {

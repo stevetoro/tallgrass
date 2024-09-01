@@ -1,5 +1,7 @@
 import decode
-import tallgrass/internal/common/affordance.{type Affordance, Affordance, affordance}
+import tallgrass/internal/common/affordance.{
+  type Affordance, Affordance, affordance,
+}
 
 pub type LocationArea {
   LocationArea(location_area: Affordance, version_details: List(VersionDetail))

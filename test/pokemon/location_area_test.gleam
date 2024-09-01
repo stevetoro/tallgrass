@@ -1,7 +1,7 @@
+import client/location_area as client
 import gleam/list
 import gleeunit/should
-import pokemon/location_area/client
-import pokemon/location_area/location_area.{type LocationArea}
+import pokegleam/pokemon/location_area/location_area.{type LocationArea}
 
 pub fn fetch_by_id_test() {
   client.fetch_for_pokemon_with_id(1)

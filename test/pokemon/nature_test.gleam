@@ -1,7 +1,7 @@
+import client/nature as client
 import gleam/list
 import gleeunit/should
-import pokemon/nature/client
-import pokemon/nature/nature.{type Nature}
+import pokegleam/pokemon/nature/nature.{type Nature}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(2) |> should.be_ok |> should_be_bold

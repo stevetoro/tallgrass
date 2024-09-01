@@ -1,7 +1,7 @@
+import client/shape as client
 import gleam/list
 import gleeunit/should
-import pokemon/shape/client
-import pokemon/shape/shape.{type Shape}
+import pokegleam/pokemon/shape/shape.{type Shape}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(1) |> should.be_ok |> should_be_ball

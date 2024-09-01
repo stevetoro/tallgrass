@@ -1,6 +1,6 @@
+import client/characteristic as client
 import gleam/list
 import gleeunit/should
-import pokemon/characteristic/client
 
 pub fn fetch_by_id_test() {
   let characteristic = client.fetch_by_id(1) |> should.be_ok

@@ -9,7 +9,7 @@ pokegleam's API is still not finalized. Expect breaking changes prior to version
 gleam add pokegleam
 ```
 ```gleam
-import pokegleam/pokemon/pokemon/client as pokemon
+import pokegleam/client/pokemon
 
 pub fn main() {
   let clefairy = pokemon.fetch_by_id(35)

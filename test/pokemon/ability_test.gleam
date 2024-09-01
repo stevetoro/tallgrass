@@ -1,7 +1,7 @@
+import client/ability as client
 import gleam/list
 import gleeunit/should
-import pokemon/ability/ability.{type Ability}
-import pokemon/ability/client
+import pokegleam/pokemon/ability/ability.{type Ability}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(1) |> should.be_ok |> should_be_stench

@@ -1,7 +1,7 @@
+import client/color as client
 import gleam/list
 import gleeunit/should
-import pokemon/color/client
-import pokemon/color/color.{type Color}
+import pokegleam/pokemon/color/color.{type Color}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(1) |> should.be_ok |> should_be_black

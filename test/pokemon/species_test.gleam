@@ -1,7 +1,7 @@
+import client/species as client
 import gleam/list
 import gleeunit/should
-import pokemon/species/client
-import pokemon/species/species.{type Species}
+import pokegleam/pokemon/species/species.{type Species}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(413) |> should.be_ok |> should_be_wormadam

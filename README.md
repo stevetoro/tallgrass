@@ -1,22 +1,28 @@
-# pokegleam
+# tallgrass
 
-[![Package Version](https://img.shields.io/hexpm/v/pokegleam)](https://hex.pm/packages/pokegleam)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/pokegleam/)
+[![Package Version](https://img.shields.io/hexpm/v/tallgrass)](https://hex.pm/packages/tallgrass)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/tallgrass/)
 
-pokegleam's API is still not finalized. Expect breaking changes prior to version 1.0 release.
+The `tallgrass` package is a Gleam wrapper for the [PokeAPI](https://pokeapi.co).
+
+It doesn't currently support paginated resource lists nor the majority of endpoints outside
+of the `Pokemon` endpoint group, such as berries, items, machines, et al.
+
+As such, the `tallgrass` package is not yet at v1.0.0, and breaking changes should be expected
+until it is.
 
 ```sh
-gleam add pokegleam
+gleam add tallgrass
 ```
 ```gleam
-import pokegleam/client/pokemon
+import tallgrass/client/pokemon
 
 pub fn main() {
   let assert Ok(ditto) = pokemon.fetch_by_id(132)
 }
 ```
 
-Further documentation can be found at <https://hexdocs.pm/pokegleam>.
+Further documentation can be found at <https://hexdocs.pm/tallgrass>.
 
 ## Development
 

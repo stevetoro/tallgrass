@@ -1,4 +1,4 @@
-import pokegleam/pokemon/color/client
+import internal/pokemon/color/client
 
 /// Fetches a pokemon color by the color ID.
 ///

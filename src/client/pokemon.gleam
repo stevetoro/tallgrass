@@ -1,4 +1,4 @@
-import pokegleam/pokemon/pokemon/client
+import internal/pokemon/pokemon/client
 
 /// Fetches a pokemon by the pokemon ID.
 ///

@@ -1,7 +1,7 @@
 import client/habitat as client
 import gleam/list
 import gleeunit/should
-import pokegleam/pokemon/habitat/habitat.{type Habitat}
+import internal/pokemon/habitat/habitat.{type Habitat}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(1) |> should.be_ok |> should_be_cave

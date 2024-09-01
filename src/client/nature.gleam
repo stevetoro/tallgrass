@@ -1,4 +1,4 @@
-import pokegleam/pokemon/nature/client
+import internal/pokemon/nature/client
 
 /// Fetches a pokemon nature by the nature ID.
 ///

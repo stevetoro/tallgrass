@@ -1,4 +1,4 @@
-import pokegleam/pokemon/pokemon_type/client
+import internal/pokemon/pokemon_type/client
 
 /// Fetches a pokemon type by the pokemon type ID.
 ///

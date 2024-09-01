@@ -1,4 +1,4 @@
-import pokegleam/pokemon/species/client
+import internal/pokemon/species/client
 
 /// Fetches a pokemon species by the species ID.
 ///

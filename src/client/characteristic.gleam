@@ -1,4 +1,4 @@
-import pokegleam/pokemon/characteristic/client
+import internal/pokemon/characteristic/client
 
 /// Fetches a pokemon characteristic by the characteristic ID.
 ///

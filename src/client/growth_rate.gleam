@@ -1,4 +1,4 @@
-import pokegleam/pokemon/growth_rate/client
+import internal/pokemon/growth_rate/client
 
 /// Fetches a pokemon growth rate by the growth rate ID.
 ///

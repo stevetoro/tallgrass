@@ -1,4 +1,4 @@
-import pokegleam/pokemon/egg_group/client
+import internal/pokemon/egg_group/client
 
 /// Fetches a pokemon egg group by the egg group ID.
 ///

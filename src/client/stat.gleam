@@ -1,4 +1,4 @@
-import pokegleam/pokemon/stat/client
+import internal/pokemon/stat/client
 
 /// Fetches a pokemon stat by the stat ID.
 ///

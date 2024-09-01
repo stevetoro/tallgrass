@@ -1,4 +1,4 @@
-import pokegleam/pokemon/location_area/client
+import internal/pokemon/location_area/client
 
 /// Fetches location areas for a given pokemon ID.
 ///

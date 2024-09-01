@@ -1,4 +1,4 @@
-name = "pokegleam"
+name = "tallgrass"
 version = "0.0.1"
 
 # Fill out these fields if you intend to generate HTML documentation or publish
@@ -12,16 +12,7 @@ version = "0.0.1"
 # For a full reference of all the available options, you can have a look at
 # https://gleam.run/writing-gleam/gleam-toml/.
 
-internal_modules = [
-    "pokegleam/common",
-    "pokegleam/common/*",
-    "pokegleam/common/affordance",
-    "pokegleam/common/description",
-    "pokegleam/http",
-    "pokegleam/http/*",
-    "pokegleam/pokemon",
-    "pokegleam/pokemon/*",
-]
+internal_modules = ["internal/*"]
 
 [dependencies]
 gleam_stdlib = ">= 0.34.0 and < 2.0.0"

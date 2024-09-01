@@ -1,4 +1,4 @@
-import pokegleam/pokemon/pokeathlon_stat/client
+import internal/pokemon/pokeathlon_stat/client
 
 /// Fetches a pokemon pokeathlon stat by the pokeathlon stat ID.
 ///

@@ -1,4 +1,4 @@
-import pokegleam/pokemon/habitat/client
+import internal/pokemon/habitat/client
 
 /// Fetches a pokemon habitat by the habitat ID.
 ///

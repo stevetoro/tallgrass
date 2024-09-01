@@ -1,7 +1,7 @@
 import client/pokeathlon_stat as client
 import gleam/list
 import gleeunit/should
-import pokegleam/pokemon/pokeathlon_stat/pokeathlon_stat.{type PokeathlonStat}
+import internal/pokemon/pokeathlon_stat/pokeathlon_stat.{type PokeathlonStat}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(1) |> should.be_ok |> should_be_speed

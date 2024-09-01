@@ -1,4 +1,4 @@
-import pokegleam/pokemon/ability/client
+import internal/pokemon/ability/client
 
 /// Fetches a pokemon ability by the ability ID.
 ///

@@ -1,4 +1,4 @@
-import pokegleam/pokemon/gender/client
+import internal/pokemon/gender/client
 
 /// Fetches a pokemon gender by the gender ID.
 ///

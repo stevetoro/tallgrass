@@ -1,4 +1,4 @@
-import pokegleam/pokemon/form/client
+import internal/pokemon/form/client
 
 /// Fetches a pokemon form by the form ID.
 ///

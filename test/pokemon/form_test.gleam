@@ -1,7 +1,7 @@
 import client/form as client
 import gleam/list
 import gleeunit/should
-import pokegleam/pokemon/form/form.{type Form}
+import internal/pokemon/form/form.{type Form}
 
 pub fn fetch_by_id_test() {
   client.fetch_by_id(10_041) |> should.be_ok |> should_be_arceus_bug

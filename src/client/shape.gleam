@@ -1,4 +1,4 @@
-import pokegleam/pokemon/shape/client
+import internal/pokemon/shape/client
 
 /// Fetches a pokemon shape by the shape ID.
 ///

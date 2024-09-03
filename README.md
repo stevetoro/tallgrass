@@ -6,7 +6,7 @@
 The `tallgrass` package is a Gleam wrapper for the [PokeAPI](https://pokeapi.co).
 
 It doesn't currently support paginated resource lists nor the majority of endpoints outside
-of the `Pokemon` endpoint group, such as berries, items, machines, et al.
+of the `Pokemon` endpoint group, such as `locations`, `machines`, `moves`, et al.
 
 As such, the `tallgrass` package is not yet at v1.0.0, and breaking changes should be expected
 until it is.

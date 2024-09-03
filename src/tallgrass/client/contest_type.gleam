@@ -16,7 +16,7 @@ pub fn fetch_by_id(id: Int) {
 /// # Example
 ///
 /// ```gleam
-/// let result = contest_type.fetch_by_name("very-soft")
+/// let result = contest_type.fetch_by_name("cool")
 /// ```
 pub fn fetch_by_name(name: String) {
   client.fetch_by_name(name)

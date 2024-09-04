@@ -1,7 +1,6 @@
 import decode
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
+import tallgrass/internal/common/affordance.{type Affordance, affordance}
+import tallgrass/internal/common/flavor_text.{type FlavorText, flavor_text}
 
 pub type ContestEffect {
   ContestEffect(
@@ -15,10 +14,6 @@ pub type ContestEffect {
 
 pub type Effect {
   Effect(text: String, language: Affordance)
-}
-
-pub type FlavorText {
-  FlavorText(text: String, language: Affordance)
 }
 
 pub fn contest_effect() {
@@ -44,15 +39,5 @@ fn effect() {
     Effect(text, language)
   })
   |> decode.field("effect", decode.string)
-  |> decode.field("language", affordance())
-}
-
-fn flavor_text() {
-  decode.into({
-    use text <- decode.parameter
-    use language <- decode.parameter
-    FlavorText(text, language)
-  })
-  |> decode.field("flavor_text", decode.string)
   |> decode.field("language", affordance())
 }

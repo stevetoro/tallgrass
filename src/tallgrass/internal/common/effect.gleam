@@ -16,3 +16,17 @@ pub fn effect() {
   |> decode.field("short_effect", decode.string)
   |> decode.field("language", affordance())
 }
+
+pub type EffectEntry {
+  EffectEntry(effect: String, language: Affordance)
+}
+
+pub fn effect_entry() {
+  decode.into({
+    use effect <- decode.parameter
+    use language <- decode.parameter
+    EffectEntry(effect, language)
+  })
+  |> decode.field("effect", decode.string)
+  |> decode.field("language", affordance())
+}

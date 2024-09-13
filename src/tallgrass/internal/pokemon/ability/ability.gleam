@@ -53,7 +53,7 @@ pub fn ability() {
   |> decode.field("effect_entries", decode.list(of: effect()))
   |> decode.field(
     "flavor_text_entries",
-    decode.list(of: flavor_text_with_version_group()),
+    decode.list(of: flavor_text_with_version_group(field: "flavor_text")),
   )
   |> decode.field("pokemon", decode.list(of: pokemon_with_hidden()))
 }

@@ -25,14 +25,14 @@ pub type FlavorTextWithVersionGroup {
   )
 }
 
-pub fn flavor_text_with_version_group() {
+pub fn flavor_text_with_version_group(field text: String) {
   decode.into({
     use text <- decode.parameter
     use language <- decode.parameter
     use version_group <- decode.parameter
     FlavorTextWithVersionGroup(text, language, version_group)
   })
-  |> decode.field("flavor_text", decode.string)
+  |> decode.field(text, decode.string)
   |> decode.field("language", affordance())
   |> decode.field("version_group", affordance())
 }

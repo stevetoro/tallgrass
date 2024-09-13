@@ -7,14 +7,6 @@ pub type Pokemon {
   Pokemon(slot: Int, pokemon: Affordance)
 }
 
-pub type PokemonWithHidden {
-  PokemonWithHidden(is_hidden: Bool, slot: Int, affordance: Affordance)
-}
-
-pub type PokemonEntry {
-  PokemonEntry(entry: Int, species: Affordance)
-}
-
 pub fn pokemon() {
   decode.into({
     use slot <- decode.parameter
@@ -23,6 +15,10 @@ pub fn pokemon() {
   })
   |> decode.field("slot", decode.int)
   |> decode.field("pokemon", affordance())
+}
+
+pub type PokemonWithHidden {
+  PokemonWithHidden(is_hidden: Bool, slot: Int, affordance: Affordance)
 }
 
 pub fn pokemon_with_hidden() {
@@ -37,6 +33,10 @@ pub fn pokemon_with_hidden() {
   |> decode.field("pokemon", affordance())
 }
 
+pub type PokemonEntry {
+  PokemonEntry(entry: Int, species: Affordance)
+}
+
 pub fn pokemon_entry() {
   decode.into({
     use entry <- decode.parameter
@@ -45,4 +45,35 @@ pub fn pokemon_entry() {
   })
   |> decode.field("entry_number", decode.int)
   |> decode.field("pokemon_species", affordance())
+}
+
+pub type PokemonWithVersionDetails {
+  PokemonWithVersionDetails(
+    pokemon: Affordance,
+    version_details: List(VersionDetails),
+  )
+}
+
+pub fn pokemon_version_details() {
+  decode.into({
+    use pokemon <- decode.parameter
+    use version_details <- decode.parameter
+    PokemonWithVersionDetails(pokemon, version_details)
+  })
+  |> decode.field("pokemon", affordance())
+  |> decode.field("version_details", decode.list(of: version_details()))
+}
+
+pub type VersionDetails {
+  VersionDetails(rarity: Int, version: Affordance)
+}
+
+fn version_details() {
+  decode.into({
+    use rarity <- decode.parameter
+    use version <- decode.parameter
+    VersionDetails(rarity, version)
+  })
+  |> decode.field("rarity", decode.int)
+  |> decode.field("version", affordance())
 }

@@ -4,14 +4,14 @@ import tallgrass/client/item_category as client
 import tallgrass/internal/item/category/category.{type ItemCategory}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_countable
+  client.fetch_by_id(1) |> should.be_ok |> should_be_stat_boosts
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("stat-boosts") |> should.be_ok |> should_be_countable
+  client.fetch_by_name("stat-boosts") |> should.be_ok |> should_be_stat_boosts
 }
 
-fn should_be_countable(category: ItemCategory) {
+fn should_be_stat_boosts(category: ItemCategory) {
   category.id |> should.equal(1)
   category.name |> should.equal("stat-boosts")
 

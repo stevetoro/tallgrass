@@ -7,10 +7,6 @@ pub type GameIndexVersion {
   GameIndexVersion(index: Int, version: Affordance)
 }
 
-pub type GameIndexGeneration {
-  GameIndexGeneration(index: Int, generation: Affordance)
-}
-
 pub fn game_index_version() {
   decode.into({
     use index <- decode.parameter
@@ -19,6 +15,10 @@ pub fn game_index_version() {
   })
   |> decode.field("game_index", decode.int)
   |> decode.field("version", affordance())
+}
+
+pub type GameIndexGeneration {
+  GameIndexGeneration(index: Int, generation: Affordance)
 }
 
 pub fn game_index_generation() {

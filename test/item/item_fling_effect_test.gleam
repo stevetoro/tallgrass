@@ -1,14 +1,15 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/item_fling_effect as client
-import tallgrass/internal/item/fling_effect/fling_effect.{type ItemFlingEffect}
+import tallgrass/item/fling_effect.{type ItemFlingEffect}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_badly_poison
+  fling_effect.fetch_by_id(1) |> should.be_ok |> should_be_badly_poison
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("badly-poison") |> should.be_ok |> should_be_badly_poison
+  fling_effect.fetch_by_name("badly-poison")
+  |> should.be_ok
+  |> should_be_badly_poison
 }
 
 fn should_be_badly_poison(fling_effect: ItemFlingEffect) {

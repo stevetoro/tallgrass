@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/nature as client
-import tallgrass/internal/pokemon/nature/nature.{type Nature}
+import tallgrass/pokemon/nature.{type Nature}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(2) |> should.be_ok |> should_be_bold
+  nature.fetch_by_id(2) |> should.be_ok |> should_be_bold
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("hardy") |> should.be_ok |> should_be_hardy
+  nature.fetch_by_name("hardy") |> should.be_ok |> should_be_hardy
 }
 
 fn should_be_bold(nature: Nature) {

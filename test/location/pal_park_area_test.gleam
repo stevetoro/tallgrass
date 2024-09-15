@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/pal_park_area as client
-import tallgrass/internal/location/pal_park_area/pal_park_area.{type PalParkArea}
+import tallgrass/location/pal_park_area.{type PalParkArea}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_forest
+  pal_park_area.fetch_by_id(1) |> should.be_ok |> should_be_forest
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("forest") |> should.be_ok |> should_be_forest
+  pal_park_area.fetch_by_name("forest") |> should.be_ok |> should_be_forest
 }
 
 fn should_be_forest(area: PalParkArea) {

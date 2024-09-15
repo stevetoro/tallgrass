@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/form as client
-import tallgrass/internal/pokemon/form/form.{type Form}
+import tallgrass/pokemon/form.{type Form}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(10_041) |> should.be_ok |> should_be_arceus_bug
+  form.fetch_by_id(10_041) |> should.be_ok |> should_be_arceus_bug
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("arceus-bug") |> should.be_ok |> should_be_arceus_bug
+  form.fetch_by_name("arceus-bug") |> should.be_ok |> should_be_arceus_bug
 }
 
 fn should_be_arceus_bug(form: Form) {

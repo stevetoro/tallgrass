@@ -1,16 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/evolution_trigger as client
-import tallgrass/internal/evolution/evolution_trigger/evolution_trigger.{
-  type EvolutionTrigger,
-}
+import tallgrass/evolution/trigger.{type EvolutionTrigger}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_level_up
+  trigger.fetch_by_id(1) |> should.be_ok |> should_be_level_up
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("level-up") |> should.be_ok |> should_be_level_up
+  trigger.fetch_by_name("level-up") |> should.be_ok |> should_be_level_up
 }
 
 fn should_be_level_up(evolution_trigger: EvolutionTrigger) {

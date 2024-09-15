@@ -1,16 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/encounter_method as client
-import tallgrass/internal/encounter/encounter_method/encounter_method.{
-  type EncounterMethod,
-}
+import tallgrass/encounter/method.{type EncounterMethod}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_walk
+  method.fetch_by_id(1) |> should.be_ok |> should_be_walk
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("walk") |> should.be_ok |> should_be_walk
+  method.fetch_by_name("walk") |> should.be_ok |> should_be_walk
 }
 
 fn should_be_walk(encounter_method: EncounterMethod) {

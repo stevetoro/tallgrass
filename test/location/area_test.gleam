@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/area as client
-import tallgrass/internal/location/area/area.{type LocationArea}
+import tallgrass/location/area.{type LocationArea}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_canalave_city_area
+  area.fetch_by_id(1) |> should.be_ok |> should_be_canalave_city_area
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("canalave-city-area")
+  area.fetch_by_name("canalave-city-area")
   |> should.be_ok
   |> should_be_canalave_city_area
 }

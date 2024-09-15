@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/item as client
-import tallgrass/internal/item/item/item.{type Item}
+import tallgrass/item.{type Item}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_master_ball
+  item.fetch_by_id(1) |> should.be_ok |> should_be_master_ball
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("master-ball") |> should.be_ok |> should_be_master_ball
+  item.fetch_by_name("master-ball") |> should.be_ok |> should_be_master_ball
 }
 
 fn should_be_master_ball(item: Item) {

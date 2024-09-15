@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/pokemon as client
-import tallgrass/internal/pokemon/pokemon/pokemon.{type Pokemon}
+import tallgrass/pokemon.{type Pokemon}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_bulbasaur
+  pokemon.fetch_by_id(1) |> should.be_ok |> should_be_bulbasaur
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("bulbasaur") |> should.be_ok |> should_be_bulbasaur
+  pokemon.fetch_by_name("bulbasaur") |> should.be_ok |> should_be_bulbasaur
 }
 
 fn should_be_bulbasaur(pokemon: Pokemon) {

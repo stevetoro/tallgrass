@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/ability as client
-import tallgrass/internal/pokemon/ability/ability.{type Ability}
+import tallgrass/pokemon/ability.{type Ability}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_stench
+  ability.fetch_by_id(1) |> should.be_ok |> should_be_stench
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("stench") |> should.be_ok |> should_be_stench
+  ability.fetch_by_name("stench") |> should.be_ok |> should_be_stench
 }
 
 fn should_be_stench(ability: Ability) {

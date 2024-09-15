@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/berry as client
-import tallgrass/internal/berry/berry/berry.{type Berry}
+import tallgrass/berry.{type Berry}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_cheri
+  berry.fetch_by_id(1) |> should.be_ok |> should_be_cheri
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("cheri") |> should.be_ok |> should_be_cheri
+  berry.fetch_by_name("cheri") |> should.be_ok |> should_be_cheri
 }
 
 fn should_be_cheri(berry: Berry) {

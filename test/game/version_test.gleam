@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/version as client
-import tallgrass/internal/game/version/version.{type Version}
+import tallgrass/game/version.{type Version}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_red
+  version.fetch_by_id(1) |> should.be_ok |> should_be_red
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("red") |> should.be_ok |> should_be_red
+  version.fetch_by_name("red") |> should.be_ok |> should_be_red
 }
 
 fn should_be_red(version: Version) {

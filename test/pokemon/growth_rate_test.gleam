@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/growth_rate as client
-import tallgrass/internal/pokemon/growth_rate/growth_rate.{type GrowthRate}
+import tallgrass/pokemon/growth_rate.{type GrowthRate}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_slow
+  growth_rate.fetch_by_id(1) |> should.be_ok |> should_be_slow
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("slow") |> should.be_ok |> should_be_slow
+  growth_rate.fetch_by_name("slow") |> should.be_ok |> should_be_slow
 }
 
 fn should_be_slow(growth_rate: GrowthRate) {

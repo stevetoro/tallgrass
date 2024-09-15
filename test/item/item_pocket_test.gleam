@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/item_pocket as client
-import tallgrass/internal/item/pocket/pocket.{type ItemPocket}
+import tallgrass/item/pocket.{type ItemPocket}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_misc
+  pocket.fetch_by_id(1) |> should.be_ok |> should_be_misc
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("misc") |> should.be_ok |> should_be_misc
+  pocket.fetch_by_name("misc") |> should.be_ok |> should_be_misc
 }
 
 fn should_be_misc(pocket: ItemPocket) {

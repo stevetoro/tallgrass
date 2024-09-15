@@ -1,10 +1,9 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/location_area as client
-import tallgrass/internal/pokemon/location_area/location_area.{type LocationArea}
+import tallgrass/pokemon/location_area.{type LocationArea}
 
 pub fn fetch_by_id_test() {
-  client.fetch_for_pokemon_with_id(1)
+  location_area.fetch_for_pokemon_with_id(1)
   |> should.be_ok
   |> list.first
   |> should.be_ok
@@ -12,7 +11,7 @@ pub fn fetch_by_id_test() {
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_for_pokemon_with_name("bulbasaur")
+  location_area.fetch_for_pokemon_with_name("bulbasaur")
   |> should.be_ok
   |> list.first
   |> should.be_ok

@@ -1,9 +1,9 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/characteristic as client
+import tallgrass/pokemon/characteristic
 
 pub fn fetch_by_id_test() {
-  let characteristic = client.fetch_by_id(1) |> should.be_ok
+  let characteristic = characteristic.fetch_by_id(1) |> should.be_ok
 
   characteristic.id |> should.equal(1)
   characteristic.gene_modulo |> should.equal(0)

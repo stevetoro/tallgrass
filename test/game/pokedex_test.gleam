@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/pokedex as client
-import tallgrass/internal/game/pokedex/pokedex.{type Pokedex}
+import tallgrass/game/pokedex.{type Pokedex}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(2) |> should.be_ok |> should_be_kanto
+  pokedex.fetch_by_id(2) |> should.be_ok |> should_be_kanto
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("kanto") |> should.be_ok |> should_be_kanto
+  pokedex.fetch_by_name("kanto") |> should.be_ok |> should_be_kanto
 }
 
 fn should_be_kanto(pokedex: Pokedex) {

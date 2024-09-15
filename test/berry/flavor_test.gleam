@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/berry_flavor as client
-import tallgrass/internal/berry/flavor/flavor.{type Flavor}
+import tallgrass/berry/flavor.{type Flavor}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_spicy
+  flavor.fetch_by_id(1) |> should.be_ok |> should_be_spicy
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("spicy") |> should.be_ok |> should_be_spicy
+  flavor.fetch_by_name("spicy") |> should.be_ok |> should_be_spicy
 }
 
 fn should_be_spicy(flavor: Flavor) {

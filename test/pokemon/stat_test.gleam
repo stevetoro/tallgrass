@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/stat as client
-import tallgrass/internal/pokemon/stat/stat.{type Stat}
+import tallgrass/pokemon/stat.{type Stat}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(2) |> should.be_ok |> should_be_attack
+  stat.fetch_by_id(2) |> should.be_ok |> should_be_attack
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("attack") |> should.be_ok |> should_be_attack
+  stat.fetch_by_name("attack") |> should.be_ok |> should_be_attack
 }
 
 fn should_be_attack(stat: Stat) {

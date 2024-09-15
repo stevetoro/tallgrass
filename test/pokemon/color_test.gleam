@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/color as client
-import tallgrass/internal/pokemon/color/color.{type Color}
+import tallgrass/pokemon/color.{type Color}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_black
+  color.fetch_by_id(1) |> should.be_ok |> should_be_black
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("black") |> should.be_ok |> should_be_black
+  color.fetch_by_name("black") |> should.be_ok |> should_be_black
 }
 
 fn should_be_black(color: Color) {

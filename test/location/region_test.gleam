@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/region as client
-import tallgrass/internal/location/region/region.{type Region}
+import tallgrass/location/region.{type Region}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_kanto
+  region.fetch_by_id(1) |> should.be_ok |> should_be_kanto
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("kanto") |> should.be_ok |> should_be_kanto
+  region.fetch_by_name("kanto") |> should.be_ok |> should_be_kanto
 }
 
 fn should_be_kanto(region: Region) {

@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/gender as client
-import tallgrass/internal/pokemon/gender/gender.{type Gender}
+import tallgrass/pokemon/gender.{type Gender}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_female
+  gender.fetch_by_id(1) |> should.be_ok |> should_be_female
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("female") |> should.be_ok |> should_be_female
+  gender.fetch_by_name("female") |> should.be_ok |> should_be_female
 }
 
 fn should_be_female(gender: Gender) {

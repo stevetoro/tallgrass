@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/contest_type as client
-import tallgrass/internal/contest/contest_type/contest_type.{type ContestType}
+import tallgrass/contest/contest_type.{type ContestType}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_cool
+  contest_type.fetch_by_id(1) |> should.be_ok |> should_be_cool
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("cool") |> should.be_ok |> should_be_cool
+  contest_type.fetch_by_name("cool") |> should.be_ok |> should_be_cool
 }
 
 fn should_be_cool(contest_type: ContestType) {

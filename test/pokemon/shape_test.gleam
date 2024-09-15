@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/shape as client
-import tallgrass/internal/pokemon/shape/shape.{type Shape}
+import tallgrass/pokemon/shape.{type Shape}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_ball
+  shape.fetch_by_id(1) |> should.be_ok |> should_be_ball
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("ball") |> should.be_ok |> should_be_ball
+  shape.fetch_by_name("ball") |> should.be_ok |> should_be_ball
 }
 
 fn should_be_ball(shape: Shape) {

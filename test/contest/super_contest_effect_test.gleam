@@ -1,9 +1,9 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/super_contest_effect as client
+import tallgrass/contest/super_effect
 
 pub fn fetch_by_id_test() {
-  let super_contest_effect = client.fetch_by_id(1) |> should.be_ok
+  let super_contest_effect = super_effect.fetch_by_id(1) |> should.be_ok
   super_contest_effect.id |> should.equal(1)
   super_contest_effect.appeal |> should.equal(2)
 

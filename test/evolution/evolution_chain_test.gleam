@@ -1,11 +1,11 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/evolution_chain as client
+import tallgrass/evolution/chain
 
 // TODO: Add test cases covering more fields.
 
 pub fn fetch_by_id_test() {
-  let evolution_chain = client.fetch_by_id(200) |> should.be_ok
+  let evolution_chain = chain.fetch_by_id(200) |> should.be_ok
 
   evolution_chain.id |> should.equal(200)
   evolution_chain.baby_trigger_item |> should.be_none

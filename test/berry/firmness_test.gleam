@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/berry_firmness as client
-import tallgrass/internal/berry/firmness/firmness.{type Firmness}
+import tallgrass/berry/firmness.{type Firmness}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_very_soft
+  firmness.fetch_by_id(1) |> should.be_ok |> should_be_very_soft
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("very-soft") |> should.be_ok |> should_be_very_soft
+  firmness.fetch_by_name("very-soft") |> should.be_ok |> should_be_very_soft
 }
 
 fn should_be_very_soft(firmness: Firmness) {

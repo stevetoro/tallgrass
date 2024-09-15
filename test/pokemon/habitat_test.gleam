@@ -1,14 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/habitat as client
-import tallgrass/internal/pokemon/habitat/habitat.{type Habitat}
+import tallgrass/pokemon/habitat.{type Habitat}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_cave
+  habitat.fetch_by_id(1) |> should.be_ok |> should_be_cave
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("cave") |> should.be_ok |> should_be_cave
+  habitat.fetch_by_name("cave") |> should.be_ok |> should_be_cave
 }
 
 fn should_be_cave(habitat: Habitat) {

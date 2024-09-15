@@ -1,9 +1,8 @@
 import gleeunit/should
-import tallgrass/client/machine as client
-import tallgrass/internal/machine/machine/machine.{type Machine}
+import tallgrass/machine.{type Machine}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_tm_00
+  machine.fetch_by_id(1) |> should.be_ok |> should_be_tm_00
 }
 
 fn should_be_tm_00(machine: Machine) {

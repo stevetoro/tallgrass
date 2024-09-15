@@ -1,14 +1,15 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/generation as client
-import tallgrass/internal/game/generation/generation.{type Generation}
+import tallgrass/game/generation.{type Generation}
 
 pub fn fetch_by_id_test() {
-  client.fetch_by_id(1) |> should.be_ok |> should_be_generation_i
+  generation.fetch_by_id(1) |> should.be_ok |> should_be_generation_i
 }
 
 pub fn fetch_by_name_test() {
-  client.fetch_by_name("generation-i") |> should.be_ok |> should_be_generation_i
+  generation.fetch_by_name("generation-i")
+  |> should.be_ok
+  |> should_be_generation_i
 }
 
 fn should_be_generation_i(generation: Generation) {

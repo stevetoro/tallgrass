@@ -1,10 +1,10 @@
 import decode
+import tallgrass/fetch
 import tallgrass/internal/common/affordance.{type Affordance, affordance}
 import tallgrass/internal/common/game_index.{
   type GameIndexGeneration, game_index_generation,
 }
 import tallgrass/internal/common/name.{type Name, name}
-import tallgrass/fetch
 
 pub type Location {
   Location(

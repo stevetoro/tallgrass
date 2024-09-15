@@ -1,4 +1,5 @@
 import decode
+import tallgrass/fetch
 import tallgrass/internal/common/affordance.{
   type Affordance, Affordance, affordance,
 }
@@ -6,7 +7,6 @@ import tallgrass/internal/common/game_index.{
   type GameIndexVersion, GameIndexVersion, game_index_version,
 }
 import tallgrass/internal/common/pokemon_type.{type Type, Type, types}
-import tallgrass/fetch
 
 pub type Pokemon {
   Pokemon(

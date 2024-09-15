@@ -1,9 +1,9 @@
 import decode
+import tallgrass/fetch
 import tallgrass/internal/common/affordance.{
   type Affordance, Affordance, affordance,
 }
 import tallgrass/internal/common/description.{type Description, description}
-import tallgrass/fetch
 
 pub type GrowthRate {
   GrowthRate(

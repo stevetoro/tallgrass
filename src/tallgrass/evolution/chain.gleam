@@ -1,7 +1,7 @@
 import decode
 import gleam/option.{type Option}
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
 import tallgrass/fetch
+import tallgrass/internal/common/affordance.{type Affordance, affordance}
 
 pub type EvolutionChain {
   EvolutionChain(

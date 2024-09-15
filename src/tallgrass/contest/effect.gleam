@@ -1,7 +1,7 @@
 import decode
+import tallgrass/fetch
 import tallgrass/internal/common/affordance.{type Affordance, affordance}
 import tallgrass/internal/common/flavor_text.{type FlavorText, flavor_text}
-import tallgrass/fetch
 
 pub type ContestEffect {
   ContestEffect(

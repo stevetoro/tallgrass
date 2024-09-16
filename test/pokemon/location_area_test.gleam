@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/pokemon/location_area.{type LocationArea}
+import tallgrass/pokemon/location_area.{type PokemonLocationArea}
 
 pub fn fetch_by_id_test() {
   location_area.fetch_for_pokemon_with_id(1)
@@ -18,7 +18,7 @@ pub fn fetch_by_name_test() {
   |> should_be_cerulean_city_area
 }
 
-fn should_be_cerulean_city_area(location_area: LocationArea) {
+fn should_be_cerulean_city_area(location_area: PokemonLocationArea) {
   location_area.location_area.name |> should.equal("cerulean-city-area")
   location_area.location_area.url
   |> should.equal("https://pokeapi.co/api/v2/location-area/281/")

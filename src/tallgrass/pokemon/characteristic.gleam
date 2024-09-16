@@ -1,16 +1,13 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/description.{type Description, description}
+import tallgrass/common/description.{type Description, description}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Characteristic {
   Characteristic(
     id: Int,
     gene_modulo: Int,
     possible_values: List(Int),
-    highest_stat: Affordance,
+    highest_stat: NamedResource,
     descriptions: List(Description),
   )
 }
@@ -25,7 +22,7 @@ const path = "characteristic"
 /// let result = characteristic.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, characteristic())
+  resource.fetch_by_id(id, path, characteristic())
 }
 
 fn characteristic() {
@@ -40,6 +37,6 @@ fn characteristic() {
   |> decode.field("id", decode.int)
   |> decode.field("gene_modulo", decode.int)
   |> decode.field("possible_values", decode.list(of: decode.int))
-  |> decode.field("highest_stat", affordance())
+  |> decode.field("highest_stat", named_resource())
   |> decode.field("descriptions", decode.list(of: description()))
 }

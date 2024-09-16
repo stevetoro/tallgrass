@@ -1,15 +1,13 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/encounter/condition_value.{type EncounterConditionValue}
+import tallgrass/encounter/condition/value.{type EncounterConditionValue}
 
 pub fn fetch_by_id_test() {
-  condition_value.fetch_by_id(1) |> should.be_ok |> should_be_swarm_yes
+  value.fetch_by_id(1) |> should.be_ok |> should_be_swarm_yes
 }
 
 pub fn fetch_by_name_test() {
-  condition_value.fetch_by_name("swarm-yes")
-  |> should.be_ok
-  |> should_be_swarm_yes
+  value.fetch_by_name("swarm-yes") |> should.be_ok |> should_be_swarm_yes
 }
 
 fn should_be_swarm_yes(encounter_condition_value: EncounterConditionValue) {

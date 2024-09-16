@@ -1,13 +1,12 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type EncounterCondition {
   EncounterCondition(
     id: Int,
     name: String,
-    values: List(Affordance),
+    values: List(NamedResource),
     names: List(Name),
   )
 }
@@ -22,7 +21,7 @@ const path = "encounter-condition"
 /// let result = encounter_condition.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, encounter_condition())
+  resource.fetch_by_id(id, path, encounter_condition())
 }
 
 /// Fetches an encounter condition by the condition name.
@@ -33,7 +32,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = encounter_condition.fetch_by_name("swarm")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, encounter_condition())
+  resource.fetch_by_name(name, path, encounter_condition())
 }
 
 fn encounter_condition() {
@@ -46,6 +45,6 @@ fn encounter_condition() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("values", decode.list(of: affordance()))
+  |> decode.field("values", decode.list(of: named_resource()))
   |> decode.field("names", decode.list(of: name()))
 }

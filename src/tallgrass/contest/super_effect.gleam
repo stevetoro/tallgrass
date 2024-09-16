@@ -1,14 +1,13 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/flavor_text.{type FlavorText, flavor_text}
+import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type SuperContestEffect {
   SuperContestEffect(
     id: Int,
     appeal: Int,
     flavor_text_entries: List(FlavorText),
-    moves: List(Affordance),
+    moves: List(NamedResource),
   )
 }
 
@@ -22,7 +21,7 @@ const path = "super-contest-effect"
 /// let result = super_contest_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, super_contest_effect())
+  resource.fetch_by_id(id, path, super_contest_effect())
 }
 
 fn super_contest_effect() {
@@ -36,5 +35,5 @@ fn super_contest_effect() {
   |> decode.field("id", decode.int)
   |> decode.field("appeal", decode.int)
   |> decode.field("flavor_text_entries", decode.list(of: flavor_text()))
-  |> decode.field("moves", decode.list(of: affordance()))
+  |> decode.field("moves", decode.list(of: named_resource()))
 }

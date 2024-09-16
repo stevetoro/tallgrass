@@ -1,17 +1,16 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Region {
   Region(
     id: Int,
     name: String,
-    locations: List(Affordance),
-    main_generation: Affordance,
+    locations: List(NamedResource),
+    main_generation: NamedResource,
     names: List(Name),
-    pokedexes: List(Affordance),
-    version_groups: List(Affordance),
+    pokedexes: List(NamedResource),
+    version_groups: List(NamedResource),
   )
 }
 
@@ -25,7 +24,7 @@ const path = "region"
 /// let result = region.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, region())
+  resource.fetch_by_id(id, path, region())
 }
 
 /// Fetches a region by the region name.
@@ -36,7 +35,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = region.fetch_by_name("kanto")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, region())
+  resource.fetch_by_name(name, path, region())
 }
 
 fn region() {
@@ -60,9 +59,9 @@ fn region() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("locations", decode.list(of: affordance()))
-  |> decode.field("main_generation", affordance())
+  |> decode.field("locations", decode.list(of: named_resource()))
+  |> decode.field("main_generation", named_resource())
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("pokedexes", decode.list(of: affordance()))
-  |> decode.field("version_groups", decode.list(of: affordance()))
+  |> decode.field("pokedexes", decode.list(of: named_resource()))
+  |> decode.field("version_groups", decode.list(of: named_resource()))
 }

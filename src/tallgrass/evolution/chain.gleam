@@ -1,12 +1,11 @@
 import decode
 import gleam/option.{type Option}
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type EvolutionChain {
   EvolutionChain(
     id: Int,
-    baby_trigger_item: Option(Affordance),
+    baby_trigger_item: Option(NamedResource),
     chain: ChainLink,
   )
 }
@@ -14,32 +13,32 @@ pub type EvolutionChain {
 pub type ChainLink {
   ChainLink(
     is_baby: Bool,
-    species: Affordance,
-    evolution_details: List(EvolutionDetails),
+    species: NamedResource,
+    evolution_details: List(EvolutionDetail),
     // TODO: Figure out how to decode a recursive type.
     // evolves_to: List(ChainLink),
   )
 }
 
-pub type EvolutionDetails {
-  EvolutionDetails(
-    item: Option(Affordance),
-    trigger: Affordance,
+pub type EvolutionDetail {
+  EvolutionDetail(
+    item: Option(NamedResource),
+    trigger: NamedResource,
     gender: Int,
-    held_item: Option(Affordance),
-    known_move: Option(Affordance),
-    known_move_type: Option(Affordance),
-    location: Option(Affordance),
+    held_item: Option(NamedResource),
+    known_move: Option(NamedResource),
+    known_move_type: Option(NamedResource),
+    location: Option(NamedResource),
     min_level: Int,
     min_happiness: Option(Int),
     min_beauty: Option(Int),
     min_affection: Option(Int),
     needs_overworld_rain: Bool,
-    party_species: Option(Affordance),
-    party_type: Option(Affordance),
+    party_species: Option(NamedResource),
+    party_type: Option(NamedResource),
     relative_physical_stats: Int,
     time_of_day: String,
-    trade_species: Option(Affordance),
+    trade_species: Option(NamedResource),
     turn_upside_down: Bool,
   )
 }
@@ -54,7 +53,7 @@ const path = "evolution-chain"
 /// let result = evolution_chain.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, evolution_chain())
+  resource.fetch_by_id(id, path, evolution_chain())
 }
 
 fn evolution_chain() {
@@ -65,7 +64,7 @@ fn evolution_chain() {
     EvolutionChain(id, baby_trigger_item, chain)
   })
   |> decode.field("id", decode.int)
-  |> decode.field("baby_trigger_item", decode.optional(affordance()))
+  |> decode.field("baby_trigger_item", decode.optional(named_resource()))
   |> decode.field("chain", chain_link())
 }
 
@@ -79,7 +78,7 @@ fn chain_link() {
     ChainLink(is_baby, species, evolution_details)
   })
   |> decode.field("is_baby", decode.bool)
-  |> decode.field("species", affordance())
+  |> decode.field("species", named_resource())
   |> decode.field("evolution_details", decode.list(of: evolution_details()))
   // TODO: Figure out how to decode a recursive type.
   // |> decode.field("evolves_to", decode.list(of: chain_link()))
@@ -105,7 +104,7 @@ fn evolution_details() {
     use time_of_day <- decode.parameter
     use trade_species <- decode.parameter
     use turn_upside_down <- decode.parameter
-    EvolutionDetails(
+    EvolutionDetail(
       item,
       trigger,
       gender,
@@ -126,22 +125,22 @@ fn evolution_details() {
       turn_upside_down,
     )
   })
-  |> decode.field("item", decode.optional(affordance()))
-  |> decode.field("trigger", affordance())
+  |> decode.field("item", decode.optional(named_resource()))
+  |> decode.field("trigger", named_resource())
   |> decode.field("gender", decode.int)
-  |> decode.field("held_item", decode.optional(affordance()))
-  |> decode.field("known_move", decode.optional(affordance()))
-  |> decode.field("known_move_type", decode.optional(affordance()))
-  |> decode.field("location", decode.optional(affordance()))
+  |> decode.field("held_item", decode.optional(named_resource()))
+  |> decode.field("known_move", decode.optional(named_resource()))
+  |> decode.field("known_move_type", decode.optional(named_resource()))
+  |> decode.field("location", decode.optional(named_resource()))
   |> decode.field("min_level", decode.int)
   |> decode.field("min_happiness", decode.optional(decode.int))
   |> decode.field("min_beauty", decode.optional(decode.int))
   |> decode.field("min_affection", decode.optional(decode.int))
   |> decode.field("needs_overworld_rain", decode.bool)
-  |> decode.field("party_species", decode.optional(affordance()))
-  |> decode.field("party_type", decode.optional(affordance()))
+  |> decode.field("party_species", decode.optional(named_resource()))
+  |> decode.field("party_type", decode.optional(named_resource()))
   |> decode.field("relative_physical_stats", decode.int)
   |> decode.field("time_of_day", decode.string)
-  |> decode.field("trade_species", decode.optional(affordance()))
+  |> decode.field("trade_species", decode.optional(named_resource()))
   |> decode.field("turn_upside_down", decode.bool)
 }

@@ -1,16 +1,13 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Habitat {
   Habitat(
     id: Int,
     name: String,
     names: List(Name),
-    pokemon_species: List(Affordance),
+    pokemon_species: List(NamedResource),
   )
 }
 
@@ -24,7 +21,7 @@ const path = "pokemon-habitat"
 /// let result = habitat.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, habitat())
+  resource.fetch_by_id(id, path, habitat())
 }
 
 /// Fetches a pokemon habitat by the habitat name.
@@ -35,7 +32,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = habitat.fetch_by_name("cave")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, habitat())
+  resource.fetch_by_name(name, path, habitat())
 }
 
 fn habitat() {
@@ -49,5 +46,5 @@ fn habitat() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("pokemon_species", decode.list(of: affordance()))
+  |> decode.field("pokemon_species", decode.list(of: named_resource()))
 }

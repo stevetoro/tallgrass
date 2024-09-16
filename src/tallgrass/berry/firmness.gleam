@@ -1,12 +1,14 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
-pub type Firmness {
-  Firmness(id: Int, name: String, berries: List(Affordance), names: List(Name))
+pub type BerryFirmness {
+  BerryFirmness(
+    id: Int,
+    name: String,
+    berries: List(NamedResource),
+    names: List(Name),
+  )
 }
 
 const path = "berry-firmness"
@@ -19,7 +21,7 @@ const path = "berry-firmness"
 /// let result = berry_firmness.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, firmness())
+  resource.fetch_by_id(id, path, berry_firmness())
 }
 
 /// Fetches a berry firmness by the firmness name.
@@ -30,19 +32,19 @@ pub fn fetch_by_id(id: Int) {
 /// let result = berry_firmness.fetch_by_name("very-soft")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, firmness())
+  resource.fetch_by_name(name, path, berry_firmness())
 }
 
-fn firmness() {
+fn berry_firmness() {
   decode.into({
     use id <- decode.parameter
     use name <- decode.parameter
     use berries <- decode.parameter
     use names <- decode.parameter
-    Firmness(id, name, berries, names)
+    BerryFirmness(id, name, berries, names)
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("berries", decode.list(of: affordance()))
+  |> decode.field("berries", decode.list(of: named_resource()))
   |> decode.field("names", decode.list(of: name()))
 }

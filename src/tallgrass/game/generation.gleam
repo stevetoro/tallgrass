@@ -1,19 +1,18 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Generation {
   Generation(
     id: Int,
     name: String,
-    abilities: List(Affordance),
-    main_region: Affordance,
-    moves: List(Affordance),
+    abilities: List(NamedResource),
+    main_region: NamedResource,
+    moves: List(NamedResource),
     names: List(Name),
-    pokemon_species: List(Affordance),
-    types: List(Affordance),
-    version_groups: List(Affordance),
+    pokemon_species: List(NamedResource),
+    types: List(NamedResource),
+    version_groups: List(NamedResource),
   )
 }
 
@@ -27,7 +26,7 @@ const path = "generation"
 /// let result = generation.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, generation())
+  resource.fetch_by_id(id, path, generation())
 }
 
 /// Fetches a generation by the generation name.
@@ -38,7 +37,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = generation.fetch_by_name("generation-i")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, generation())
+  resource.fetch_by_name(name, path, generation())
 }
 
 fn generation() {
@@ -66,11 +65,11 @@ fn generation() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("abilities", decode.list(of: affordance()))
-  |> decode.field("main_region", affordance())
-  |> decode.field("moves", decode.list(of: affordance()))
+  |> decode.field("abilities", decode.list(of: named_resource()))
+  |> decode.field("main_region", named_resource())
+  |> decode.field("moves", decode.list(of: named_resource()))
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("pokemon_species", decode.list(of: affordance()))
-  |> decode.field("types", decode.list(of: affordance()))
-  |> decode.field("version_groups", decode.list(of: affordance()))
+  |> decode.field("pokemon_species", decode.list(of: named_resource()))
+  |> decode.field("types", decode.list(of: named_resource()))
+  |> decode.field("version_groups", decode.list(of: named_resource()))
 }

@@ -1,9 +1,7 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/description.{type Description, description}
-import tallgrass/internal/common/name.{type Name, name}
-import tallgrass/internal/common/pokemon.{type PokemonEntry, pokemon_entry}
+import tallgrass/common/description.{type Description, description}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Pokedex {
   Pokedex(
@@ -13,9 +11,13 @@ pub type Pokedex {
     descriptions: List(Description),
     names: List(Name),
     pokemon_entries: List(PokemonEntry),
-    region: Affordance,
-    version_groups: List(Affordance),
+    region: NamedResource,
+    version_groups: List(NamedResource),
   )
+}
+
+pub type PokemonEntry {
+  PokemonEntry(entry: Int, species: NamedResource)
 }
 
 const path = "pokedex"
@@ -28,7 +30,7 @@ const path = "pokedex"
 /// let result = pokedex.fetch_by_id(2)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, pokedex())
+  resource.fetch_by_id(id, path, pokedex())
 }
 
 /// Fetches a pokedex by the pokedex name.
@@ -39,7 +41,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = pokedex.fetch_by_name("kanto")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, pokedex())
+  resource.fetch_by_name(name, path, pokedex())
 }
 
 fn pokedex() {
@@ -69,6 +71,16 @@ fn pokedex() {
   |> decode.field("descriptions", decode.list(of: description()))
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("pokemon_entries", decode.list(of: pokemon_entry()))
-  |> decode.field("region", affordance())
-  |> decode.field("version_groups", decode.list(of: affordance()))
+  |> decode.field("region", named_resource())
+  |> decode.field("version_groups", decode.list(of: named_resource()))
+}
+
+fn pokemon_entry() {
+  decode.into({
+    use entry <- decode.parameter
+    use species <- decode.parameter
+    PokemonEntry(entry, species)
+  })
+  |> decode.field("entry_number", decode.int)
+  |> decode.field("pokemon_species", named_resource())
 }

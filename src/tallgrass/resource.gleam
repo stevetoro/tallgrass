@@ -15,12 +15,40 @@ pub type Error {
   DecodeError
 }
 
-pub fn resource_by_id(id: Int, path: String, decoder: Decoder(a)) {
+pub type Resource {
+  Resource(url: String)
+}
+
+@internal
+pub fn resource() {
+  decode.into({
+    use url <- decode.parameter
+    Resource(url)
+  })
+  |> decode.field("url", decode.string)
+}
+
+pub type NamedResource {
+  NamedResource(name: String, url: String)
+}
+
+@internal
+pub fn named_resource() {
+  decode.into({
+    use name <- decode.parameter
+    use url <- decode.parameter
+    NamedResource(name, url)
+  })
+  |> decode.field("name", decode.string)
+  |> decode.field("url", decode.string)
+}
+
+pub fn fetch_by_id(id: Int, path: String, decoder: Decoder(a)) {
   use response <- result.try(get(resource: Some(id |> to_string), at: path))
   decode(response, using: decoder)
 }
 
-pub fn resource_by_name(name: String, path: String, decoder: Decoder(a)) {
+pub fn fetch_by_name(name: String, path: String, decoder: Decoder(a)) {
   use response <- result.try(get(resource: Some(name), at: path))
   decode(response, using: decoder)
 }

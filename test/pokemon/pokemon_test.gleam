@@ -38,8 +38,8 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   let ability = pokemon.abilities |> list.first |> should.be_ok
   ability.is_hidden |> should.be_false
   ability.slot |> should.equal(1)
-  ability.affordance.name |> should.equal("overgrow")
-  ability.affordance.url
+  ability.ability.name |> should.equal("overgrow")
+  ability.ability.url
   |> should.equal("https://pokeapi.co/api/v2/ability/65/")
 
   let form = pokemon.forms |> list.first |> should.be_ok
@@ -52,8 +52,8 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   index.version.url |> should.equal("https://pokeapi.co/api/v2/version/1/")
 
   let move = pokemon.moves |> list.first |> should.be_ok
-  move.affordance.name |> should.equal("razor-wind")
-  move.affordance.url |> should.equal("https://pokeapi.co/api/v2/move/13/")
+  move.move.name |> should.equal("razor-wind")
+  move.move.url |> should.equal("https://pokeapi.co/api/v2/move/13/")
 
   let details = move.version_details |> list.first |> should.be_ok
   details.learn_level |> should.equal(0)
@@ -67,12 +67,13 @@ fn should_be_bulbasaur(pokemon: Pokemon) {
   let stat = pokemon.stats |> list.first |> should.be_ok
   stat.base_stat |> should.equal(45)
   stat.effort |> should.equal(0)
-  stat.affordance.name |> should.equal("hp")
-  stat.affordance.url
+  stat.stat.name |> should.equal("hp")
+  stat.stat.url
   |> should.equal("https://pokeapi.co/api/v2/stat/1/")
 
-  let type_ = pokemon.types |> list.first |> should.be_ok
-  type_.slot |> should.equal(1)
-  type_.affordance.name |> should.equal("grass")
-  type_.affordance.url |> should.equal("https://pokeapi.co/api/v2/type/12/")
+  let pokemon_type = pokemon.types |> list.first |> should.be_ok
+  pokemon_type.slot |> should.equal(1)
+  pokemon_type.pokemon_type.name |> should.equal("grass")
+  pokemon_type.pokemon_type.url
+  |> should.equal("https://pokeapi.co/api/v2/type/12/")
 }

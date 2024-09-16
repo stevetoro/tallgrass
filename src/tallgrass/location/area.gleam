@@ -1,7 +1,6 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 // TODO: Add support for encounter_method_rates and pokemon_encounters.
 
@@ -10,7 +9,7 @@ pub type LocationArea {
     id: Int,
     name: String,
     game_index: Int,
-    location: Affordance,
+    location: NamedResource,
     names: List(Name),
   )
 }
@@ -25,7 +24,7 @@ const path = "location-area"
 /// let result = area.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, location_area())
+  resource.fetch_by_id(id, path, location_area())
 }
 
 /// Fetches a location_area by the location_area name.
@@ -36,7 +35,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = area.fetch_by_name("canalave-city-area")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, location_area())
+  resource.fetch_by_name(name, path, location_area())
 }
 
 fn location_area() {
@@ -51,6 +50,6 @@ fn location_area() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("game_index", decode.int)
-  |> decode.field("location", affordance())
+  |> decode.field("location", named_resource())
   |> decode.field("names", decode.list(of: name()))
 }

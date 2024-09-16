@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/berry/flavor.{type Flavor}
+import tallgrass/berry/flavor.{type BerryFlavor}
 
 pub fn fetch_by_id_test() {
   flavor.fetch_by_id(1) |> should.be_ok |> should_be_spicy
@@ -10,7 +10,7 @@ pub fn fetch_by_name_test() {
   flavor.fetch_by_name("spicy") |> should.be_ok |> should_be_spicy
 }
 
-fn should_be_spicy(flavor: Flavor) {
+fn should_be_spicy(flavor: BerryFlavor) {
   flavor.id |> should.equal(1)
   flavor.name |> should.equal("spicy")
 

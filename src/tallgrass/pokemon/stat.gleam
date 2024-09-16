@@ -1,9 +1,6 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Stat {
   Stat(
@@ -11,23 +8,29 @@ pub type Stat {
     name: String,
     game_index: Int,
     is_battle_only: Bool,
-    affecting_moves: AffectingMoves,
-    affecting_natures: AffectingNatures,
-    move_damage_class: Affordance,
+    affecting_moves: MoveStatAffectSets,
+    affecting_natures: NatureStatAffectSets,
+    move_damage_class: NamedResource,
     names: List(Name),
   )
 }
 
-pub type AffectingNatures {
-  AffectingNatures(increase: List(Affordance), decrease: List(Affordance))
+pub type NatureStatAffectSets {
+  NatureStatAffectSets(
+    increase: List(NamedResource),
+    decrease: List(NamedResource),
+  )
 }
 
-pub type AffectingMoves {
-  AffectingMoves(increase: List(Move), decrease: List(Move))
+pub type MoveStatAffectSets {
+  MoveStatAffectSets(
+    increase: List(MoveStatAffect),
+    decrease: List(MoveStatAffect),
+  )
 }
 
-pub type Move {
-  Move(change: Int, affordance: Affordance)
+pub type MoveStatAffect {
+  MoveStatAffect(change: Int, move: NamedResource)
 }
 
 const path = "stat"
@@ -40,7 +43,7 @@ const path = "stat"
 /// let result = stat.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, stat())
+  resource.fetch_by_id(id, path, stat())
 }
 
 /// Fetches a pokemon stat by the stat name.
@@ -51,7 +54,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = stat.fetch_by_name("hp")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, stat())
+  resource.fetch_by_name(name, path, stat())
 }
 
 fn stat() {
@@ -79,38 +82,38 @@ fn stat() {
   |> decode.field("name", decode.string)
   |> decode.field("game_index", decode.int)
   |> decode.field("is_battle_only", decode.bool)
-  |> decode.field("affecting_moves", affecting_moves())
-  |> decode.field("affecting_natures", affecting_natures())
-  |> decode.field("move_damage_class", affordance())
+  |> decode.field("affecting_moves", move_stat_affect_sets())
+  |> decode.field("affecting_natures", nature_stat_affect_sets())
+  |> decode.field("move_damage_class", named_resource())
   |> decode.field("names", decode.list(of: name()))
 }
 
-fn affecting_natures() {
+fn nature_stat_affect_sets() {
   decode.into({
     use increase <- decode.parameter
     use decrease <- decode.parameter
-    AffectingNatures(increase, decrease)
+    NatureStatAffectSets(increase, decrease)
   })
-  |> decode.field("increase", decode.list(of: affordance()))
-  |> decode.field("decrease", decode.list(of: affordance()))
+  |> decode.field("increase", decode.list(of: named_resource()))
+  |> decode.field("decrease", decode.list(of: named_resource()))
 }
 
-fn affecting_moves() {
+fn move_stat_affect_sets() {
   decode.into({
     use increase <- decode.parameter
     use decrease <- decode.parameter
-    AffectingMoves(increase, decrease)
+    MoveStatAffectSets(increase, decrease)
   })
-  |> decode.field("increase", decode.list(of: move()))
-  |> decode.field("decrease", decode.list(of: move()))
+  |> decode.field("increase", decode.list(of: move_stat_affect()))
+  |> decode.field("decrease", decode.list(of: move_stat_affect()))
 }
 
-fn move() {
+fn move_stat_affect() {
   decode.into({
     use max_change <- decode.parameter
-    use affordance <- decode.parameter
-    Move(max_change, affordance)
+    use move <- decode.parameter
+    MoveStatAffect(max_change, move)
   })
   |> decode.field("change", decode.int)
-  |> decode.field("move", affordance())
+  |> decode.field("move", named_resource())
 }

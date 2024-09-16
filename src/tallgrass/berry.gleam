@@ -1,8 +1,5 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Berry {
   Berry(
@@ -14,15 +11,15 @@ pub type Berry {
     size: Int,
     smoothness: Int,
     soil_dryness: Int,
-    firmness: Affordance,
-    flavors: List(Flavor),
-    item: Affordance,
-    natural_gift_type: Affordance,
+    firmness: NamedResource,
+    flavors: List(BerryFlavorMap),
+    item: NamedResource,
+    natural_gift_type: NamedResource,
   )
 }
 
-pub type Flavor {
-  Flavor(potency: Int, flavor: Affordance)
+pub type BerryFlavorMap {
+  BerryFlavorMap(potency: Int, flavor: NamedResource)
 }
 
 const path = "berry"
@@ -35,7 +32,7 @@ const path = "berry"
 /// let result = berry.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, berry())
+  resource.fetch_by_id(id, path, berry())
 }
 
 /// Fetches a berry by the berry name.
@@ -46,7 +43,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = berry.fetch_by_name("cheri")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, berry())
+  resource.fetch_by_name(name, path, berry())
 }
 
 fn berry() {
@@ -86,18 +83,18 @@ fn berry() {
   |> decode.field("size", decode.int)
   |> decode.field("smoothness", decode.int)
   |> decode.field("soil_dryness", decode.int)
-  |> decode.field("firmness", affordance())
-  |> decode.field("flavors", decode.list(of: flavor()))
-  |> decode.field("item", affordance())
-  |> decode.field("natural_gift_type", affordance())
+  |> decode.field("firmness", named_resource())
+  |> decode.field("flavors", decode.list(of: berry_flavor_map()))
+  |> decode.field("item", named_resource())
+  |> decode.field("natural_gift_type", named_resource())
 }
 
-fn flavor() {
+fn berry_flavor_map() {
   decode.into({
     use potency <- decode.parameter
-    use flavor <- decode.parameter
-    Flavor(potency, flavor)
+    use berry <- decode.parameter
+    BerryFlavorMap(potency, berry)
   })
   |> decode.field("potency", decode.int)
-  |> decode.field("flavor", affordance())
+  |> decode.field("flavor", named_resource())
 }

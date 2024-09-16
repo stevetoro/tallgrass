@@ -1,10 +1,14 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Version {
-  Version(id: Int, name: String, names: List(Name), version_group: Affordance)
+  Version(
+    id: Int,
+    name: String,
+    names: List(Name),
+    version_group: NamedResource,
+  )
 }
 
 const path = "version"
@@ -17,7 +21,7 @@ const path = "version"
 /// let result = version.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, version())
+  resource.fetch_by_id(id, path, version())
 }
 
 /// Fetches a version by the version name.
@@ -28,7 +32,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = version.fetch_by_name("red")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, version())
+  resource.fetch_by_name(name, path, version())
 }
 
 fn version() {
@@ -42,5 +46,5 @@ fn version() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("version_group", affordance())
+  |> decode.field("version_group", named_resource())
 }

@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/pokemon/species.{type Species}
+import tallgrass/pokemon/species.{type PokemonSpecies}
 
 pub fn fetch_by_id_test() {
   species.fetch_by_id(413) |> should.be_ok |> should_be_wormadam
@@ -10,7 +10,7 @@ pub fn fetch_by_name_test() {
   species.fetch_by_name("wormadam") |> should.be_ok |> should_be_wormadam
 }
 
-fn should_be_wormadam(species: Species) {
+fn should_be_wormadam(species: PokemonSpecies) {
   species.id |> should.equal(413)
   species.name |> should.equal("wormadam")
   species.order |> should.equal(441)

@@ -1,18 +1,18 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
+import tallgrass/resource.{type NamedResource, named_resource}
 
-pub type LocationArea {
-  LocationArea(location_area: Affordance, version_details: List(VersionDetail))
+pub type PokemonLocationArea {
+  PokemonLocationArea(
+    location_area: NamedResource,
+    version_details: List(VersionDetail),
+  )
 }
 
 pub type VersionDetail {
   VersionDetail(
     max_chance: Int,
     encounter_details: List(EncounterDetail),
-    version: Affordance,
+    version: NamedResource,
   )
 }
 
@@ -21,8 +21,8 @@ pub type EncounterDetail {
     min_level: Int,
     max_level: Int,
     chance: Int,
-    method: Affordance,
-    condition_values: List(Affordance),
+    method: NamedResource,
+    condition_values: List(NamedResource),
   )
 }
 
@@ -36,7 +36,7 @@ const path = "pokemon,encounters"
 /// let result = location_area.fetch_for_pokemon_with_id(1)
 /// ```
 pub fn fetch_for_pokemon_with_id(id: Int) {
-  fetch.resource_by_id(id, path, decode.list(of: location_area()))
+  resource.fetch_by_id(id, path, decode.list(of: pokemon_location_area()))
 }
 
 /// Fetches location areas for a given pokemon name.
@@ -47,16 +47,16 @@ pub fn fetch_for_pokemon_with_id(id: Int) {
 /// let result = location_area.fetch_for_pokemon_with_name("bulbasaur")
 /// ```
 pub fn fetch_for_pokemon_with_name(name: String) {
-  fetch.resource_by_name(name, path, decode.list(of: location_area()))
+  resource.fetch_by_name(name, path, decode.list(of: pokemon_location_area()))
 }
 
-fn location_area() {
+fn pokemon_location_area() {
   decode.into({
     use location_area <- decode.parameter
     use version_details <- decode.parameter
-    LocationArea(location_area, version_details)
+    PokemonLocationArea(location_area, version_details)
   })
-  |> decode.field("location_area", affordance())
+  |> decode.field("location_area", named_resource())
   |> decode.field("version_details", decode.list(of: version_detail()))
 }
 
@@ -69,7 +69,7 @@ fn version_detail() {
   })
   |> decode.field("max_chance", decode.int)
   |> decode.field("encounter_details", decode.list(of: encounter_detail()))
-  |> decode.field("version", affordance())
+  |> decode.field("version", named_resource())
 }
 
 fn encounter_detail() {
@@ -84,6 +84,6 @@ fn encounter_detail() {
   |> decode.field("min_level", decode.int)
   |> decode.field("max_level", decode.int)
   |> decode.field("chance", decode.int)
-  |> decode.field("method", affordance())
-  |> decode.field("condition_values", decode.list(of: affordance()))
+  |> decode.field("method", named_resource())
+  |> decode.field("condition_values", decode.list(of: named_resource()))
 }

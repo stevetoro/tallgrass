@@ -1,6 +1,6 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource
 
 // TODO: Add support for pokemon_encounters.
 
@@ -18,7 +18,7 @@ const path = "pal-park-area"
 /// let result = pal_park_area.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, pal_park_area())
+  resource.fetch_by_id(id, path, pal_park_area())
 }
 
 /// Fetches a pal_park_area by the pal_park_area name.
@@ -29,7 +29,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = pal_park_area.fetch_by_name("forest")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, pal_park_area())
+  resource.fetch_by_name(name, path, pal_park_area())
 }
 
 fn pal_park_area() {

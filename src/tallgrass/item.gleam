@@ -1,19 +1,12 @@
 import decode
 import gleam/option.{type Option}
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, type URL, affordance, url,
+import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
+import tallgrass/common/generation.{
+  type GenerationGameIndex, generation_game_index,
 }
-import tallgrass/internal/common/effect.{type Effect, effect}
-import tallgrass/internal/common/flavor_text.{
-  type FlavorTextWithVersionGroup, flavor_text_with_version_group,
-}
-import tallgrass/internal/common/game_index.{
-  type GameIndexGeneration, game_index_generation,
-}
-import tallgrass/internal/common/name.{type Name, name}
-import tallgrass/internal/common/pokemon.{
-  type PokemonWithVersionDetails, pokemon_version_details,
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{
+  type NamedResource, type Resource, named_resource, resource,
 }
 
 pub type Item {
@@ -22,16 +15,35 @@ pub type Item {
     name: String,
     cost: Int,
     fling_power: Option(Int),
-    fling_effect: Option(Affordance),
-    attributes: List(Affordance),
-    category: Affordance,
-    effect_entries: List(Effect),
-    flavor_text_entries: List(FlavorTextWithVersionGroup),
-    game_indices: List(GameIndexGeneration),
+    fling_effect: Option(NamedResource),
+    attributes: List(NamedResource),
+    category: NamedResource,
+    effect_entries: List(VerboseEffect),
+    flavor_text_entries: List(VersionGroupFlavorText),
+    game_indices: List(GenerationGameIndex),
     names: List(Name),
-    held_by_pokemon: List(PokemonWithVersionDetails),
-    baby_trigger_for: Option(URL),
+    held_by_pokemon: List(ItemHolderPokemon),
+    baby_trigger_for: Option(Resource),
   )
+}
+
+pub type VersionGroupFlavorText {
+  VersionGroupFlavorText(
+    text: String,
+    language: NamedResource,
+    version_group: NamedResource,
+  )
+}
+
+pub type ItemHolderPokemon {
+  ItemHolderPokemon(
+    pokemon: NamedResource,
+    version_details: List(ItemHolderPokemonVersionDetail),
+  )
+}
+
+pub type ItemHolderPokemonVersionDetail {
+  ItemHolderPokemonVersionDetail(rarity: Int, version: NamedResource)
 }
 
 const path = "item"
@@ -44,7 +56,7 @@ const path = "item"
 /// let result = item.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, item())
+  resource.fetch_by_id(id, path, item())
 }
 
 /// Fetches a item by the item name.
@@ -55,7 +67,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = item.fetch_by_name("master-ball")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, item())
+  resource.fetch_by_name(name, path, item())
 }
 
 fn item() {
@@ -93,16 +105,51 @@ fn item() {
   |> decode.field("name", decode.string)
   |> decode.field("cost", decode.int)
   |> decode.field("fling_power", decode.optional(decode.int))
-  |> decode.field("fling_effect", decode.optional(affordance()))
-  |> decode.field("attributes", decode.list(of: affordance()))
-  |> decode.field("category", affordance())
-  |> decode.field("effect_entries", decode.list(of: effect()))
+  |> decode.field("fling_effect", decode.optional(named_resource()))
+  |> decode.field("attributes", decode.list(of: named_resource()))
+  |> decode.field("category", named_resource())
+  |> decode.field("effect_entries", decode.list(of: verbose_effect()))
   |> decode.field(
     "flavor_text_entries",
-    decode.list(of: flavor_text_with_version_group(field: "text")),
+    decode.list(of: version_group_flavor_text()),
   )
-  |> decode.field("game_indices", decode.list(of: game_index_generation()))
+  |> decode.field("game_indices", decode.list(of: generation_game_index()))
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("held_by_pokemon", decode.list(of: pokemon_version_details()))
-  |> decode.field("baby_trigger_for", decode.optional(url()))
+  |> decode.field("held_by_pokemon", decode.list(of: item_holder_pokemon()))
+  |> decode.field("baby_trigger_for", decode.optional(resource()))
+}
+
+fn version_group_flavor_text() {
+  decode.into({
+    use text <- decode.parameter
+    use language <- decode.parameter
+    use version_group <- decode.parameter
+    VersionGroupFlavorText(text, language, version_group)
+  })
+  |> decode.field("text", decode.string)
+  |> decode.field("language", named_resource())
+  |> decode.field("version_group", named_resource())
+}
+
+fn item_holder_pokemon() {
+  decode.into({
+    use pokemon <- decode.parameter
+    use version_details <- decode.parameter
+    ItemHolderPokemon(pokemon, version_details)
+  })
+  |> decode.field("pokemon", named_resource())
+  |> decode.field(
+    "version_details",
+    decode.list(of: item_holder_pokemon_version_detail()),
+  )
+}
+
+fn item_holder_pokemon_version_detail() {
+  decode.into({
+    use rarity <- decode.parameter
+    use version <- decode.parameter
+    ItemHolderPokemonVersionDetail(rarity, version)
+  })
+  |> decode.field("rarity", decode.int)
+  |> decode.field("version", named_resource())
 }

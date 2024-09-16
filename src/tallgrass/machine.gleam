@@ -1,13 +1,12 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Machine {
   Machine(
     id: Int,
-    item: Affordance,
-    move: Affordance,
-    version_group: Affordance,
+    item: NamedResource,
+    move: NamedResource,
+    version_group: NamedResource,
   )
 }
 
@@ -21,7 +20,7 @@ const path = "machine"
 /// let result = machine.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, machine())
+  resource.fetch_by_id(id, path, machine())
 }
 
 fn machine() {
@@ -33,7 +32,7 @@ fn machine() {
     Machine(id, item, move, version_group)
   })
   |> decode.field("id", decode.int)
-  |> decode.field("item", affordance())
-  |> decode.field("move", affordance())
-  |> decode.field("version_group", affordance())
+  |> decode.field("item", named_resource())
+  |> decode.field("move", named_resource())
+  |> decode.field("version_group", named_resource())
 }

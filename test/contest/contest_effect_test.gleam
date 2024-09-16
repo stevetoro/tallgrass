@@ -9,7 +9,7 @@ pub fn fetch_by_id_test() {
   contest_effect.jam |> should.equal(0)
 
   let effect = contest_effect.effect_entries |> list.first |> should.be_ok
-  effect.text
+  effect.effect
   |> should.equal("Gives a high number of appeal points wth no other effects.")
   effect.language.name |> should.equal("en")
   effect.language.url |> should.equal("https://pokeapi.co/api/v2/language/9/")

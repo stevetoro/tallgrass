@@ -1,25 +1,25 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type PokeathlonStat {
   PokeathlonStat(
     id: Int,
     name: String,
     names: List(Name),
-    affecting_natures: AffectingNatures,
+    affecting_natures: NaturePokeathlonStatAffectSets,
   )
 }
 
-pub type AffectingNatures {
-  AffectingNatures(increase: List(Nature), decrease: List(Nature))
+pub type NaturePokeathlonStatAffectSets {
+  NaturePokeathlonStatAffectSets(
+    increase: List(NaturePokeathlonStatAffect),
+    decrease: List(NaturePokeathlonStatAffect),
+  )
 }
 
-pub type Nature {
-  Nature(max_change: Int, affordance: Affordance)
+pub type NaturePokeathlonStatAffect {
+  NaturePokeathlonStatAffect(max_change: Int, nature: NamedResource)
 }
 
 const path = "pokeathlon-stat"
@@ -32,7 +32,7 @@ const path = "pokeathlon-stat"
 /// let result = pokeathlon_stat.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, pokeathlon_stat())
+  resource.fetch_by_id(id, path, pokeathlon_stat())
 }
 
 /// Fetches a pokemon pokeathlon stat by the pokeathlon stat name.
@@ -43,7 +43,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = pokeathlon_stat.fetch_by_name("skill")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, pokeathlon_stat())
+  resource.fetch_by_name(name, path, pokeathlon_stat())
 }
 
 fn pokeathlon_stat() {
@@ -57,25 +57,25 @@ fn pokeathlon_stat() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("affecting_natures", affecting_natures())
+  |> decode.field("affecting_natures", nature_pokeathlon_stat_affect_sets())
 }
 
-fn affecting_natures() {
+fn nature_pokeathlon_stat_affect_sets() {
   decode.into({
     use increase <- decode.parameter
     use decrease <- decode.parameter
-    AffectingNatures(increase, decrease)
+    NaturePokeathlonStatAffectSets(increase, decrease)
   })
-  |> decode.field("increase", decode.list(of: nature()))
-  |> decode.field("decrease", decode.list(of: nature()))
+  |> decode.field("increase", decode.list(of: nature_pokeathlon_stat_affect()))
+  |> decode.field("decrease", decode.list(of: nature_pokeathlon_stat_affect()))
 }
 
-fn nature() {
+fn nature_pokeathlon_stat_affect() {
   decode.into({
     use max_change <- decode.parameter
-    use affordance <- decode.parameter
-    Nature(max_change, affordance)
+    use nature <- decode.parameter
+    NaturePokeathlonStatAffect(max_change, nature)
   })
   |> decode.field("max_change", decode.int)
-  |> decode.field("nature", affordance())
+  |> decode.field("nature", named_resource())
 }

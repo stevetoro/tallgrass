@@ -47,7 +47,7 @@ fn should_be_stench(ability: Ability) {
   let pokemon = ability.pokemon |> list.first |> should.be_ok
   pokemon.is_hidden |> should.be_true
   pokemon.slot |> should.equal(3)
-  pokemon.affordance.name |> should.equal("gloom")
-  pokemon.affordance.url
+  pokemon.pokemon.name |> should.equal("gloom")
+  pokemon.pokemon.url
   |> should.equal("https://pokeapi.co/api/v2/pokemon/44/")
 }

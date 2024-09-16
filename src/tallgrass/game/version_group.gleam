@@ -1,17 +1,16 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type VersionGroup {
   VersionGroup(
     id: Int,
     name: String,
     order: Int,
-    generation: Affordance,
-    move_learn_methods: List(Affordance),
-    pokedexes: List(Affordance),
-    regions: List(Affordance),
-    versions: List(Affordance),
+    generation: NamedResource,
+    move_learn_methods: List(NamedResource),
+    pokedexes: List(NamedResource),
+    regions: List(NamedResource),
+    versions: List(NamedResource),
   )
 }
 
@@ -25,7 +24,7 @@ const path = "version-group"
 /// let result = version_group.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, version_group())
+  resource.fetch_by_id(id, path, version_group())
 }
 
 /// Fetches a version_group by the version_group name.
@@ -36,7 +35,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = version_group.fetch_by_name("red-blue")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, version_group())
+  resource.fetch_by_name(name, path, version_group())
 }
 
 fn version_group() {
@@ -63,9 +62,9 @@ fn version_group() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("order", decode.int)
-  |> decode.field("generation", affordance())
-  |> decode.field("move_learn_methods", decode.list(of: affordance()))
-  |> decode.field("pokedexes", decode.list(of: affordance()))
-  |> decode.field("regions", decode.list(of: affordance()))
-  |> decode.field("versions", decode.list(of: affordance()))
+  |> decode.field("generation", named_resource())
+  |> decode.field("move_learn_methods", decode.list(of: named_resource()))
+  |> decode.field("pokedexes", decode.list(of: named_resource()))
+  |> decode.field("regions", decode.list(of: named_resource()))
+  |> decode.field("versions", decode.list(of: named_resource()))
 }

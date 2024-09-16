@@ -22,14 +22,14 @@ fn should_be_speed(pokeathlon_stat: PokeathlonStat) {
   let increasing_nature =
     pokeathlon_stat.affecting_natures.increase |> list.first |> should.be_ok
   increasing_nature.max_change |> should.equal(2)
-  increasing_nature.affordance.name |> should.equal("timid")
-  increasing_nature.affordance.url
+  increasing_nature.nature.name |> should.equal("timid")
+  increasing_nature.nature.url
   |> should.equal("https://pokeapi.co/api/v2/nature/5/")
 
   let decreasing_nature =
     pokeathlon_stat.affecting_natures.decrease |> list.first |> should.be_ok
   decreasing_nature.max_change |> should.equal(-1)
-  decreasing_nature.affordance.name |> should.equal("hardy")
-  decreasing_nature.affordance.url
+  decreasing_nature.nature.name |> should.equal("hardy")
+  decreasing_nature.nature.url
   |> should.equal("https://pokeapi.co/api/v2/nature/1/")
 }

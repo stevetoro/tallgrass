@@ -1,16 +1,13 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
-pub type Color {
-  Color(
+pub type PokemonColor {
+  PokemonColor(
     id: Int,
     name: String,
     names: List(Name),
-    pokemon_species: List(Affordance),
+    pokemon_species: List(NamedResource),
   )
 }
 
@@ -24,7 +21,7 @@ const path = "pokemon-color"
 /// let result = color.fetch_by_id(9)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, color())
+  resource.fetch_by_id(id, path, pokemon_color())
 }
 
 /// Fetches a pokemon color by the color name.
@@ -35,19 +32,19 @@ pub fn fetch_by_id(id: Int) {
 /// let result = color.fetch_by_name("white")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, color())
+  resource.fetch_by_name(name, path, pokemon_color())
 }
 
-fn color() {
+fn pokemon_color() {
   decode.into({
     use id <- decode.parameter
     use name <- decode.parameter
     use names <- decode.parameter
     use pokemon_species <- decode.parameter
-    Color(id, name, names, pokemon_species)
+    PokemonColor(id, name, names, pokemon_species)
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("pokemon_species", decode.list(of: affordance()))
+  |> decode.field("pokemon_species", decode.list(of: named_resource()))
 }

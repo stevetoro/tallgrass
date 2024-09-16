@@ -15,10 +15,9 @@ fn should_be_female(gender: Gender) {
   gender.name |> should.equal("female")
 
   let species = gender.pokemon_species_details |> list.first |> should.be_ok
-  species.name |> should.equal("bulbasaur")
   species.rate |> should.equal(1)
-  species.affordance.name |> should.equal("bulbasaur")
-  species.affordance.url
+  species.pokemon_species.name |> should.equal("bulbasaur")
+  species.pokemon_species.url
   |> should.equal("https://pokeapi.co/api/v2/pokemon-species/1/")
 
   let required = gender.required_for_evolution |> list.first |> should.be_ok

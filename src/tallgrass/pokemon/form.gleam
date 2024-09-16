@@ -1,12 +1,9 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/pokemon_type.{type Type, Type, types}
+import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
+import tallgrass/resource.{type NamedResource, named_resource}
 
-pub type Form {
-  Form(
+pub type PokemonForm {
+  PokemonForm(
     id: Int,
     name: String,
     order: Int,
@@ -15,9 +12,9 @@ pub type Form {
     is_battle_only: Bool,
     is_mega: Bool,
     form_name: String,
-    pokemon: Affordance,
-    types: List(Type),
-    version_group: Affordance,
+    pokemon: NamedResource,
+    types: List(PokemonType),
+    version_group: NamedResource,
   )
 }
 
@@ -31,7 +28,7 @@ const path = "pokemon-form"
 /// let result = form.fetch_by_id(10143)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, form())
+  resource.fetch_by_id(id, path, pokemon_form())
 }
 
 /// Fetches a pokemon form by the form name.
@@ -42,10 +39,10 @@ pub fn fetch_by_id(id: Int) {
 /// let result = form.fetch_by_name("mewtwo-mega-x")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, form())
+  resource.fetch_by_name(name, path, pokemon_form())
 }
 
-fn form() {
+fn pokemon_form() {
   decode.into({
     use id <- decode.parameter
     use name <- decode.parameter
@@ -58,7 +55,7 @@ fn form() {
     use pokemon <- decode.parameter
     use types <- decode.parameter
     use version_group <- decode.parameter
-    Form(
+    PokemonForm(
       id,
       name,
       order,
@@ -80,7 +77,7 @@ fn form() {
   |> decode.field("is_battle_only", decode.bool)
   |> decode.field("is_mega", decode.bool)
   |> decode.field("form_name", decode.string)
-  |> decode.field("pokemon", affordance())
-  |> decode.field("types", decode.list(of: types()))
-  |> decode.field("version_group", affordance())
+  |> decode.field("pokemon", named_resource())
+  |> decode.field("types", decode.list(of: pokemon_type()))
+  |> decode.field("version_group", named_resource())
 }

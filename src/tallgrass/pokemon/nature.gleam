@@ -1,34 +1,31 @@
 import decode
 import gleam/option.{type Option}
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Nature {
   Nature(
     id: Int,
     name: String,
-    decreased_stat: Option(Affordance),
-    increased_stat: Option(Affordance),
-    likes_flavor: Option(Affordance),
-    hates_flavor: Option(Affordance),
-    pokeathlon_stat_changes: List(PokeathlonStatChange),
+    decreased_stat: Option(NamedResource),
+    increased_stat: Option(NamedResource),
+    likes_flavor: Option(NamedResource),
+    hates_flavor: Option(NamedResource),
+    pokeathlon_stat_changes: List(NatureStatChange),
     move_battle_style_preferences: List(MoveBattleStylePreference),
     names: List(Name),
   )
 }
 
-pub type PokeathlonStatChange {
-  PokeathlonStatChange(max_change: Int, pokeathlon_stat: Affordance)
+pub type NatureStatChange {
+  NatureStatChange(max_change: Int, pokeathlon_stat: NamedResource)
 }
 
 pub type MoveBattleStylePreference {
   MoveBattleStylePreference(
     low_hp_preference: Int,
     high_hp_preference: Int,
-    move_battle_style: Affordance,
+    move_battle_style: NamedResource,
   )
 }
 
@@ -42,7 +39,7 @@ const path = "nature"
 /// let result = nature.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, nature())
+  resource.fetch_by_id(id, path, nature())
 }
 
 /// Fetches a pokemon nature by the nature name.
@@ -53,7 +50,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = nature.fetch_by_name("hardy")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, nature())
+  resource.fetch_by_name(name, path, nature())
 }
 
 fn nature() {
@@ -81,13 +78,13 @@ fn nature() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("decreased_stat", decode.optional(affordance()))
-  |> decode.field("increased_stat", decode.optional(affordance()))
-  |> decode.field("likes_flavor", decode.optional(affordance()))
-  |> decode.field("hates_flavor", decode.optional(affordance()))
+  |> decode.field("decreased_stat", decode.optional(named_resource()))
+  |> decode.field("increased_stat", decode.optional(named_resource()))
+  |> decode.field("likes_flavor", decode.optional(named_resource()))
+  |> decode.field("hates_flavor", decode.optional(named_resource()))
   |> decode.field(
     "pokeathlon_stat_changes",
-    decode.list(of: pokeathlon_stat_change()),
+    decode.list(of: nature_stat_change()),
   )
   |> decode.field(
     "move_battle_style_preferences",
@@ -96,14 +93,14 @@ fn nature() {
   |> decode.field("names", decode.list(of: name()))
 }
 
-fn pokeathlon_stat_change() {
+fn nature_stat_change() {
   decode.into({
     use max_change <- decode.parameter
     use pokeathlon_stat <- decode.parameter
-    PokeathlonStatChange(max_change, pokeathlon_stat)
+    NatureStatChange(max_change, pokeathlon_stat)
   })
   |> decode.field("max_change", decode.int)
-  |> decode.field("pokeathlon_stat", affordance())
+  |> decode.field("pokeathlon_stat", named_resource())
 }
 
 fn move_battle_style_preference() {
@@ -119,5 +116,5 @@ fn move_battle_style_preference() {
   })
   |> decode.field("low_hp_preference", decode.int)
   |> decode.field("high_hp_preference", decode.int)
-  |> decode.field("move_battle_style", affordance())
+  |> decode.field("move_battle_style", named_resource())
 }

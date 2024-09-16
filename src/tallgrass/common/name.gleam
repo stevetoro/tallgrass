@@ -1,12 +1,11 @@
 import decode
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Name {
-  Name(name: String, language: Affordance)
+  Name(name: String, language: NamedResource)
 }
 
+@internal
 pub fn name() {
   decode.into({
     use name <- decode.parameter
@@ -14,5 +13,5 @@ pub fn name() {
     Name(name, language)
   })
   |> decode.field("name", decode.string)
-  |> decode.field("language", affordance())
+  |> decode.field("language", named_resource())
 }

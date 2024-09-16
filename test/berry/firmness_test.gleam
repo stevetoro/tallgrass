@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/berry/firmness.{type Firmness}
+import tallgrass/berry/firmness.{type BerryFirmness}
 
 pub fn fetch_by_id_test() {
   firmness.fetch_by_id(1) |> should.be_ok |> should_be_very_soft
@@ -10,7 +10,7 @@ pub fn fetch_by_name_test() {
   firmness.fetch_by_name("very-soft") |> should.be_ok |> should_be_very_soft
 }
 
-fn should_be_very_soft(firmness: Firmness) {
+fn should_be_very_soft(firmness: BerryFirmness) {
   firmness.id |> should.equal(1)
   firmness.name |> should.equal("very-soft")
 

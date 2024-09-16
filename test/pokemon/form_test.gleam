@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/pokemon/form.{type Form}
+import tallgrass/pokemon/form.{type PokemonForm}
 
 pub fn fetch_by_id_test() {
   form.fetch_by_id(10_041) |> should.be_ok |> should_be_arceus_bug
@@ -10,7 +10,7 @@ pub fn fetch_by_name_test() {
   form.fetch_by_name("arceus-bug") |> should.be_ok |> should_be_arceus_bug
 }
 
-fn should_be_arceus_bug(form: Form) {
+fn should_be_arceus_bug(form: PokemonForm) {
   form.id |> should.equal(10_041)
   form.name |> should.equal("arceus-bug")
   form.order |> should.equal(649)
@@ -23,10 +23,11 @@ fn should_be_arceus_bug(form: Form) {
   form.pokemon.name |> should.equal("arceus")
   form.pokemon.url |> should.equal("https://pokeapi.co/api/v2/pokemon/493/")
 
-  let type_ = form.types |> list.first |> should.be_ok
-  type_.slot |> should.equal(1)
-  type_.affordance.name |> should.equal("bug")
-  type_.affordance.url |> should.equal("https://pokeapi.co/api/v2/type/7/")
+  let pokemon_type = form.types |> list.first |> should.be_ok
+  pokemon_type.slot |> should.equal(1)
+  pokemon_type.pokemon_type.name |> should.equal("bug")
+  pokemon_type.pokemon_type.url
+  |> should.equal("https://pokeapi.co/api/v2/type/7/")
 
   form.version_group.name |> should.equal("diamond-pearl")
   form.version_group.url

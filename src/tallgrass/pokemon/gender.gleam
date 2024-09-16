@@ -1,20 +1,17 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Gender {
   Gender(
     id: Int,
     name: String,
-    pokemon_species_details: List(PokemonSpecies),
-    required_for_evolution: List(Affordance),
+    pokemon_species_details: List(PokemonSpeciesGender),
+    required_for_evolution: List(NamedResource),
   )
 }
 
-pub type PokemonSpecies {
-  PokemonSpecies(name: String, rate: Int, affordance: Affordance)
+pub type PokemonSpeciesGender {
+  PokemonSpeciesGender(rate: Int, pokemon_species: NamedResource)
 }
 
 const path = "gender"
@@ -27,7 +24,7 @@ const path = "gender"
 /// let result = gender.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, gender())
+  resource.fetch_by_id(id, path, gender())
 }
 
 /// Fetches a pokemon gender by the gender name.
@@ -38,7 +35,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = gender.fetch_by_name("genderless")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, gender())
+  resource.fetch_by_name(name, path, gender())
 }
 
 fn gender() {
@@ -51,18 +48,19 @@ fn gender() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("pokemon_species_details", decode.list(of: pokemon_species()))
-  |> decode.field("required_for_evolution", decode.list(of: affordance()))
+  |> decode.field(
+    "pokemon_species_details",
+    decode.list(of: pokemon_species_gender()),
+  )
+  |> decode.field("required_for_evolution", decode.list(of: named_resource()))
 }
 
-fn pokemon_species() {
+fn pokemon_species_gender() {
   decode.into({
-    use name <- decode.parameter
     use rate <- decode.parameter
-    use affordance <- decode.parameter
-    PokemonSpecies(name, rate, affordance)
+    use species <- decode.parameter
+    PokemonSpeciesGender(rate, species)
   })
-  |> decode.subfield(["pokemon_species", "name"], decode.string)
   |> decode.field("rate", decode.int)
-  |> decode.field("pokemon_species", affordance())
+  |> decode.field("pokemon_species", named_resource())
 }

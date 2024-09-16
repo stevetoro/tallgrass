@@ -1,15 +1,14 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/description.{type Description, description}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/description.{type Description, description}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type ItemAttribute {
   ItemAttribute(
     id: Int,
     name: String,
     descriptions: List(Description),
-    items: List(Affordance),
+    items: List(NamedResource),
     names: List(Name),
   )
 }
@@ -24,7 +23,7 @@ const path = "item-attribute"
 /// let result = item_attribute.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, item_attribute())
+  resource.fetch_by_id(id, path, item_attribute())
 }
 
 /// Fetches an item_attribute by the item_attribute name.
@@ -35,7 +34,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = item_attribute.fetch_by_name("countable")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, item_attribute())
+  resource.fetch_by_name(name, path, item_attribute())
 }
 
 fn item_attribute() {
@@ -50,6 +49,6 @@ fn item_attribute() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("descriptions", decode.list(of: description()))
-  |> decode.field("items", decode.list(of: affordance()))
+  |> decode.field("items", decode.list(of: named_resource()))
   |> decode.field("names", decode.list(of: name()))
 }

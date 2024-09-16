@@ -1,15 +1,14 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type ItemCategory {
   ItemCategory(
     id: Int,
     name: String,
-    items: List(Affordance),
+    items: List(NamedResource),
     names: List(Name),
-    pocket: Affordance,
+    pocket: NamedResource,
   )
 }
 
@@ -23,7 +22,7 @@ const path = "item-category"
 /// let result = item_category.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, item_category())
+  resource.fetch_by_id(id, path, item_category())
 }
 
 /// Fetches an item_category by the item_category name.
@@ -34,7 +33,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = item_category.fetch_by_name("stat-boosts")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, item_category())
+  resource.fetch_by_name(name, path, item_category())
 }
 
 fn item_category() {
@@ -48,7 +47,7 @@ fn item_category() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("items", decode.list(of: affordance()))
+  |> decode.field("items", decode.list(of: named_resource()))
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("pocket", affordance())
+  |> decode.field("pocket", named_resource())
 }

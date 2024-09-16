@@ -1,19 +1,18 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/game_index.{
-  type GameIndexGeneration, game_index_generation,
+import tallgrass/common/generation.{
+  type GenerationGameIndex, generation_game_index,
 }
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Location {
   Location(
     id: Int,
     name: String,
-    region: Affordance,
+    region: NamedResource,
     names: List(Name),
-    game_indices: List(GameIndexGeneration),
-    areas: List(Affordance),
+    game_indices: List(GenerationGameIndex),
+    areas: List(NamedResource),
   )
 }
 
@@ -27,7 +26,7 @@ const path = "location"
 /// let result = location.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, location())
+  resource.fetch_by_id(id, path, location())
 }
 
 /// Fetches a location by the location name.
@@ -38,7 +37,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = location.fetch_by_name("canalave-city")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, location())
+  resource.fetch_by_name(name, path, location())
 }
 
 fn location() {
@@ -53,8 +52,8 @@ fn location() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("region", affordance())
+  |> decode.field("region", named_resource())
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("game_indices", decode.list(of: game_index_generation()))
-  |> decode.field("areas", decode.list(of: affordance()))
+  |> decode.field("game_indices", decode.list(of: generation_game_index()))
+  |> decode.field("areas", decode.list(of: named_resource()))
 }

@@ -1,17 +1,14 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, Name, name}
+import tallgrass/common/name.{type Name, Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
-pub type Shape {
-  Shape(
+pub type PokemonShape {
+  PokemonShape(
     id: Int,
     name: String,
     names: List(Name),
     awesome_names: List(Name),
-    pokemon_species: List(Affordance),
+    pokemon_species: List(NamedResource),
   )
 }
 
@@ -25,7 +22,7 @@ const path = "pokemon-shape"
 /// let result = shape.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, shape())
+  resource.fetch_by_id(id, path, pokemon_shape())
 }
 
 /// Fetches a pokemon shape by the shape name.
@@ -36,23 +33,23 @@ pub fn fetch_by_id(id: Int) {
 /// let result = shape.fetch_by_name("ball")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, shape())
+  resource.fetch_by_name(name, path, pokemon_shape())
 }
 
-fn shape() {
+fn pokemon_shape() {
   decode.into({
     use id <- decode.parameter
     use name <- decode.parameter
     use names <- decode.parameter
     use awesome_names <- decode.parameter
     use pokemon_species <- decode.parameter
-    Shape(id, name, names, awesome_names, pokemon_species)
+    PokemonShape(id, name, names, awesome_names, pokemon_species)
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("awesome_names", decode.list(of: awesome_name()))
-  |> decode.field("pokemon_species", decode.list(of: affordance()))
+  |> decode.field("pokemon_species", decode.list(of: named_resource()))
 }
 
 fn awesome_name() {
@@ -62,5 +59,5 @@ fn awesome_name() {
     Name(name, language)
   })
   |> decode.field("awesome_name", decode.string)
-  |> decode.field("language", affordance())
+  |> decode.field("language", named_resource())
 }

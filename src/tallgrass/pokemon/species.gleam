@@ -1,12 +1,9 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
-pub type Species {
-  Species(
+pub type PokemonSpecies {
+  PokemonSpecies(
     id: Int,
     name: String,
     order: Int,
@@ -19,12 +16,12 @@ pub type Species {
     hatch_counter: Int,
     has_gender_differences: Bool,
     forms_switchable: Bool,
-    growth_rate: Affordance,
-    egg_groups: List(Affordance),
-    color: Affordance,
-    shape: Affordance,
-    evolves_from_species: Affordance,
-    generation: Affordance,
+    growth_rate: NamedResource,
+    egg_groups: List(NamedResource),
+    color: NamedResource,
+    shape: NamedResource,
+    evolves_from_species: NamedResource,
+    generation: NamedResource,
     names: List(Name),
   )
 }
@@ -39,7 +36,7 @@ const path = "pokemon-species"
 /// let result = species.fetch_by_id(132)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, species())
+  resource.fetch_by_id(id, path, pokemon_species())
 }
 
 /// Fetches a pokemon species by the species name.
@@ -50,10 +47,10 @@ pub fn fetch_by_id(id: Int) {
 /// let result = species.fetch_by_name("ditto")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, species())
+  resource.fetch_by_name(name, path, pokemon_species())
 }
 
-fn species() {
+fn pokemon_species() {
   decode.into({
     use id <- decode.parameter
     use name <- decode.parameter
@@ -74,7 +71,7 @@ fn species() {
     use evolves_from_species <- decode.parameter
     use generation <- decode.parameter
     use names <- decode.parameter
-    Species(
+    PokemonSpecies(
       id,
       name,
       order,
@@ -108,11 +105,11 @@ fn species() {
   |> decode.field("hatch_counter", decode.int)
   |> decode.field("has_gender_differences", decode.bool)
   |> decode.field("forms_switchable", decode.bool)
-  |> decode.field("growth_rate", affordance())
-  |> decode.field("egg_groups", decode.list(of: affordance()))
-  |> decode.field("color", affordance())
-  |> decode.field("shape", affordance())
-  |> decode.field("evolves_from_species", affordance())
-  |> decode.field("generation", affordance())
+  |> decode.field("growth_rate", named_resource())
+  |> decode.field("egg_groups", decode.list(of: named_resource()))
+  |> decode.field("color", named_resource())
+  |> decode.field("shape", named_resource())
+  |> decode.field("evolves_from_species", named_resource())
+  |> decode.field("generation", named_resource())
   |> decode.field("names", decode.list(of: name()))
 }

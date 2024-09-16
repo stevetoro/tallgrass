@@ -1,22 +1,19 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/name.{type Name, name}
+import tallgrass/common/name.{type Name, name}
+import tallgrass/resource.{type NamedResource, named_resource}
 
-pub type Flavor {
-  Flavor(
+pub type BerryFlavor {
+  BerryFlavor(
     id: Int,
     name: String,
-    berries: List(Berry),
-    contest_type: Affordance,
+    berries: List(FlavorBerryMap),
+    contest_type: NamedResource,
     names: List(Name),
   )
 }
 
-pub type Berry {
-  Berry(potency: Int, berry: Affordance)
+pub type FlavorBerryMap {
+  FlavorBerryMap(potency: Int, berry: NamedResource)
 }
 
 const path = "berry-flavor"
@@ -29,7 +26,7 @@ const path = "berry-flavor"
 /// let result = berry_flavor.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, flavor())
+  resource.fetch_by_id(id, path, berry_flavor())
 }
 
 /// Fetches a berry flavor by the flavor name.
@@ -40,31 +37,31 @@ pub fn fetch_by_id(id: Int) {
 /// let result = berry_flavor.fetch_by_name("spicy")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, flavor())
+  resource.fetch_by_name(name, path, berry_flavor())
 }
 
-fn flavor() {
+fn berry_flavor() {
   decode.into({
     use id <- decode.parameter
     use name <- decode.parameter
     use berries <- decode.parameter
     use contest_type <- decode.parameter
     use names <- decode.parameter
-    Flavor(id, name, berries, contest_type, names)
+    BerryFlavor(id, name, berries, contest_type, names)
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("berries", decode.list(of: berry()))
-  |> decode.field("contest_type", affordance())
+  |> decode.field("berries", decode.list(of: flavor_berry_map()))
+  |> decode.field("contest_type", named_resource())
   |> decode.field("names", decode.list(of: name()))
 }
 
-fn berry() {
+fn flavor_berry_map() {
   decode.into({
     use potency <- decode.parameter
     use berry <- decode.parameter
-    Berry(potency, berry)
+    FlavorBerryMap(potency, berry)
   })
   |> decode.field("potency", decode.int)
-  |> decode.field("berry", affordance())
+  |> decode.field("berry", named_resource())
 }

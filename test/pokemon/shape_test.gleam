@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/pokemon/shape.{type Shape}
+import tallgrass/pokemon/shape.{type PokemonShape}
 
 pub fn fetch_by_id_test() {
   shape.fetch_by_id(1) |> should.be_ok |> should_be_ball
@@ -10,7 +10,7 @@ pub fn fetch_by_name_test() {
   shape.fetch_by_name("ball") |> should.be_ok |> should_be_ball
 }
 
-fn should_be_ball(shape: Shape) {
+fn should_be_ball(shape: PokemonShape) {
   shape.id |> should.equal(1)
   shape.name |> should.equal("ball")
 

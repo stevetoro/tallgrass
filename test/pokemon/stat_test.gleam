@@ -23,15 +23,15 @@ fn should_be_attack(stat: Stat) {
   let increasing_move =
     stat.affecting_moves.increase |> list.first |> should.be_ok
   increasing_move.change |> should.equal(2)
-  increasing_move.affordance.name |> should.equal("swords-dance")
-  increasing_move.affordance.url
+  increasing_move.move.name |> should.equal("swords-dance")
+  increasing_move.move.url
   |> should.equal("https://pokeapi.co/api/v2/move/14/")
 
   let decreasing_move =
     stat.affecting_moves.decrease |> list.first |> should.be_ok
   decreasing_move.change |> should.equal(-1)
-  decreasing_move.affordance.name |> should.equal("growl")
-  decreasing_move.affordance.url
+  decreasing_move.move.name |> should.equal("growl")
+  decreasing_move.move.url
   |> should.equal("https://pokeapi.co/api/v2/move/45/")
 
   let increasing_nature =

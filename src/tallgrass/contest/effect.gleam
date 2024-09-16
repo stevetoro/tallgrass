@@ -1,7 +1,7 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{type Affordance, affordance}
-import tallgrass/internal/common/flavor_text.{type FlavorText, flavor_text}
+import tallgrass/common/effect.{type Effect, effect}
+import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
+import tallgrass/resource
 
 pub type ContestEffect {
   ContestEffect(
@@ -11,10 +11,6 @@ pub type ContestEffect {
     effect_entries: List(Effect),
     flavor_text_entries: List(FlavorText),
   )
-}
-
-pub type Effect {
-  Effect(text: String, language: Affordance)
 }
 
 const path = "contest-effect"
@@ -27,7 +23,7 @@ const path = "contest-effect"
 /// let result = contest_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, contest_effect())
+  resource.fetch_by_id(id, path, contest_effect())
 }
 
 fn contest_effect() {
@@ -44,14 +40,4 @@ fn contest_effect() {
   |> decode.field("jam", decode.int)
   |> decode.field("effect_entries", decode.list(of: effect()))
   |> decode.field("flavor_text_entries", decode.list(of: flavor_text()))
-}
-
-fn effect() {
-  decode.into({
-    use text <- decode.parameter
-    use language <- decode.parameter
-    Effect(text, language)
-  })
-  |> decode.field("effect", decode.string)
-  |> decode.field("language", affordance())
 }

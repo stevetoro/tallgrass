@@ -1,56 +1,51 @@
 import decode
-import tallgrass/fetch
-import tallgrass/internal/common/affordance.{
-  type Affordance, Affordance, affordance,
-}
-import tallgrass/internal/common/game_index.{
-  type GameIndexVersion, GameIndexVersion, game_index_version,
-}
-import tallgrass/internal/common/pokemon_type.{type Type, Type, types}
+import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
+import tallgrass/common/version.{type VersionGameIndex, version_game_index}
+import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Pokemon {
   Pokemon(
     id: Int,
     name: String,
-    abilities: List(Ability),
+    abilities: List(PokemonAbility),
     base_experience: Int,
-    cries: Cry,
-    forms: List(Affordance),
-    game_indices: List(GameIndexVersion),
+    cries: PokemonCries,
+    forms: List(NamedResource),
+    game_indices: List(VersionGameIndex),
     height: Int,
     is_default: Bool,
     location_area_encounters: String,
-    moves: List(Move),
+    moves: List(PokemonMove),
     order: Int,
-    species: Affordance,
-    stats: List(Stat),
-    types: List(Type),
+    species: NamedResource,
+    stats: List(PokemonStat),
+    types: List(PokemonType),
     weight: Int,
   )
 }
 
-pub type Ability {
-  Ability(affordance: Affordance, is_hidden: Bool, slot: Int)
+pub type PokemonAbility {
+  PokemonAbility(ability: NamedResource, is_hidden: Bool, slot: Int)
 }
 
-pub type Cry {
-  Cry(latest: String, legacy: String)
+pub type PokemonCries {
+  PokemonCries(latest: String, legacy: String)
 }
 
-pub type Move {
-  Move(affordance: Affordance, version_details: List(MoveVersionDetails))
+pub type PokemonMove {
+  PokemonMove(move: NamedResource, version_details: List(PokemonMoveVersion))
 }
 
-pub type MoveVersionDetails {
-  MoveVersionDetails(
+pub type PokemonMoveVersion {
+  PokemonMoveVersion(
     learn_level: Int,
-    learn_method: Affordance,
-    version_group: Affordance,
+    learn_method: NamedResource,
+    version_group: NamedResource,
   )
 }
 
-pub type Stat {
-  Stat(affordance: Affordance, base_stat: Int, effort: Int)
+pub type PokemonStat {
+  PokemonStat(stat: NamedResource, base_stat: Int, effort: Int)
 }
 
 const path = "pokemon"
@@ -63,7 +58,7 @@ const path = "pokemon"
 /// let result = pokemon.fetch_by_id(132)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  fetch.resource_by_id(id, path, pokemon())
+  resource.fetch_by_id(id, path, pokemon())
 }
 
 /// Fetches a pokemon by the pokemon name.
@@ -74,10 +69,10 @@ pub fn fetch_by_id(id: Int) {
 /// let result = pokemon.fetch_by_name("ditto")
 /// ```
 pub fn fetch_by_name(name: String) {
-  fetch.resource_by_name(name, path, pokemon())
+  resource.fetch_by_name(name, path, pokemon())
 }
 
-pub fn pokemon() {
+fn pokemon() {
   decode.into({
     use id <- decode.parameter
     use name <- decode.parameter
@@ -116,77 +111,77 @@ pub fn pokemon() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("abilities", decode.list(of: ability()))
+  |> decode.field("abilities", decode.list(of: pokemon_ability()))
   |> decode.field("base_experience", decode.int)
-  |> decode.field("cries", cry())
-  |> decode.field("forms", decode.list(of: affordance()))
-  |> decode.field("game_indices", decode.list(of: game_index_version()))
+  |> decode.field("cries", pokemon_cries())
+  |> decode.field("forms", decode.list(of: named_resource()))
+  |> decode.field("game_indices", decode.list(of: version_game_index()))
   |> decode.field("height", decode.int)
   |> decode.field("is_default", decode.bool)
   |> decode.field("location_area_encounters", decode.string)
-  |> decode.field("moves", decode.list(of: move()))
+  |> decode.field("moves", decode.list(of: pokemon_move()))
   |> decode.field("order", decode.int)
-  |> decode.field("species", affordance())
-  |> decode.field("stats", decode.list(of: stat()))
-  |> decode.field("types", decode.list(of: types()))
+  |> decode.field("species", named_resource())
+  |> decode.field("stats", decode.list(of: pokemon_stat()))
+  |> decode.field("types", decode.list(of: pokemon_type()))
   |> decode.field("weight", decode.int)
 }
 
-fn ability() {
+fn pokemon_ability() {
   decode.into({
     use ability <- decode.parameter
     use is_hidden <- decode.parameter
     use slot <- decode.parameter
-    Ability(ability, is_hidden, slot)
+    PokemonAbility(ability, is_hidden, slot)
   })
-  |> decode.field("ability", affordance())
+  |> decode.field("ability", named_resource())
   |> decode.field("is_hidden", decode.bool)
   |> decode.field("slot", decode.int)
 }
 
-fn cry() {
+fn pokemon_cries() {
   decode.into({
     use latest <- decode.parameter
     use legacy <- decode.parameter
-    Cry(latest, legacy)
+    PokemonCries(latest, legacy)
   })
   |> decode.field("latest", decode.string)
   |> decode.field("legacy", decode.string)
 }
 
-fn move() {
+fn pokemon_move() {
   decode.into({
     use move <- decode.parameter
     use version_details <- decode.parameter
-    Move(move, version_details)
+    PokemonMove(move, version_details)
   })
-  |> decode.field("move", affordance())
+  |> decode.field("move", named_resource())
   |> decode.field(
     "version_group_details",
-    decode.list(of: move_version_details()),
+    decode.list(of: pokemon_move_version()),
   )
 }
 
-fn move_version_details() {
+fn pokemon_move_version() {
   decode.into({
     use level_learned <- decode.parameter
     use learn_method <- decode.parameter
     use version_group <- decode.parameter
-    MoveVersionDetails(level_learned, learn_method, version_group)
+    PokemonMoveVersion(level_learned, learn_method, version_group)
   })
   |> decode.field("level_learned_at", decode.int)
-  |> decode.field("move_learn_method", affordance())
-  |> decode.field("version_group", affordance())
+  |> decode.field("move_learn_method", named_resource())
+  |> decode.field("version_group", named_resource())
 }
 
-fn stat() {
+fn pokemon_stat() {
   decode.into({
     use stat <- decode.parameter
     use base_stat <- decode.parameter
     use effort <- decode.parameter
-    Stat(stat, base_stat, effort)
+    PokemonStat(stat, base_stat, effort)
   })
-  |> decode.field("stat", affordance())
+  |> decode.field("stat", named_resource())
   |> decode.field("base_stat", decode.int)
   |> decode.field("effort", decode.int)
 }

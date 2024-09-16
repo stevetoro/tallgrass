@@ -1,5 +1,8 @@
 import decode
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
+import tallgrass/common/flavor_text.{
+  type FlavorTextVersionGroup, flavor_text_version_group,
+}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type NamedResource, named_resource}
 
@@ -11,16 +14,8 @@ pub type Ability {
     generation: NamedResource,
     names: List(Name),
     effect_entries: List(VerboseEffect),
-    flavor_text_entries: List(AbilityFlavorText),
+    flavor_text_entries: List(FlavorTextVersionGroup),
     pokemon: List(AbilityPokemon),
-  )
-}
-
-pub type AbilityFlavorText {
-  AbilityFlavorText(
-    text: String,
-    language: NamedResource,
-    version_group: NamedResource,
   )
 }
 
@@ -79,20 +74,11 @@ fn ability() {
   |> decode.field("generation", named_resource())
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("effect_entries", decode.list(of: verbose_effect()))
-  |> decode.field("flavor_text_entries", decode.list(of: ability_flavor_text()))
+  |> decode.field(
+    "flavor_text_entries",
+    decode.list(of: flavor_text_version_group()),
+  )
   |> decode.field("pokemon", decode.list(of: ability_pokemon()))
-}
-
-fn ability_flavor_text() {
-  decode.into({
-    use text <- decode.parameter
-    use language <- decode.parameter
-    use version_group <- decode.parameter
-    AbilityFlavorText(text, language, version_group)
-  })
-  |> decode.field("flavor_text", decode.string)
-  |> decode.field("language", named_resource())
-  |> decode.field("version_group", named_resource())
 }
 
 fn ability_pokemon() {

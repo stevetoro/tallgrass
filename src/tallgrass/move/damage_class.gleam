@@ -31,7 +31,7 @@ pub fn fetch_by_id(id: Int) {
 /// # Example
 ///
 /// ```gleam
-/// let result = damage_class.fetch_by_name("status")
+/// let result = damage_class.fetch_by_name("level-up")
 /// ```
 pub fn fetch_by_name(name: String) {
   resource.fetch_by_name(name, path, move_damage_class())

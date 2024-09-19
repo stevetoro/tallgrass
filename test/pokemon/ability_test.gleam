@@ -36,12 +36,18 @@ fn should_be_stench(ability: Ability) {
   effect.language.name |> should.equal("de")
   effect.language.url |> should.equal("https://pokeapi.co/api/v2/language/6/")
 
-  let flavor = ability.flavor_text_entries |> list.first |> should.be_ok
-  flavor.text |> should.equal("Helps repel wild POKéMON.")
-  flavor.language.name |> should.equal("en")
-  flavor.language.url |> should.equal("https://pokeapi.co/api/v2/language/9/")
-  flavor.version_group.name |> should.equal("ruby-sapphire")
-  flavor.version_group.url
+  let flavor_text =
+    ability.flavor_text_entries
+    |> list.filter(fn(flavor_text) { flavor_text.language.name == "en" })
+    |> list.first
+    |> should.be_ok
+
+  flavor_text.text |> should.equal("Helps repel wild POKéMON.")
+  flavor_text.language.name |> should.equal("en")
+  flavor_text.language.url
+  |> should.equal("https://pokeapi.co/api/v2/language/9/")
+  flavor_text.version_group.name |> should.equal("ruby-sapphire")
+  flavor_text.version_group.url
   |> should.equal("https://pokeapi.co/api/v2/version-group/5/")
 
   let pokemon = ability.pokemon |> list.first |> should.be_ok

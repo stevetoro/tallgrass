@@ -1,6 +1,14 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import tallgrass/pokemon.{type Pokemon}
+
+pub fn fetch_test() {
+  let response = pokemon.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  resource.name |> should.equal("bulbasaur")
+  pokemon.fetch_resource(resource) |> should.be_ok |> should_be_bulbasaur
+}
 
 pub fn fetch_by_id_test() {
   pokemon.fetch_by_id(1) |> should.be_ok |> should_be_bulbasaur

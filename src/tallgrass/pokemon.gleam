@@ -1,6 +1,8 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
 import tallgrass/common/version.{type VersionGameIndex, version_game_index}
+import tallgrass/request.{type PaginationOptions}
 import tallgrass/resource.{type NamedResource, named_resource}
 
 pub type Pokemon {
@@ -50,6 +52,32 @@ pub type PokemonStat {
 
 const path = "pokemon"
 
+/// Fetches a list of named pokemon resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = pokemon.fetch(options: None)
+/// let result = pokemon.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_named_resources(path, options)
+}
+
+/// Fetches a pokemon given a named pokemon resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(pokemon.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// pokemon.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: NamedResource) {
+  resource.fetch_named_resource(resource, using: pokemon())
+}
+
 /// Fetches a pokemon by the pokemon ID.
 ///
 /// # Example
@@ -58,7 +86,7 @@ const path = "pokemon"
 /// let result = pokemon.fetch_by_id(132)
 /// ```
 pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, pokemon())
+  resource.fetch_by_id(id, path, using: pokemon())
 }
 
 /// Fetches a pokemon by the pokemon name.
@@ -69,7 +97,7 @@ pub fn fetch_by_id(id: Int) {
 /// let result = pokemon.fetch_by_name("ditto")
 /// ```
 pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, pokemon())
+  resource.fetch_by_name(name, path, using: pokemon())
 }
 
 fn pokemon() {

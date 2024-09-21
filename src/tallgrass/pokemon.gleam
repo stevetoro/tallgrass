@@ -2,8 +2,7 @@ import decode
 import gleam/option.{type Option}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
 import tallgrass/common/version.{type VersionGameIndex, version_game_index}
-import tallgrass/request.{type PaginationOptions}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Pokemon {
   Pokemon(

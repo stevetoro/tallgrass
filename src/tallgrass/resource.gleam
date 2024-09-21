@@ -2,7 +2,7 @@ import decode.{type Decoder}
 import gleam/int.{to_string}
 import gleam/option.{type Option, None, Some}
 import gleam/string
-import tallgrass/request.{type PaginationOptions}
+import tallgrass/request
 
 pub type ResourceList {
   ResourceList(
@@ -18,18 +18,22 @@ pub type Resource {
   NamedResource(url: String, name: String)
 }
 
+pub type PaginationOptions {
+  PaginationOptions(limit: Int, offset: Int)
+}
+
 pub fn fetch_by_id(id: Int, path: String, using decoder: Decoder(t)) {
   let path = path_from(Some(id |> to_string), path)
-  request.get(path, None, decoder: decoder)
+  request.get(path, [], decoder: decoder)
 }
 
 pub fn fetch_by_name(name: String, path: String, using decoder: Decoder(t)) {
   let path = path_from(Some(name), path)
-  request.get(path, None, decoder: decoder)
+  request.get(path, [], decoder: decoder)
 }
 
 pub fn fetch_resources(path: String, options: Option(PaginationOptions)) {
-  request.get(path, options, decoder: resource_list())
+  request.get(path, options |> unwrap, decoder: resource_list())
 }
 
 pub fn fetch_resource(resource: Resource, using decoder: Decoder(t)) {
@@ -84,4 +88,18 @@ fn path_from(resource: Option(String), path: String) {
     Some(r), _ -> path <> "/" <> r
     None, _ -> split_path |> string.join(with: "/")
   }
+}
+
+fn unwrap(options: Option(PaginationOptions)) {
+  case options {
+    Some(options) -> query(from: options)
+    None -> []
+  }
+}
+
+fn query(from options: PaginationOptions) {
+  [
+    #("limit", options.limit |> to_string),
+    #("offset", options.offset |> to_string),
+  ]
 }

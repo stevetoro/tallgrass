@@ -1,10 +1,10 @@
 import gleam/list
 import gleam/option.{None, Some}
 import gleeunit/should
-import tallgrass/request.{
-  type PaginationOptions, NoNextPage, NoPreviousPage, PaginationOptions,
+import tallgrass/request.{NoNextPage, NoPreviousPage}
+import tallgrass/resource.{
+  type PaginationOptions, NamedResource, PaginationOptions, next, previous,
 }
-import tallgrass/resource.{NamedResource, next, previous}
 
 pub fn pagination_test() {
   let options = PaginationOptions(limit: 3, offset: 2)

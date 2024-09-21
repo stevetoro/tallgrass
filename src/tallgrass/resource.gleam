@@ -2,7 +2,7 @@ import decode.{type Decoder}
 import gleam/int.{to_string}
 import gleam/option.{type Option, None, Some}
 import gleam/string
-import tallgrass/request.{type Error, type PaginationOptions}
+import tallgrass/request.{type PaginationOptions}
 
 pub fn fetch_by_id(id: Int, path: String, using decoder: Decoder(a)) {
   let path = path_from(Some(id |> to_string), path)
@@ -14,9 +14,10 @@ pub fn fetch_by_name(name: String, path: String, using decoder: Decoder(a)) {
   request.get(path, None, decoder: decoder)
 }
 
-// pub type ResourceLists {
-//   NamedResourceList
-// }
+// TODO:
+// it would be really nice to simplify API resources using union types,
+// but only if it's not at the expense of the consumer. i.e. having to make
+// additional pattern matches just to get the "optional" name of a resource.
 
 pub type NamedResourceList {
   NamedResourceList(
@@ -39,15 +40,11 @@ pub fn fetch_named_resource(resource: NamedResource, using decoder: Decoder(a)) 
   request.get_url(resource.url, decoder: decoder)
 }
 
-pub fn next_named_resource_page(
-  page: NamedResourceList,
-) -> Result(NamedResourceList, Error) {
+pub fn next_named_resource_page(page: NamedResourceList) {
   request.next(page.next, decoder: named_resource_list())
 }
 
-pub fn previous_named_resource_page(
-  page: NamedResourceList,
-) -> Result(NamedResourceList, Error) {
+pub fn previous_named_resource_page(page: NamedResourceList) {
   request.previous(page.previous, decoder: named_resource_list())
 }
 
@@ -68,20 +65,16 @@ pub fn fetch_resources(path: String, options: Option(PaginationOptions)) {
   request.get(path, options, decoder: resource_list())
 }
 
-pub fn fetch_resource(resource: NamedResource, using decoder: Decoder(a)) {
+pub fn fetch_resource(resource: Resource, using decoder: Decoder(a)) {
   request.get_url(resource.url, decoder: decoder)
 }
 
-pub fn next_resource_page(
-  page: NamedResourceList,
-) -> Result(NamedResourceList, Error) {
-  request.next(page.next, decoder: named_resource_list())
+pub fn next_resource_page(page: ResourceList) {
+  request.next(page.next, decoder: resource_list())
 }
 
-pub fn previous_resource_page(
-  page: NamedResourceList,
-) -> Result(NamedResourceList, Error) {
-  request.previous(page.previous, decoder: named_resource_list())
+pub fn previous_resource_page(page: ResourceList) {
+  request.previous(page.previous, decoder: resource_list())
 }
 
 @internal

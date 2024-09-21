@@ -1,6 +1,7 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/berry.{type Berry}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   berry.fetch_by_id(1) |> should.be_ok |> should_be_cheri
@@ -20,20 +21,22 @@ fn should_be_cheri(berry: Berry) {
   berry.smoothness |> should.equal(25)
   berry.soil_dryness |> should.equal(15)
 
-  berry.firmness.name |> should.equal("soft")
-  berry.firmness.url
-  |> should.equal("https://pokeapi.co/api/v2/berry-firmness/2/")
+  let assert NamedResource(url, name) = berry.firmness
+  name |> should.equal("soft")
+  url |> should.equal("https://pokeapi.co/api/v2/berry-firmness/2/")
 
   let flavor = berry.flavors |> list.first |> should.be_ok
   flavor.potency |> should.equal(10)
-  flavor.flavor.name |> should.equal("spicy")
-  flavor.flavor.url |> should.equal("https://pokeapi.co/api/v2/berry-flavor/1/")
 
-  berry.item.name |> should.equal("cheri-berry")
-  berry.item.url
-  |> should.equal("https://pokeapi.co/api/v2/item/126/")
+  let assert NamedResource(url, name) = flavor.flavor
+  name |> should.equal("spicy")
+  url |> should.equal("https://pokeapi.co/api/v2/berry-flavor/1/")
 
-  berry.natural_gift_type.name |> should.equal("fire")
-  berry.natural_gift_type.url
-  |> should.equal("https://pokeapi.co/api/v2/type/10/")
+  let assert NamedResource(url, name) = berry.item
+  name |> should.equal("cheri-berry")
+  url |> should.equal("https://pokeapi.co/api/v2/item/126/")
+
+  let assert NamedResource(url, name) = berry.natural_gift_type
+  name |> should.equal("fire")
+  url |> should.equal("https://pokeapi.co/api/v2/type/10/")
 }

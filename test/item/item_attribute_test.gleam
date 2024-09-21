@@ -1,6 +1,8 @@
 import gleam/list
 import gleeunit/should
+import helpers.{should_have_english_name}
 import tallgrass/item/attribute.{type ItemAttribute}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   attribute.fetch_by_id(1) |> should.be_ok |> should_be_countable
@@ -16,16 +18,16 @@ fn should_be_countable(attribute: ItemAttribute) {
 
   let description = attribute.descriptions |> list.first |> should.be_ok
   description.text |> should.equal("Has a count in the bag")
-  description.language.name |> should.equal("en")
-  description.language.url
-  |> should.equal("https://pokeapi.co/api/v2/language/9/")
 
-  let item = attribute.items |> list.first |> should.be_ok
-  item.name |> should.equal("master-ball")
-  item.url |> should.equal("https://pokeapi.co/api/v2/item/1/")
+  let assert NamedResource(url, name) = description.language
+  name |> should.equal("en")
+  url |> should.equal("https://pokeapi.co/api/v2/language/9/")
 
-  let name = attribute.names |> list.first |> should.be_ok
+  let assert NamedResource(url, name) =
+    attribute.items |> list.first |> should.be_ok
+  name |> should.equal("master-ball")
+  url |> should.equal("https://pokeapi.co/api/v2/item/1/")
+
+  let name = attribute.names |> should_have_english_name
   name.name |> should.equal("Countable")
-  name.language.name |> should.equal("en")
-  name.language.url |> should.equal("https://pokeapi.co/api/v2/language/9/")
 }

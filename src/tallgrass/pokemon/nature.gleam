@@ -1,16 +1,16 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Nature {
   Nature(
     id: Int,
     name: String,
-    decreased_stat: Option(NamedResource),
-    increased_stat: Option(NamedResource),
-    likes_flavor: Option(NamedResource),
-    hates_flavor: Option(NamedResource),
+    decreased_stat: Option(Resource),
+    increased_stat: Option(Resource),
+    likes_flavor: Option(Resource),
+    hates_flavor: Option(Resource),
     pokeathlon_stat_changes: List(NatureStatChange),
     move_battle_style_preferences: List(MoveBattleStylePreference),
     names: List(Name),
@@ -18,14 +18,14 @@ pub type Nature {
 }
 
 pub type NatureStatChange {
-  NatureStatChange(max_change: Int, pokeathlon_stat: NamedResource)
+  NatureStatChange(max_change: Int, pokeathlon_stat: Resource)
 }
 
 pub type MoveBattleStylePreference {
   MoveBattleStylePreference(
     low_hp_preference: Int,
     high_hp_preference: Int,
-    move_battle_style: NamedResource,
+    move_battle_style: Resource,
   )
 }
 
@@ -78,10 +78,10 @@ fn nature() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("decreased_stat", decode.optional(named_resource()))
-  |> decode.field("increased_stat", decode.optional(named_resource()))
-  |> decode.field("likes_flavor", decode.optional(named_resource()))
-  |> decode.field("hates_flavor", decode.optional(named_resource()))
+  |> decode.field("decreased_stat", decode.optional(resource()))
+  |> decode.field("increased_stat", decode.optional(resource()))
+  |> decode.field("likes_flavor", decode.optional(resource()))
+  |> decode.field("hates_flavor", decode.optional(resource()))
   |> decode.field(
     "pokeathlon_stat_changes",
     decode.list(of: nature_stat_change()),
@@ -100,7 +100,7 @@ fn nature_stat_change() {
     NatureStatChange(max_change, pokeathlon_stat)
   })
   |> decode.field("max_change", decode.int)
-  |> decode.field("pokeathlon_stat", named_resource())
+  |> decode.field("pokeathlon_stat", resource())
 }
 
 fn move_battle_style_preference() {
@@ -116,5 +116,5 @@ fn move_battle_style_preference() {
   })
   |> decode.field("low_hp_preference", decode.int)
   |> decode.field("high_hp_preference", decode.int)
-  |> decode.field("move_battle_style", named_resource())
+  |> decode.field("move_battle_style", resource())
 }

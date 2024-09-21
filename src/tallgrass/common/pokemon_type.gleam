@@ -1,8 +1,8 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type PokemonType {
-  PokemonType(slot: Int, pokemon_type: NamedResource)
+  PokemonType(slot: Int, pokemon_type: Resource)
 }
 
 @internal
@@ -13,5 +13,5 @@ pub fn pokemon_type() {
     PokemonType(slot, pokemon_type)
   })
   |> decode.field("slot", decode.int)
-  |> decode.field("type", named_resource())
+  |> decode.field("type", resource())
 }

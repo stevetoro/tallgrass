@@ -5,9 +5,7 @@ import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{
-  type NamedResource, type Resource, named_resource, resource,
-}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Move {
   Move(
@@ -18,16 +16,16 @@ pub type Move {
     pp: Int,
     priority: Int,
     power: Int,
-    contest_type: NamedResource,
+    contest_type: Resource,
     contest_effect: Resource,
-    damage_class: NamedResource,
+    damage_class: Resource,
     effect_entries: List(VerboseEffect),
-    generation: NamedResource,
+    generation: Resource,
     names: List(Name),
     super_contest_effect: Resource,
-    target: NamedResource,
-    pokemon_type: NamedResource,
-    learned_by_pokemon: List(NamedResource),
+    target: Resource,
+    pokemon_type: Resource,
+    learned_by_pokemon: List(Resource),
     flavor_text_entries: List(FlavorTextVersionGroup),
   )
 }
@@ -104,16 +102,16 @@ fn move() {
   |> decode.field("pp", decode.int)
   |> decode.field("priority", decode.int)
   |> decode.field("power", decode.int)
-  |> decode.field("contest_type", named_resource())
+  |> decode.field("contest_type", resource())
   |> decode.field("contest_effect", resource())
-  |> decode.field("damage_class", named_resource())
+  |> decode.field("damage_class", resource())
   |> decode.field("effect_entries", decode.list(of: verbose_effect()))
-  |> decode.field("generation", named_resource())
+  |> decode.field("generation", resource())
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("super_contest_effect", resource())
-  |> decode.field("target", named_resource())
-  |> decode.field("type", named_resource())
-  |> decode.field("learned_by_pokemon", decode.list(of: named_resource()))
+  |> decode.field("target", resource())
+  |> decode.field("type", resource())
+  |> decode.field("learned_by_pokemon", decode.list(of: resource()))
   |> decode.field(
     "flavor_text_entries",
     decode.list(of: flavor_text_version_group()),

@@ -3,7 +3,7 @@ import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type PokemonType {
   PokemonType(
@@ -12,34 +12,34 @@ pub type PokemonType {
     damage_relations: PokemonTypeDamageRelations,
     past_damage_relations: List(PokemonTypeDamageRelationsPast),
     game_indices: List(GenerationGameIndex),
-    generation: NamedResource,
-    move_damage_class: NamedResource,
+    generation: Resource,
+    move_damage_class: Resource,
     names: List(Name),
     pokemon: List(TypePokemon),
-    moves: List(NamedResource),
+    moves: List(Resource),
   )
 }
 
 pub type PokemonTypeDamageRelationsPast {
   PokemonTypeDamageRelationsPast(
-    generation: NamedResource,
+    generation: Resource,
     damage_relations: PokemonTypeDamageRelations,
   )
 }
 
 pub type PokemonTypeDamageRelations {
   PokemonTypeDamageRelations(
-    no_damage_to: List(NamedResource),
-    half_damage_to: List(NamedResource),
-    double_damage_to: List(NamedResource),
-    no_damage_from: List(NamedResource),
-    half_damage_from: List(NamedResource),
-    double_damage_from: List(NamedResource),
+    no_damage_to: List(Resource),
+    half_damage_to: List(Resource),
+    double_damage_to: List(Resource),
+    no_damage_from: List(Resource),
+    half_damage_from: List(Resource),
+    double_damage_from: List(Resource),
   )
 }
 
 pub type TypePokemon {
-  TypePokemon(slot: Int, pokemon: NamedResource)
+  TypePokemon(slot: Int, pokemon: Resource)
 }
 
 const path = "type"
@@ -99,11 +99,11 @@ fn pokemon_type() {
     decode.list(of: pokemon_type_damage_relations_past()),
   )
   |> decode.field("game_indices", decode.list(of: generation_game_index()))
-  |> decode.field("generation", named_resource())
-  |> decode.field("move_damage_class", named_resource())
+  |> decode.field("generation", resource())
+  |> decode.field("move_damage_class", resource())
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("pokemon", decode.list(of: type_pokemon()))
-  |> decode.field("moves", decode.list(of: named_resource()))
+  |> decode.field("moves", decode.list(of: resource()))
 }
 
 fn pokemon_type_damage_relations_past() {
@@ -112,7 +112,7 @@ fn pokemon_type_damage_relations_past() {
     use damage_relations <- decode.parameter
     PokemonTypeDamageRelationsPast(generation, damage_relations)
   })
-  |> decode.field("generation", named_resource())
+  |> decode.field("generation", resource())
   |> decode.field("damage_relations", pokemon_type_damage_relations())
 }
 
@@ -133,12 +133,12 @@ fn pokemon_type_damage_relations() {
       double_damage_from,
     )
   })
-  |> decode.field("no_damage_to", decode.list(of: named_resource()))
-  |> decode.field("half_damage_to", decode.list(of: named_resource()))
-  |> decode.field("double_damage_to", decode.list(of: named_resource()))
-  |> decode.field("no_damage_from", decode.list(of: named_resource()))
-  |> decode.field("half_damage_from", decode.list(of: named_resource()))
-  |> decode.field("double_damage_from", decode.list(of: named_resource()))
+  |> decode.field("no_damage_to", decode.list(of: resource()))
+  |> decode.field("half_damage_to", decode.list(of: resource()))
+  |> decode.field("double_damage_to", decode.list(of: resource()))
+  |> decode.field("no_damage_from", decode.list(of: resource()))
+  |> decode.field("half_damage_from", decode.list(of: resource()))
+  |> decode.field("double_damage_from", decode.list(of: resource()))
 }
 
 fn type_pokemon() {
@@ -148,5 +148,5 @@ fn type_pokemon() {
     TypePokemon(slot, pokemon)
   })
   |> decode.field("slot", decode.int)
-  |> decode.field("pokemon", named_resource())
+  |> decode.field("pokemon", resource())
 }

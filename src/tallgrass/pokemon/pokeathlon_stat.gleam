@@ -1,6 +1,6 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type PokeathlonStat {
   PokeathlonStat(
@@ -19,7 +19,7 @@ pub type NaturePokeathlonStatAffectSets {
 }
 
 pub type NaturePokeathlonStatAffect {
-  NaturePokeathlonStatAffect(max_change: Int, nature: NamedResource)
+  NaturePokeathlonStatAffect(max_change: Int, nature: Resource)
 }
 
 const path = "pokeathlon-stat"
@@ -77,5 +77,5 @@ fn nature_pokeathlon_stat_affect() {
     NaturePokeathlonStatAffect(max_change, nature)
   })
   |> decode.field("max_change", decode.int)
-  |> decode.field("nature", named_resource())
+  |> decode.field("nature", resource())
 }

@@ -1,8 +1,8 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Effect {
-  Effect(effect: String, language: NamedResource)
+  Effect(effect: String, language: Resource)
 }
 
 @internal
@@ -13,11 +13,11 @@ pub fn effect() {
     Effect(effect, language)
   })
   |> decode.field("effect", decode.string)
-  |> decode.field("language", named_resource())
+  |> decode.field("language", resource())
 }
 
 pub type VerboseEffect {
-  VerboseEffect(effect: String, short_effect: String, language: NamedResource)
+  VerboseEffect(effect: String, short_effect: String, language: Resource)
 }
 
 @internal
@@ -30,5 +30,5 @@ pub fn verbose_effect() {
   })
   |> decode.field("effect", decode.string)
   |> decode.field("short_effect", decode.string)
-  |> decode.field("language", named_resource())
+  |> decode.field("language", resource())
 }

@@ -1,6 +1,6 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type PokemonSpecies {
   PokemonSpecies(
@@ -16,12 +16,12 @@ pub type PokemonSpecies {
     hatch_counter: Int,
     has_gender_differences: Bool,
     forms_switchable: Bool,
-    growth_rate: NamedResource,
-    egg_groups: List(NamedResource),
-    color: NamedResource,
-    shape: NamedResource,
-    evolves_from_species: NamedResource,
-    generation: NamedResource,
+    growth_rate: Resource,
+    egg_groups: List(Resource),
+    color: Resource,
+    shape: Resource,
+    evolves_from_species: Resource,
+    generation: Resource,
     names: List(Name),
   )
 }
@@ -105,11 +105,11 @@ fn pokemon_species() {
   |> decode.field("hatch_counter", decode.int)
   |> decode.field("has_gender_differences", decode.bool)
   |> decode.field("forms_switchable", decode.bool)
-  |> decode.field("growth_rate", named_resource())
-  |> decode.field("egg_groups", decode.list(of: named_resource()))
-  |> decode.field("color", named_resource())
-  |> decode.field("shape", named_resource())
-  |> decode.field("evolves_from_species", named_resource())
-  |> decode.field("generation", named_resource())
+  |> decode.field("growth_rate", resource())
+  |> decode.field("egg_groups", decode.list(of: resource()))
+  |> decode.field("color", resource())
+  |> decode.field("shape", resource())
+  |> decode.field("evolves_from_species", resource())
+  |> decode.field("generation", resource())
   |> decode.field("names", decode.list(of: name()))
 }

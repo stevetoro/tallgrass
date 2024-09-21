@@ -1,6 +1,6 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 // TODO: Add support for encounter_method_rates and pokemon_encounters.
 
@@ -9,7 +9,7 @@ pub type LocationArea {
     id: Int,
     name: String,
     game_index: Int,
-    location: NamedResource,
+    location: Resource,
     names: List(Name),
   )
 }
@@ -50,6 +50,6 @@ fn location_area() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("game_index", decode.int)
-  |> decode.field("location", named_resource())
+  |> decode.field("location", resource())
   |> decode.field("names", decode.list(of: name()))
 }

@@ -3,7 +3,7 @@ import gleam/option.{type Option}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
 import tallgrass/common/version.{type VersionGameIndex, version_game_index}
 import tallgrass/request.{type PaginationOptions}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Pokemon {
   Pokemon(
@@ -12,14 +12,14 @@ pub type Pokemon {
     abilities: List(PokemonAbility),
     base_experience: Int,
     cries: PokemonCries,
-    forms: List(NamedResource),
+    forms: List(Resource),
     game_indices: List(VersionGameIndex),
     height: Int,
     is_default: Bool,
     location_area_encounters: String,
     moves: List(PokemonMove),
     order: Int,
-    species: NamedResource,
+    species: Resource,
     stats: List(PokemonStat),
     types: List(PokemonType),
     weight: Int,
@@ -27,7 +27,7 @@ pub type Pokemon {
 }
 
 pub type PokemonAbility {
-  PokemonAbility(ability: NamedResource, is_hidden: Bool, slot: Int)
+  PokemonAbility(ability: Resource, is_hidden: Bool, slot: Int)
 }
 
 pub type PokemonCries {
@@ -35,19 +35,19 @@ pub type PokemonCries {
 }
 
 pub type PokemonMove {
-  PokemonMove(move: NamedResource, version_details: List(PokemonMoveVersion))
+  PokemonMove(move: Resource, version_details: List(PokemonMoveVersion))
 }
 
 pub type PokemonMoveVersion {
   PokemonMoveVersion(
     learn_level: Int,
-    learn_method: NamedResource,
-    version_group: NamedResource,
+    learn_method: Resource,
+    version_group: Resource,
   )
 }
 
 pub type PokemonStat {
-  PokemonStat(stat: NamedResource, base_stat: Int, effort: Int)
+  PokemonStat(stat: Resource, base_stat: Int, effort: Int)
 }
 
 const path = "pokemon"
@@ -62,7 +62,7 @@ const path = "pokemon"
 /// let result = pokemon.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
 pub fn fetch(options options: Option(PaginationOptions)) {
-  resource.fetch_named_resources(path, options)
+  resource.fetch_resources(path, options)
 }
 
 /// Fetches a pokemon given a named pokemon resource.
@@ -74,8 +74,8 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// let assert Ok(first) = res.results |> list.first
 /// pokemon.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: NamedResource) {
-  resource.fetch_named_resource(resource, using: pokemon())
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pokemon())
 }
 
 /// Fetches a pokemon by the pokemon ID.
@@ -142,14 +142,14 @@ fn pokemon() {
   |> decode.field("abilities", decode.list(of: pokemon_ability()))
   |> decode.field("base_experience", decode.int)
   |> decode.field("cries", pokemon_cries())
-  |> decode.field("forms", decode.list(of: named_resource()))
+  |> decode.field("forms", decode.list(of: resource()))
   |> decode.field("game_indices", decode.list(of: version_game_index()))
   |> decode.field("height", decode.int)
   |> decode.field("is_default", decode.bool)
   |> decode.field("location_area_encounters", decode.string)
   |> decode.field("moves", decode.list(of: pokemon_move()))
   |> decode.field("order", decode.int)
-  |> decode.field("species", named_resource())
+  |> decode.field("species", resource())
   |> decode.field("stats", decode.list(of: pokemon_stat()))
   |> decode.field("types", decode.list(of: pokemon_type()))
   |> decode.field("weight", decode.int)
@@ -162,7 +162,7 @@ fn pokemon_ability() {
     use slot <- decode.parameter
     PokemonAbility(ability, is_hidden, slot)
   })
-  |> decode.field("ability", named_resource())
+  |> decode.field("ability", resource())
   |> decode.field("is_hidden", decode.bool)
   |> decode.field("slot", decode.int)
 }
@@ -183,7 +183,7 @@ fn pokemon_move() {
     use version_details <- decode.parameter
     PokemonMove(move, version_details)
   })
-  |> decode.field("move", named_resource())
+  |> decode.field("move", resource())
   |> decode.field(
     "version_group_details",
     decode.list(of: pokemon_move_version()),
@@ -198,8 +198,8 @@ fn pokemon_move_version() {
     PokemonMoveVersion(level_learned, learn_method, version_group)
   })
   |> decode.field("level_learned_at", decode.int)
-  |> decode.field("move_learn_method", named_resource())
-  |> decode.field("version_group", named_resource())
+  |> decode.field("move_learn_method", resource())
+  |> decode.field("version_group", resource())
 }
 
 fn pokemon_stat() {
@@ -209,7 +209,7 @@ fn pokemon_stat() {
     use effort <- decode.parameter
     PokemonStat(stat, base_stat, effort)
   })
-  |> decode.field("stat", named_resource())
+  |> decode.field("stat", resource())
   |> decode.field("base_stat", decode.int)
   |> decode.field("effort", decode.int)
 }

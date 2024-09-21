@@ -1,12 +1,12 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type ItemPocket {
   ItemPocket(
     id: Int,
     name: String,
-    categories: List(NamedResource),
+    categories: List(Resource),
     names: List(Name),
   )
 }
@@ -45,6 +45,6 @@ fn item_pocket() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("categories", decode.list(of: named_resource()))
+  |> decode.field("categories", decode.list(of: resource()))
   |> decode.field("names", decode.list(of: name()))
 }

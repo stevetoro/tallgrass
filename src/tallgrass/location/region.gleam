@@ -1,16 +1,16 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Region {
   Region(
     id: Int,
     name: String,
-    locations: List(NamedResource),
-    main_generation: NamedResource,
+    locations: List(Resource),
+    main_generation: Resource,
     names: List(Name),
-    pokedexes: List(NamedResource),
-    version_groups: List(NamedResource),
+    pokedexes: List(Resource),
+    version_groups: List(Resource),
   )
 }
 
@@ -59,9 +59,9 @@ fn region() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("locations", decode.list(of: named_resource()))
-  |> decode.field("main_generation", named_resource())
+  |> decode.field("locations", decode.list(of: resource()))
+  |> decode.field("main_generation", resource())
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("pokedexes", decode.list(of: named_resource()))
-  |> decode.field("version_groups", decode.list(of: named_resource()))
+  |> decode.field("pokedexes", decode.list(of: resource()))
+  |> decode.field("version_groups", decode.list(of: resource()))
 }

@@ -1,6 +1,6 @@
 import decode
 import tallgrass/common/name.{type Name, Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type PokemonShape {
   PokemonShape(
@@ -8,7 +8,7 @@ pub type PokemonShape {
     name: String,
     names: List(Name),
     awesome_names: List(Name),
-    pokemon_species: List(NamedResource),
+    pokemon_species: List(Resource),
   )
 }
 
@@ -49,7 +49,7 @@ fn pokemon_shape() {
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("awesome_names", decode.list(of: awesome_name()))
-  |> decode.field("pokemon_species", decode.list(of: named_resource()))
+  |> decode.field("pokemon_species", decode.list(of: resource()))
 }
 
 fn awesome_name() {
@@ -59,5 +59,5 @@ fn awesome_name() {
     Name(name, language)
   })
   |> decode.field("awesome_name", decode.string)
-  |> decode.field("language", named_resource())
+  |> decode.field("language", resource())
 }

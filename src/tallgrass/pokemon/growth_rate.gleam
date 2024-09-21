@@ -1,6 +1,6 @@
 import decode
 import tallgrass/common/description.{type Description, description}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type GrowthRate {
   GrowthRate(
@@ -9,7 +9,7 @@ pub type GrowthRate {
     formula: String,
     descriptions: List(Description),
     levels: List(GrowthRateExperienceLevel),
-    pokemon_species: List(NamedResource),
+    pokemon_species: List(Resource),
   )
 }
 
@@ -56,7 +56,7 @@ fn growth_rate() {
   |> decode.field("formula", decode.string)
   |> decode.field("descriptions", decode.list(of: description()))
   |> decode.field("levels", decode.list(of: growth_rate_experience_level()))
-  |> decode.field("pokemon_species", decode.list(of: named_resource()))
+  |> decode.field("pokemon_species", decode.list(of: resource()))
 }
 
 fn growth_rate_experience_level() {

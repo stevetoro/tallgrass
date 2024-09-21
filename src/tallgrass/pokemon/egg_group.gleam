@@ -1,13 +1,13 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type EggGroup {
   EggGroup(
     id: Int,
     name: String,
     names: List(Name),
-    pokemon_species: List(NamedResource),
+    pokemon_species: List(Resource),
   )
 }
 
@@ -46,5 +46,5 @@ fn egg_group() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("pokemon_species", decode.list(of: named_resource()))
+  |> decode.field("pokemon_species", decode.list(of: resource()))
 }

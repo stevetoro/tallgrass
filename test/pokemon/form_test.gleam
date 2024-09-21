@@ -1,6 +1,7 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/pokemon/form.{type PokemonForm}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   form.fetch_by_id(10_041) |> should.be_ok |> should_be_arceus_bug
@@ -20,16 +21,18 @@ fn should_be_arceus_bug(form: PokemonForm) {
   form.is_mega |> should.be_false
   form.form_name |> should.equal("bug")
 
-  form.pokemon.name |> should.equal("arceus")
-  form.pokemon.url |> should.equal("https://pokeapi.co/api/v2/pokemon/493/")
+  let assert NamedResource(url, name) = form.pokemon
+  name |> should.equal("arceus")
+  url |> should.equal("https://pokeapi.co/api/v2/pokemon/493/")
 
   let pokemon_type = form.types |> list.first |> should.be_ok
   pokemon_type.slot |> should.equal(1)
-  pokemon_type.pokemon_type.name |> should.equal("bug")
-  pokemon_type.pokemon_type.url
-  |> should.equal("https://pokeapi.co/api/v2/type/7/")
 
-  form.version_group.name |> should.equal("diamond-pearl")
-  form.version_group.url
-  |> should.equal("https://pokeapi.co/api/v2/version-group/8/")
+  let assert NamedResource(url, name) = pokemon_type.pokemon_type
+  name |> should.equal("bug")
+  url |> should.equal("https://pokeapi.co/api/v2/type/7/")
+
+  let assert NamedResource(url, name) = form.version_group
+  name |> should.equal("diamond-pearl")
+  url |> should.equal("https://pokeapi.co/api/v2/version-group/8/")
 }

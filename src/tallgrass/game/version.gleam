@@ -1,14 +1,9 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Version {
-  Version(
-    id: Int,
-    name: String,
-    names: List(Name),
-    version_group: NamedResource,
-  )
+  Version(id: Int, name: String, names: List(Name), version_group: Resource)
 }
 
 const path = "version"
@@ -46,5 +41,5 @@ fn version() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("version_group", named_resource())
+  |> decode.field("version_group", resource())
 }

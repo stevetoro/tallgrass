@@ -1,5 +1,5 @@
-import gleam/list
 import gleeunit/should
+import helpers.{should_have_english_name}
 import tallgrass/encounter/method.{type EncounterMethod}
 
 pub fn fetch_by_id_test() {
@@ -15,8 +15,7 @@ fn should_be_walk(encounter_method: EncounterMethod) {
   encounter_method.name |> should.equal("walk")
   encounter_method.order |> should.equal(1)
 
-  let name = encounter_method.names |> list.first |> should.be_ok
-  name.name |> should.equal("Im hohen Gras oder in einer Höhle laufen")
-  name.language.name |> should.equal("de")
-  name.language.url |> should.equal("https://pokeapi.co/api/v2/language/6/")
+  let name = encounter_method.names |> should_have_english_name
+  name.name |> should.equal("Walking in tall grass or a cave")
+  
 }

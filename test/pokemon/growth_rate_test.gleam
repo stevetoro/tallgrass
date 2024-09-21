@@ -1,6 +1,7 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/pokemon/growth_rate.{type GrowthRate}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   growth_rate.fetch_by_id(1) |> should.be_ok |> should_be_slow
@@ -17,15 +18,17 @@ fn should_be_slow(growth_rate: GrowthRate) {
 
   let description = growth_rate.descriptions |> list.first |> should.be_ok
   description.text |> should.equal("lente")
-  description.language.name |> should.equal("fr")
-  description.language.url
-  |> should.equal("https://pokeapi.co/api/v2/language/5/")
+
+  let assert NamedResource(url, name) = description.language
+  name |> should.equal("fr")
+  url |> should.equal("https://pokeapi.co/api/v2/language/5/")
 
   let level = growth_rate.levels |> list.first |> should.be_ok
   level.level |> should.equal(1)
   level.experience |> should.equal(0)
 
-  let species = growth_rate.pokemon_species |> list.first |> should.be_ok
-  species.name |> should.equal("growlithe")
-  species.url |> should.equal("https://pokeapi.co/api/v2/pokemon-species/58/")
+  let assert NamedResource(url, name) =
+    growth_rate.pokemon_species |> list.first |> should.be_ok
+  name |> should.equal("growlithe")
+  url |> should.equal("https://pokeapi.co/api/v2/pokemon-species/58/")
 }

@@ -1,9 +1,9 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type PokemonLocationArea {
   PokemonLocationArea(
-    location_area: NamedResource,
+    location_area: Resource,
     version_details: List(VersionDetail),
   )
 }
@@ -12,7 +12,7 @@ pub type VersionDetail {
   VersionDetail(
     max_chance: Int,
     encounter_details: List(EncounterDetail),
-    version: NamedResource,
+    version: Resource,
   )
 }
 
@@ -21,8 +21,8 @@ pub type EncounterDetail {
     min_level: Int,
     max_level: Int,
     chance: Int,
-    method: NamedResource,
-    condition_values: List(NamedResource),
+    method: Resource,
+    condition_values: List(Resource),
   )
 }
 
@@ -56,7 +56,7 @@ fn pokemon_location_area() {
     use version_details <- decode.parameter
     PokemonLocationArea(location_area, version_details)
   })
-  |> decode.field("location_area", named_resource())
+  |> decode.field("location_area", resource())
   |> decode.field("version_details", decode.list(of: version_detail()))
 }
 
@@ -69,7 +69,7 @@ fn version_detail() {
   })
   |> decode.field("max_chance", decode.int)
   |> decode.field("encounter_details", decode.list(of: encounter_detail()))
-  |> decode.field("version", named_resource())
+  |> decode.field("version", resource())
 }
 
 fn encounter_detail() {
@@ -84,6 +84,6 @@ fn encounter_detail() {
   |> decode.field("min_level", decode.int)
   |> decode.field("max_level", decode.int)
   |> decode.field("chance", decode.int)
-  |> decode.field("method", named_resource())
-  |> decode.field("condition_values", decode.list(of: named_resource()))
+  |> decode.field("method", resource())
+  |> decode.field("condition_values", decode.list(of: resource()))
 }

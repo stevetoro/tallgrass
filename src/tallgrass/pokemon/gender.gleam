@@ -1,17 +1,17 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Gender {
   Gender(
     id: Int,
     name: String,
     pokemon_species_details: List(PokemonSpeciesGender),
-    required_for_evolution: List(NamedResource),
+    required_for_evolution: List(Resource),
   )
 }
 
 pub type PokemonSpeciesGender {
-  PokemonSpeciesGender(rate: Int, pokemon_species: NamedResource)
+  PokemonSpeciesGender(rate: Int, pokemon_species: Resource)
 }
 
 const path = "gender"
@@ -52,7 +52,7 @@ fn gender() {
     "pokemon_species_details",
     decode.list(of: pokemon_species_gender()),
   )
-  |> decode.field("required_for_evolution", decode.list(of: named_resource()))
+  |> decode.field("required_for_evolution", decode.list(of: resource()))
 }
 
 fn pokemon_species_gender() {
@@ -62,5 +62,5 @@ fn pokemon_species_gender() {
     PokemonSpeciesGender(rate, species)
   })
   |> decode.field("rate", decode.int)
-  |> decode.field("pokemon_species", named_resource())
+  |> decode.field("pokemon_species", resource())
 }

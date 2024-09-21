@@ -1,8 +1,8 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type VersionGameIndex {
-  VersionGameIndex(index: Int, version: NamedResource)
+  VersionGameIndex(index: Int, version: Resource)
 }
 
 @internal
@@ -13,5 +13,5 @@ pub fn version_game_index() {
     VersionGameIndex(index, version)
   })
   |> decode.field("game_index", decode.int)
-  |> decode.field("version", named_resource())
+  |> decode.field("version", resource())
 }

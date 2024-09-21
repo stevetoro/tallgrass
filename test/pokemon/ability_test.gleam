@@ -1,6 +1,8 @@
 import gleam/list
 import gleeunit/should
+import helpers.{should_have_english_name}
 import tallgrass/pokemon/ability.{type Ability}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   ability.fetch_by_id(1) |> should.be_ok |> should_be_stench
@@ -15,14 +17,12 @@ fn should_be_stench(ability: Ability) {
   ability.name |> should.equal("stench")
   ability.is_main_series |> should.be_true
 
-  ability.generation.name |> should.equal("generation-iii")
-  ability.generation.url
-  |> should.equal("https://pokeapi.co/api/v2/generation/3/")
+  let assert NamedResource(url, name) = ability.generation
+  name |> should.equal("generation-iii")
+  url |> should.equal("https://pokeapi.co/api/v2/generation/3/")
 
-  let name = ability.names |> list.first |> should.be_ok
-  name.name |> should.equal("あくしゅう")
-  name.language.name |> should.equal("ja-Hrkt")
-  name.language.url |> should.equal("https://pokeapi.co/api/v2/language/1/")
+  let name = ability.names |> should_have_english_name
+  name.name |> should.equal("Stench")
 
   let effect = ability.effect_entries |> list.first |> should.be_ok
   effect.effect
@@ -33,27 +33,34 @@ fn should_be_stench(ability: Ability) {
   |> should.equal(
     "Mit jedem Treffer besteht eine 10% Chance das Ziel zurückschrecken zu lassen.",
   )
-  effect.language.name |> should.equal("de")
-  effect.language.url |> should.equal("https://pokeapi.co/api/v2/language/6/")
+
+  let assert NamedResource(url, name) = effect.language
+  name |> should.equal("de")
+  url |> should.equal("https://pokeapi.co/api/v2/language/6/")
 
   let flavor_text =
     ability.flavor_text_entries
-    |> list.filter(fn(flavor_text) { flavor_text.language.name == "en" })
+    |> list.filter(fn(flavor_text) {
+      let assert NamedResource(_, name) = flavor_text.language
+      name == "en"
+    })
     |> list.first
     |> should.be_ok
-
   flavor_text.text |> should.equal("Helps repel wild POKéMON.")
-  flavor_text.language.name |> should.equal("en")
-  flavor_text.language.url
-  |> should.equal("https://pokeapi.co/api/v2/language/9/")
-  flavor_text.version_group.name |> should.equal("ruby-sapphire")
-  flavor_text.version_group.url
-  |> should.equal("https://pokeapi.co/api/v2/version-group/5/")
+
+  let assert NamedResource(url, name) = flavor_text.language
+  name |> should.equal("en")
+  url |> should.equal("https://pokeapi.co/api/v2/language/9/")
+
+  let assert NamedResource(url, name) = flavor_text.version_group
+  name |> should.equal("ruby-sapphire")
+  url |> should.equal("https://pokeapi.co/api/v2/version-group/5/")
 
   let pokemon = ability.pokemon |> list.first |> should.be_ok
   pokemon.is_hidden |> should.be_true
   pokemon.slot |> should.equal(3)
-  pokemon.pokemon.name |> should.equal("gloom")
-  pokemon.pokemon.url
-  |> should.equal("https://pokeapi.co/api/v2/pokemon/44/")
+
+  let assert NamedResource(url, name) = pokemon.pokemon
+  name |> should.equal("gloom")
+  url |> should.equal("https://pokeapi.co/api/v2/pokemon/44/")
 }

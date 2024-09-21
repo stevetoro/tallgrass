@@ -1,5 +1,5 @@
-import gleam/list
 import gleeunit/should
+import helpers.{should_have_english_name}
 import tallgrass/pokemon/color.{type PokemonColor}
 
 pub fn fetch_by_id_test() {
@@ -14,8 +14,6 @@ fn should_be_black(color: PokemonColor) {
   color.id |> should.equal(1)
   color.name |> should.equal("black")
 
-  let name = color.names |> list.first |> should.be_ok
-  name.name |> should.equal("くろいろ")
-  name.language.name |> should.equal("ja-Hrkt")
-  name.language.url |> should.equal("https://pokeapi.co/api/v2/language/1/")
+  let name = color.names |> should_have_english_name
+  name.name |> should.equal("Black")
 }

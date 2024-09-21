@@ -1,13 +1,13 @@
 import decode
 import tallgrass/common/effect.{type Effect, effect}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type ItemFlingEffect {
   ItemFlingEffect(
     id: Int,
     name: String,
     effect_entries: List(Effect),
-    items: List(NamedResource),
+    items: List(Resource),
   )
 }
 
@@ -46,5 +46,5 @@ fn item_fling_effect() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("effect_entries", decode.list(of: effect()))
-  |> decode.field("items", decode.list(of: named_resource()))
+  |> decode.field("items", decode.list(of: resource()))
 }

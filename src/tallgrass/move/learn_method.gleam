@@ -1,7 +1,7 @@
 import decode
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type MoveLearnMethod {
   MoveLearnMethod(
@@ -9,7 +9,7 @@ pub type MoveLearnMethod {
     name: String,
     descriptions: List(Description),
     names: List(Name),
-    version_groups: List(NamedResource),
+    version_groups: List(Resource),
   )
 }
 
@@ -50,5 +50,5 @@ fn move_learn_method() {
   |> decode.field("name", decode.string)
   |> decode.field("descriptions", decode.list(of: description()))
   |> decode.field("names", decode.list(of: name()))
-  |> decode.field("version_groups", decode.list(of: named_resource()))
+  |> decode.field("version_groups", decode.list(of: resource()))
 }

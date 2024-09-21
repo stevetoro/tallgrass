@@ -1,8 +1,8 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type FlavorText {
-  FlavorText(text: String, language: NamedResource)
+  FlavorText(text: String, language: Resource)
 }
 
 @internal
@@ -13,14 +13,14 @@ pub fn flavor_text() {
     FlavorText(text, language)
   })
   |> decode.field("flavor_text", decode.string)
-  |> decode.field("language", named_resource())
+  |> decode.field("language", resource())
 }
 
 pub type FlavorTextVersionGroup {
   FlavorTextVersionGroup(
     text: String,
-    language: NamedResource,
-    version_group: NamedResource,
+    language: Resource,
+    version_group: Resource,
   )
 }
 
@@ -33,6 +33,6 @@ pub fn flavor_text_version_group() {
     FlavorTextVersionGroup(text, language, version_group)
   })
   |> decode.field("flavor_text", decode.string)
-  |> decode.field("language", named_resource())
-  |> decode.field("version_group", named_resource())
+  |> decode.field("language", resource())
+  |> decode.field("version_group", resource())
 }

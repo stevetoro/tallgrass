@@ -1,13 +1,8 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Machine {
-  Machine(
-    id: Int,
-    item: NamedResource,
-    move: NamedResource,
-    version_group: NamedResource,
-  )
+  Machine(id: Int, item: Resource, move: Resource, version_group: Resource)
 }
 
 const path = "machine"
@@ -32,7 +27,7 @@ fn machine() {
     Machine(id, item, move, version_group)
   })
   |> decode.field("id", decode.int)
-  |> decode.field("item", named_resource())
-  |> decode.field("move", named_resource())
-  |> decode.field("version_group", named_resource())
+  |> decode.field("item", resource())
+  |> decode.field("move", resource())
+  |> decode.field("version_group", resource())
 }

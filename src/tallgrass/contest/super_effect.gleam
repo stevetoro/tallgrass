@@ -1,13 +1,13 @@
 import decode
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type SuperContestEffect {
   SuperContestEffect(
     id: Int,
     appeal: Int,
     flavor_text_entries: List(FlavorText),
-    moves: List(NamedResource),
+    moves: List(Resource),
   )
 }
 
@@ -35,5 +35,5 @@ fn super_contest_effect() {
   |> decode.field("id", decode.int)
   |> decode.field("appeal", decode.int)
   |> decode.field("flavor_text_entries", decode.list(of: flavor_text()))
-  |> decode.field("moves", decode.list(of: named_resource()))
+  |> decode.field("moves", decode.list(of: resource()))
 }

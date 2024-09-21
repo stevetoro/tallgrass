@@ -1,16 +1,16 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type VersionGroup {
   VersionGroup(
     id: Int,
     name: String,
     order: Int,
-    generation: NamedResource,
-    move_learn_methods: List(NamedResource),
-    pokedexes: List(NamedResource),
-    regions: List(NamedResource),
-    versions: List(NamedResource),
+    generation: Resource,
+    move_learn_methods: List(Resource),
+    pokedexes: List(Resource),
+    regions: List(Resource),
+    versions: List(Resource),
   )
 }
 
@@ -62,9 +62,9 @@ fn version_group() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("order", decode.int)
-  |> decode.field("generation", named_resource())
-  |> decode.field("move_learn_methods", decode.list(of: named_resource()))
-  |> decode.field("pokedexes", decode.list(of: named_resource()))
-  |> decode.field("regions", decode.list(of: named_resource()))
-  |> decode.field("versions", decode.list(of: named_resource()))
+  |> decode.field("generation", resource())
+  |> decode.field("move_learn_methods", decode.list(of: resource()))
+  |> decode.field("pokedexes", decode.list(of: resource()))
+  |> decode.field("regions", decode.list(of: resource()))
+  |> decode.field("versions", decode.list(of: resource()))
 }

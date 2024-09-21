@@ -1,8 +1,8 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Name {
-  Name(name: String, language: NamedResource)
+  Name(name: String, language: Resource)
 }
 
 @internal
@@ -13,5 +13,5 @@ pub fn name() {
     Name(name, language)
   })
   |> decode.field("name", decode.string)
-  |> decode.field("language", named_resource())
+  |> decode.field("language", resource())
 }

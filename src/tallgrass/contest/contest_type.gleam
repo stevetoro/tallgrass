@@ -1,14 +1,9 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type ContestType {
-  ContestType(
-    id: Int,
-    name: String,
-    berry_flavor: NamedResource,
-    names: List(Name),
-  )
+  ContestType(id: Int, name: String, berry_flavor: Resource, names: List(Name))
 }
 
 const path = "contest-type"
@@ -45,6 +40,6 @@ fn contest_type() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("berry_flavor", named_resource())
+  |> decode.field("berry_flavor", resource())
   |> decode.field("names", decode.list(of: name()))
 }

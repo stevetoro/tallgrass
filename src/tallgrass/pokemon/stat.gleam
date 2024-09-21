@@ -1,6 +1,6 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Stat {
   Stat(
@@ -10,16 +10,13 @@ pub type Stat {
     is_battle_only: Bool,
     affecting_moves: MoveStatAffectSets,
     affecting_natures: NatureStatAffectSets,
-    move_damage_class: NamedResource,
+    move_damage_class: Resource,
     names: List(Name),
   )
 }
 
 pub type NatureStatAffectSets {
-  NatureStatAffectSets(
-    increase: List(NamedResource),
-    decrease: List(NamedResource),
-  )
+  NatureStatAffectSets(increase: List(Resource), decrease: List(Resource))
 }
 
 pub type MoveStatAffectSets {
@@ -30,7 +27,7 @@ pub type MoveStatAffectSets {
 }
 
 pub type MoveStatAffect {
-  MoveStatAffect(change: Int, move: NamedResource)
+  MoveStatAffect(change: Int, move: Resource)
 }
 
 const path = "stat"
@@ -84,7 +81,7 @@ fn stat() {
   |> decode.field("is_battle_only", decode.bool)
   |> decode.field("affecting_moves", move_stat_affect_sets())
   |> decode.field("affecting_natures", nature_stat_affect_sets())
-  |> decode.field("move_damage_class", named_resource())
+  |> decode.field("move_damage_class", resource())
   |> decode.field("names", decode.list(of: name()))
 }
 
@@ -94,8 +91,8 @@ fn nature_stat_affect_sets() {
     use decrease <- decode.parameter
     NatureStatAffectSets(increase, decrease)
   })
-  |> decode.field("increase", decode.list(of: named_resource()))
-  |> decode.field("decrease", decode.list(of: named_resource()))
+  |> decode.field("increase", decode.list(of: resource()))
+  |> decode.field("decrease", decode.list(of: resource()))
 }
 
 fn move_stat_affect_sets() {
@@ -115,5 +112,5 @@ fn move_stat_affect() {
     MoveStatAffect(max_change, move)
   })
   |> decode.field("change", decode.int)
-  |> decode.field("move", named_resource())
+  |> decode.field("move", resource())
 }

@@ -1,12 +1,12 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type EncounterConditionValue {
   EncounterConditionValue(
     id: Int,
     name: String,
-    condition: NamedResource,
+    condition: Resource,
     names: List(Name),
   )
 }
@@ -45,6 +45,6 @@ fn encounter_condition_value() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("condition", named_resource())
+  |> decode.field("condition", resource())
   |> decode.field("names", decode.list(of: name()))
 }

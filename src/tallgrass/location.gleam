@@ -3,16 +3,16 @@ import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Location {
   Location(
     id: Int,
     name: String,
-    region: NamedResource,
+    region: Resource,
     names: List(Name),
     game_indices: List(GenerationGameIndex),
-    areas: List(NamedResource),
+    areas: List(Resource),
   )
 }
 
@@ -52,8 +52,8 @@ fn location() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("region", named_resource())
+  |> decode.field("region", resource())
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("game_indices", decode.list(of: generation_game_index()))
-  |> decode.field("areas", decode.list(of: named_resource()))
+  |> decode.field("areas", decode.list(of: resource()))
 }

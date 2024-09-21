@@ -1,8 +1,8 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type GenerationGameIndex {
-  GenerationGameIndex(index: Int, generation: NamedResource)
+  GenerationGameIndex(index: Int, generation: Resource)
 }
 
 @internal
@@ -13,5 +13,5 @@ pub fn generation_game_index() {
     GenerationGameIndex(index, generation)
   })
   |> decode.field("game_index", decode.int)
-  |> decode.field("generation", named_resource())
+  |> decode.field("generation", resource())
 }

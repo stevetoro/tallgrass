@@ -1,13 +1,13 @@
 import decode
 import tallgrass/common/description.{type Description, description}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Characteristic {
   Characteristic(
     id: Int,
     gene_modulo: Int,
     possible_values: List(Int),
-    highest_stat: NamedResource,
+    highest_stat: Resource,
     descriptions: List(Description),
   )
 }
@@ -37,6 +37,6 @@ fn characteristic() {
   |> decode.field("id", decode.int)
   |> decode.field("gene_modulo", decode.int)
   |> decode.field("possible_values", decode.list(of: decode.int))
-  |> decode.field("highest_stat", named_resource())
+  |> decode.field("highest_stat", resource())
   |> decode.field("descriptions", decode.list(of: description()))
 }

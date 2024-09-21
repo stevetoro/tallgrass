@@ -1,19 +1,19 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type BerryFlavor {
   BerryFlavor(
     id: Int,
     name: String,
     berries: List(FlavorBerryMap),
-    contest_type: NamedResource,
+    contest_type: Resource,
     names: List(Name),
   )
 }
 
 pub type FlavorBerryMap {
-  FlavorBerryMap(potency: Int, berry: NamedResource)
+  FlavorBerryMap(potency: Int, berry: Resource)
 }
 
 const path = "berry-flavor"
@@ -52,7 +52,7 @@ fn berry_flavor() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("berries", decode.list(of: flavor_berry_map()))
-  |> decode.field("contest_type", named_resource())
+  |> decode.field("contest_type", resource())
   |> decode.field("names", decode.list(of: name()))
 }
 
@@ -63,5 +63,5 @@ fn flavor_berry_map() {
     FlavorBerryMap(potency, berry)
   })
   |> decode.field("potency", decode.int)
-  |> decode.field("berry", named_resource())
+  |> decode.field("berry", resource())
 }

@@ -1,12 +1,12 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type BerryFirmness {
   BerryFirmness(
     id: Int,
     name: String,
-    berries: List(NamedResource),
+    berries: List(Resource),
     names: List(Name),
   )
 }
@@ -45,6 +45,6 @@ fn berry_firmness() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("berries", decode.list(of: named_resource()))
+  |> decode.field("berries", decode.list(of: resource()))
   |> decode.field("names", decode.list(of: name()))
 }

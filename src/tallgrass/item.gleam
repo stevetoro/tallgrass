@@ -5,9 +5,7 @@ import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{
-  type NamedResource, type Resource, named_resource, resource,
-}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Item {
   Item(
@@ -15,9 +13,9 @@ pub type Item {
     name: String,
     cost: Int,
     fling_power: Option(Int),
-    fling_effect: Option(NamedResource),
-    attributes: List(NamedResource),
-    category: NamedResource,
+    fling_effect: Option(Resource),
+    attributes: List(Resource),
+    category: Resource,
     effect_entries: List(VerboseEffect),
     flavor_text_entries: List(VersionGroupFlavorText),
     game_indices: List(GenerationGameIndex),
@@ -30,20 +28,20 @@ pub type Item {
 pub type VersionGroupFlavorText {
   VersionGroupFlavorText(
     text: String,
-    language: NamedResource,
-    version_group: NamedResource,
+    language: Resource,
+    version_group: Resource,
   )
 }
 
 pub type ItemHolderPokemon {
   ItemHolderPokemon(
-    pokemon: NamedResource,
+    pokemon: Resource,
     version_details: List(ItemHolderPokemonVersionDetail),
   )
 }
 
 pub type ItemHolderPokemonVersionDetail {
-  ItemHolderPokemonVersionDetail(rarity: Int, version: NamedResource)
+  ItemHolderPokemonVersionDetail(rarity: Int, version: Resource)
 }
 
 const path = "item"
@@ -105,9 +103,9 @@ fn item() {
   |> decode.field("name", decode.string)
   |> decode.field("cost", decode.int)
   |> decode.field("fling_power", decode.optional(decode.int))
-  |> decode.field("fling_effect", decode.optional(named_resource()))
-  |> decode.field("attributes", decode.list(of: named_resource()))
-  |> decode.field("category", named_resource())
+  |> decode.field("fling_effect", decode.optional(resource()))
+  |> decode.field("attributes", decode.list(of: resource()))
+  |> decode.field("category", resource())
   |> decode.field("effect_entries", decode.list(of: verbose_effect()))
   |> decode.field(
     "flavor_text_entries",
@@ -127,8 +125,8 @@ fn version_group_flavor_text() {
     VersionGroupFlavorText(text, language, version_group)
   })
   |> decode.field("text", decode.string)
-  |> decode.field("language", named_resource())
-  |> decode.field("version_group", named_resource())
+  |> decode.field("language", resource())
+  |> decode.field("version_group", resource())
 }
 
 fn item_holder_pokemon() {
@@ -137,7 +135,7 @@ fn item_holder_pokemon() {
     use version_details <- decode.parameter
     ItemHolderPokemon(pokemon, version_details)
   })
-  |> decode.field("pokemon", named_resource())
+  |> decode.field("pokemon", resource())
   |> decode.field(
     "version_details",
     decode.list(of: item_holder_pokemon_version_detail()),
@@ -151,5 +149,5 @@ fn item_holder_pokemon_version_detail() {
     ItemHolderPokemonVersionDetail(rarity, version)
   })
   |> decode.field("rarity", decode.int)
-  |> decode.field("version", named_resource())
+  |> decode.field("version", resource())
 }

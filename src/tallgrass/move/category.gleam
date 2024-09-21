@@ -1,13 +1,13 @@
 import decode
 import tallgrass/common/description.{type Description, description}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type MoveCategory {
   MoveCategory(
     id: Int,
     name: String,
     descriptions: List(Description),
-    moves: List(NamedResource),
+    moves: List(Resource),
   )
 }
 
@@ -46,5 +46,5 @@ fn move_category() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("descriptions", decode.list(of: description()))
-  |> decode.field("moves", decode.list(of: named_resource()))
+  |> decode.field("moves", decode.list(of: resource()))
 }

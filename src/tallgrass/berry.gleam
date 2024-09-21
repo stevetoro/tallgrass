@@ -1,5 +1,5 @@
 import decode
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Berry {
   Berry(
@@ -11,15 +11,15 @@ pub type Berry {
     size: Int,
     smoothness: Int,
     soil_dryness: Int,
-    firmness: NamedResource,
+    firmness: Resource,
     flavors: List(BerryFlavorMap),
-    item: NamedResource,
-    natural_gift_type: NamedResource,
+    item: Resource,
+    natural_gift_type: Resource,
   )
 }
 
 pub type BerryFlavorMap {
-  BerryFlavorMap(potency: Int, flavor: NamedResource)
+  BerryFlavorMap(potency: Int, flavor: Resource)
 }
 
 const path = "berry"
@@ -83,10 +83,10 @@ fn berry() {
   |> decode.field("size", decode.int)
   |> decode.field("smoothness", decode.int)
   |> decode.field("soil_dryness", decode.int)
-  |> decode.field("firmness", named_resource())
+  |> decode.field("firmness", resource())
   |> decode.field("flavors", decode.list(of: berry_flavor_map()))
-  |> decode.field("item", named_resource())
-  |> decode.field("natural_gift_type", named_resource())
+  |> decode.field("item", resource())
+  |> decode.field("natural_gift_type", resource())
 }
 
 fn berry_flavor_map() {
@@ -96,5 +96,5 @@ fn berry_flavor_map() {
     BerryFlavorMap(potency, berry)
   })
   |> decode.field("potency", decode.int)
-  |> decode.field("flavor", named_resource())
+  |> decode.field("flavor", resource())
 }

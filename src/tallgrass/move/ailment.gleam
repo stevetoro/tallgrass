@@ -1,14 +1,9 @@
 import decode
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type MoveAilment {
-  MoveAilment(
-    id: Int,
-    name: String,
-    moves: List(NamedResource),
-    names: List(Name),
-  )
+  MoveAilment(id: Int, name: String, moves: List(Resource), names: List(Name))
 }
 
 const path = "move-ailment"
@@ -45,6 +40,6 @@ fn move_ailment() {
   })
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
-  |> decode.field("moves", decode.list(of: named_resource()))
+  |> decode.field("moves", decode.list(of: resource()))
   |> decode.field("names", decode.list(of: name()))
 }

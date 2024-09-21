@@ -1,6 +1,6 @@
 import decode
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type PokemonForm {
   PokemonForm(
@@ -12,9 +12,9 @@ pub type PokemonForm {
     is_battle_only: Bool,
     is_mega: Bool,
     form_name: String,
-    pokemon: NamedResource,
+    pokemon: Resource,
     types: List(PokemonType),
-    version_group: NamedResource,
+    version_group: Resource,
   )
 }
 
@@ -77,7 +77,7 @@ fn pokemon_form() {
   |> decode.field("is_battle_only", decode.bool)
   |> decode.field("is_mega", decode.bool)
   |> decode.field("form_name", decode.string)
-  |> decode.field("pokemon", named_resource())
+  |> decode.field("pokemon", resource())
   |> decode.field("types", decode.list(of: pokemon_type()))
-  |> decode.field("version_group", named_resource())
+  |> decode.field("version_group", resource())
 }

@@ -1,7 +1,7 @@
 import decode
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Pokedex {
   Pokedex(
@@ -11,13 +11,13 @@ pub type Pokedex {
     descriptions: List(Description),
     names: List(Name),
     pokemon_entries: List(PokemonEntry),
-    region: NamedResource,
-    version_groups: List(NamedResource),
+    region: Resource,
+    version_groups: List(Resource),
   )
 }
 
 pub type PokemonEntry {
-  PokemonEntry(entry: Int, species: NamedResource)
+  PokemonEntry(entry: Int, species: Resource)
 }
 
 const path = "pokedex"
@@ -71,8 +71,8 @@ fn pokedex() {
   |> decode.field("descriptions", decode.list(of: description()))
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("pokemon_entries", decode.list(of: pokemon_entry()))
-  |> decode.field("region", named_resource())
-  |> decode.field("version_groups", decode.list(of: named_resource()))
+  |> decode.field("region", resource())
+  |> decode.field("version_groups", decode.list(of: resource()))
 }
 
 fn pokemon_entry() {
@@ -82,5 +82,5 @@ fn pokemon_entry() {
     PokemonEntry(entry, species)
   })
   |> decode.field("entry_number", decode.int)
-  |> decode.field("pokemon_species", named_resource())
+  |> decode.field("pokemon_species", resource())
 }

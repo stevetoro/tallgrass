@@ -1,5 +1,5 @@
-import gleam/list
 import gleeunit/should
+import helpers.{should_have_english_name}
 import tallgrass/pokemon/habitat.{type Habitat}
 
 pub fn fetch_by_id_test() {
@@ -14,8 +14,6 @@ fn should_be_cave(habitat: Habitat) {
   habitat.id |> should.equal(1)
   habitat.name |> should.equal("cave")
 
-  let name = habitat.names |> list.first |> should.be_ok
-  name.name |> should.equal("grottes")
-  name.language.name |> should.equal("fr")
-  name.language.url |> should.equal("https://pokeapi.co/api/v2/language/5/")
+  let name = habitat.names |> should_have_english_name
+  name.name |> should.equal("cave")
 }

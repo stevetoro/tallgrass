@@ -1,6 +1,7 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/item/fling_effect.{type ItemFlingEffect}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   fling_effect.fetch_by_id(1) |> should.be_ok |> should_be_badly_poison
@@ -18,10 +19,13 @@ fn should_be_badly_poison(fling_effect: ItemFlingEffect) {
 
   let effect = fling_effect.effect_entries |> list.first |> should.be_ok
   effect.effect |> should.equal("Badly poisons the target.")
-  effect.language.name |> should.equal("en")
-  effect.language.url |> should.equal("https://pokeapi.co/api/v2/language/9/")
 
-  let item = fling_effect.items |> list.first |> should.be_ok
-  item.name |> should.equal("toxic-orb")
-  item.url |> should.equal("https://pokeapi.co/api/v2/item/249/")
+  let assert NamedResource(url, name) = effect.language
+  name |> should.equal("en")
+  url |> should.equal("https://pokeapi.co/api/v2/language/9/")
+
+  let assert NamedResource(url, name) =
+    fling_effect.items |> list.first |> should.be_ok
+  name |> should.equal("toxic-orb")
+  url |> should.equal("https://pokeapi.co/api/v2/item/249/")
 }

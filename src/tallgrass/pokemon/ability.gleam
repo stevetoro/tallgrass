@@ -4,14 +4,14 @@ import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type NamedResource, named_resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Ability {
   Ability(
     id: Int,
     name: String,
     is_main_series: Bool,
-    generation: NamedResource,
+    generation: Resource,
     names: List(Name),
     effect_entries: List(VerboseEffect),
     flavor_text_entries: List(FlavorTextVersionGroup),
@@ -20,7 +20,7 @@ pub type Ability {
 }
 
 pub type AbilityPokemon {
-  AbilityPokemon(is_hidden: Bool, slot: Int, pokemon: NamedResource)
+  AbilityPokemon(is_hidden: Bool, slot: Int, pokemon: Resource)
 }
 
 const path = "ability"
@@ -71,7 +71,7 @@ fn ability() {
   |> decode.field("id", decode.int)
   |> decode.field("name", decode.string)
   |> decode.field("is_main_series", decode.bool)
-  |> decode.field("generation", named_resource())
+  |> decode.field("generation", resource())
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("effect_entries", decode.list(of: verbose_effect()))
   |> decode.field(
@@ -90,5 +90,5 @@ fn ability_pokemon() {
   })
   |> decode.field("is_hidden", decode.bool)
   |> decode.field("slot", decode.int)
-  |> decode.field("pokemon", named_resource())
+  |> decode.field("pokemon", resource())
 }

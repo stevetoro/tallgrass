@@ -1,6 +1,8 @@
 import gleam/list
 import gleeunit/should
+import helpers.{should_have_english_name}
 import tallgrass/game/generation.{type Generation}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   generation.fetch_by_id(1) |> should.be_ok |> should_be_generation_i
@@ -18,30 +20,31 @@ fn should_be_generation_i(generation: Generation) {
 
   generation.abilities |> list.is_empty |> should.be_true
 
-  generation.main_region.name |> should.equal("kanto")
-  generation.main_region.url
-  |> should.equal("https://pokeapi.co/api/v2/region/1/")
+  let assert NamedResource(url, name) = generation.main_region
+  name |> should.equal("kanto")
+  url |> should.equal("https://pokeapi.co/api/v2/region/1/")
 
-  let move = generation.moves |> list.first |> should.be_ok
-  move.name |> should.equal("pound")
-  move.url |> should.equal("https://pokeapi.co/api/v2/move/1/")
+  let assert NamedResource(url, name) =
+    generation.moves |> list.first |> should.be_ok
+  name |> should.equal("pound")
+  url |> should.equal("https://pokeapi.co/api/v2/move/1/")
 
-  let name = generation.names |> list.first |> should.be_ok
-  name.name |> should.equal("だいいちせだい")
-  name.language.name |> should.equal("ja-Hrkt")
-  name.language.url |> should.equal("https://pokeapi.co/api/v2/language/1/")
+  let name = generation.names |> should_have_english_name
+  name.name |> should.equal("Generation I")
 
-  let pokemon_species = generation.pokemon_species |> list.first |> should.be_ok
-  pokemon_species.name |> should.equal("bulbasaur")
-  pokemon_species.url
-  |> should.equal("https://pokeapi.co/api/v2/pokemon-species/1/")
 
-  let pokemon_type = generation.types |> list.first |> should.be_ok
-  pokemon_type.name |> should.equal("normal")
-  pokemon_type.url |> should.equal("https://pokeapi.co/api/v2/type/1/")
+  let assert NamedResource(url, name) =
+    generation.pokemon_species |> list.first |> should.be_ok
+  name |> should.equal("bulbasaur")
+  url |> should.equal("https://pokeapi.co/api/v2/pokemon-species/1/")
 
-  let version_group = generation.version_groups |> list.first |> should.be_ok
-  version_group.name |> should.equal("red-blue")
-  version_group.url
-  |> should.equal("https://pokeapi.co/api/v2/version-group/1/")
+  let assert NamedResource(url, name) =
+    generation.types |> list.first |> should.be_ok
+  name |> should.equal("normal")
+  url |> should.equal("https://pokeapi.co/api/v2/type/1/")
+
+  let assert NamedResource(url, name) =
+    generation.version_groups |> list.first |> should.be_ok
+  name |> should.equal("red-blue")
+  url |> should.equal("https://pokeapi.co/api/v2/version-group/1/")
 }

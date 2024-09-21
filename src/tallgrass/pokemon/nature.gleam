@@ -1,7 +1,7 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Nature {
   Nature(
@@ -31,7 +31,33 @@ pub type MoveBattleStylePreference {
 
 const path = "nature"
 
-/// Fetches a pokemon nature by the nature ID.
+/// Fetches a list of pokemon nature resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = nature.fetch(options: None)
+/// let result = nature.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon nature given a pokemon nature resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(nature.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// nature.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: nature())
+}
+
+/// Fetches a pokemon nature given the pokemon nature ID.
 ///
 /// # Example
 ///
@@ -42,7 +68,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, nature())
 }
 
-/// Fetches a pokemon nature by the nature name.
+/// Fetches a pokemon nature given the pokemon nature name.
 ///
 /// # Example
 ///

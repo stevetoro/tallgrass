@@ -1,10 +1,24 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
-import tallgrass/contest/super_effect
+import tallgrass/contest/super_contest_effect.{type SuperContestEffect}
 import tallgrass/resource.{NamedResource}
 
+pub fn fetch_test() {
+  let response = super_contest_effect.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  super_contest_effect.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_super_contest_effect
+}
+
 pub fn fetch_by_id_test() {
-  let super_contest_effect = super_effect.fetch_by_id(1) |> should.be_ok
+  super_contest_effect.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_super_contest_effect
+}
+
+fn should_be_super_contest_effect(super_contest_effect: SuperContestEffect) {
   super_contest_effect.id |> should.equal(1)
   super_contest_effect.appeal |> should.equal(2)
 

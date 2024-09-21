@@ -1,7 +1,14 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import tallgrass/pokemon/gender.{type Gender}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = gender.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  gender.fetch_resource(resource) |> should.be_ok |> should_be_female
+}
 
 pub fn fetch_by_id_test() {
   gender.fetch_by_id(1) |> should.be_ok |> should_be_female

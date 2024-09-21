@@ -1,8 +1,15 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/item/category.{type ItemCategory}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = category.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  category.fetch_resource(resource) |> should.be_ok |> should_be_stat_boosts
+}
 
 pub fn fetch_by_id_test() {
   category.fetch_by_id(1) |> should.be_ok |> should_be_stat_boosts

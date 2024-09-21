@@ -1,7 +1,14 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import tallgrass/berry.{type Berry}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = berry.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  berry.fetch_resource(resource) |> should.be_ok |> should_be_cheri
+}
 
 pub fn fetch_by_id_test() {
   berry.fetch_by_id(1) |> should.be_ok |> should_be_cheri

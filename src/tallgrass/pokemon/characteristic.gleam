@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/description.{type Description, description}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Characteristic {
   Characteristic(
@@ -14,7 +15,33 @@ pub type Characteristic {
 
 const path = "characteristic"
 
-/// Fetches a pokemon characteristic by the characteristic ID.
+/// Fetches a list of pokemon characteristic resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = characteristic.fetch(options: None)
+/// let result = characteristic.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon characteristic given a pokemon characteristic resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(characteristic.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// characteristic.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: characteristic())
+}
+
+/// Fetches a pokemon characteristic given the pokemon characteristic ID.
 ///
 /// # Example
 ///

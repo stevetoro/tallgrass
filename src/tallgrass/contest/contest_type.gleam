@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type ContestType {
   ContestType(id: Int, name: String, berry_flavor: Resource, names: List(Name))
@@ -8,7 +9,33 @@ pub type ContestType {
 
 const path = "contest-type"
 
-/// Fetches a contest type by the type ID.
+/// Fetches a list of contest type resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = contest_type.fetch(options: None)
+/// let result = contest_type.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a contest type given a contest type resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(contest_type.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// contest_type.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: contest_type())
+}
+
+/// Fetches a contest type given the contest type ID.
 ///
 /// # Example
 ///
@@ -19,7 +46,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, contest_type())
 }
 
-/// Fetches a contest type by the type name.
+/// Fetches a contest type given the contest type name.
 ///
 /// # Example
 ///

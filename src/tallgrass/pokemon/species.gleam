@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type PokemonSpecies {
   PokemonSpecies(
@@ -28,7 +29,33 @@ pub type PokemonSpecies {
 
 const path = "pokemon-species"
 
-/// Fetches a pokemon species by the species ID.
+/// Fetches a list of pokemon species resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = species.fetch(options: None)
+/// let result = species.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon species given a pokemon species resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(species.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// species.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pokemon_species())
+}
+
+/// Fetches a pokemon species given the pokemon species ID.
 ///
 /// # Example
 ///
@@ -39,7 +66,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, pokemon_species())
 }
 
-/// Fetches a pokemon species by the species name.
+/// Fetches a pokemon species given the pokemon species name.
 ///
 /// # Example
 ///

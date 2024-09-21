@@ -1,6 +1,6 @@
 import decode
 import gleam/option.{type Option}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type EvolutionChain {
   EvolutionChain(id: Int, baby_trigger_item: Option(Resource), chain: ChainLink)
@@ -41,12 +41,38 @@ pub type EvolutionDetail {
 
 const path = "evolution-chain"
 
-/// Fetches an evolution chain by ID.
+/// Fetches a list of evolution chain resources.
+/// Optionally accepts pagination options `limit` and `offset`.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = evolution_chain.fetch_by_id(1)
+/// let result = chain.fetch(options: None)
+/// let result = chain.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches an evolution chain given an evolution chain resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(chain.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// chain.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: evolution_chain())
+}
+
+/// Fetches an evolution chain given the evolution chain ID.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = chain.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, evolution_chain())

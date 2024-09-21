@@ -1,5 +1,6 @@
 import decode
-import tallgrass/resource.{type Resource, resource}
+import gleam/option.{type Option}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Machine {
   Machine(id: Int, item: Resource, move: Resource, version_group: Resource)
@@ -7,7 +8,33 @@ pub type Machine {
 
 const path = "machine"
 
-/// Fetches a machine by the machine ID.
+/// Fetches a list of machine resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = machine.fetch(options: None)
+/// let result = machine.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a machine given a machine resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(machine.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// machine.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: machine())
+}
+
+/// Fetches a machine given the machine ID.
 ///
 /// # Example
 ///

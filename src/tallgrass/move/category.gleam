@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/description.{type Description, description}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type MoveCategory {
   MoveCategory(
@@ -13,7 +14,33 @@ pub type MoveCategory {
 
 const path = "move-category"
 
-/// Fetches a move category by the move category ID.
+/// Fetches a list of move category resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = category.fetch(options: None)
+/// let result = category.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a move category given a move category resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(category.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// category.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: move_category())
+}
+
+/// Fetches a move category given the move category ID.
 ///
 /// # Example
 ///
@@ -24,7 +51,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, move_category())
 }
 
-/// Fetches a move category by the move category name.
+/// Fetches a move category given the move category name.
 ///
 /// # Example
 ///

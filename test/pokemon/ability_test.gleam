@@ -1,8 +1,15 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/pokemon/ability.{type Ability}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = ability.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  ability.fetch_resource(resource) |> should.be_ok |> should_be_stench
+}
 
 pub fn fetch_by_id_test() {
   ability.fetch_by_id(1) |> should.be_ok |> should_be_stench

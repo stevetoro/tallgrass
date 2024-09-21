@@ -1,7 +1,8 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type MoveLearnMethod {
   MoveLearnMethod(
@@ -15,7 +16,33 @@ pub type MoveLearnMethod {
 
 const path = "move-learn-method"
 
-/// Fetches a move learn method by the move learn method ID.
+/// Fetches a list of move learn method resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = learn_method.fetch(options: None)
+/// let result = learn_method.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a move learn method given a move learn method resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(learn_method.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// learn_method.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: move_learn_method())
+}
+
+/// Fetches a move learn method given the move learn method ID.
 ///
 /// # Example
 ///
@@ -26,7 +53,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, move_learn_method())
 }
 
-/// Fetches a move learn method by the move learn method name.
+/// Fetches a move learn method given the move learn method name.
 ///
 /// # Example
 ///

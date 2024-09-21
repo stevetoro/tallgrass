@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 // TODO: Add support for encounter_method_rates and pokemon_encounters.
 
@@ -16,7 +17,33 @@ pub type LocationArea {
 
 const path = "location-area"
 
-/// Fetches a location_area by the location_area ID.
+/// Fetches a list of location area resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = area.fetch(options: None)
+/// let result = area.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a location area given a location area resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(area.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// area.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: location_area())
+}
+
+/// Fetches a location area given the location area ID.
 ///
 /// # Example
 ///
@@ -27,7 +54,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, location_area())
 }
 
-/// Fetches a location_area by the location_area name.
+/// Fetches a location area given the location area name.
 ///
 /// # Example
 ///

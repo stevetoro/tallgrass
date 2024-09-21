@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type PokemonShape {
   PokemonShape(
@@ -14,7 +15,33 @@ pub type PokemonShape {
 
 const path = "pokemon-shape"
 
-/// Fetches a pokemon shape by the shape ID.
+/// Fetches a list of pokemon shape resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = shape.fetch(options: None)
+/// let result = shape.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon shape given a pokemon shape resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(shape.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// shape.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pokemon_shape())
+}
+
+/// Fetches a pokemon shape given the pokemon shape ID.
 ///
 /// # Example
 ///
@@ -25,7 +52,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, pokemon_shape())
 }
 
-/// Fetches a pokemon shape by the shape name.
+/// Fetches a pokemon shape given the pokemon shape ID.
 ///
 /// # Example
 ///

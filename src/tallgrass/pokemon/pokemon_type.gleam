@@ -1,9 +1,10 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type PokemonType {
   PokemonType(
@@ -44,7 +45,33 @@ pub type TypePokemon {
 
 const path = "type"
 
-/// Fetches a pokemon type by the pokemon type ID.
+/// Fetches a list of pokemon type resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = pokemon_type.fetch(options: None)
+/// let result = pokemon_type.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon type given a pokemon type resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(pokemon_type.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// pokemon_type.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pokemon_type())
+}
+
+/// Fetches a pokemon type given the pokemon type ID.
 ///
 /// # Example
 ///
@@ -55,7 +82,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, pokemon_type())
 }
 
-/// Fetches a pokemon type by the pokemon type name.
+/// Fetches a pokemon type given the pokemon type ID.
 ///
 /// # Example
 ///

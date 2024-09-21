@@ -1,8 +1,15 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/evolution/trigger.{type EvolutionTrigger}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = trigger.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  trigger.fetch_resource(resource) |> should.be_ok |> should_be_level_up
+}
 
 pub fn fetch_by_id_test() {
   trigger.fetch_by_id(1) |> should.be_ok |> should_be_level_up

@@ -1,5 +1,6 @@
 import decode
-import tallgrass/resource.{type Resource, resource}
+import gleam/option.{type Option}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Gender {
   Gender(
@@ -16,7 +17,33 @@ pub type PokemonSpeciesGender {
 
 const path = "gender"
 
-/// Fetches a pokemon gender by the gender ID.
+/// Fetches a list of pokemon gender resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = gender.fetch(options: None)
+/// let result = gender.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon gender given a pokemon gender resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(gender.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// gender.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: gender())
+}
+
+/// Fetches a pokemon gender given the pokemon gender ID.
 ///
 /// # Example
 ///
@@ -27,7 +54,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, gender())
 }
 
-/// Fetches a pokemon gender by the gender name.
+/// Fetches a pokemon gender given the pokemon gender name.
 ///
 /// # Example
 ///

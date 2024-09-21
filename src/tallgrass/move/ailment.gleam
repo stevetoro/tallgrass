@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type MoveAilment {
   MoveAilment(id: Int, name: String, moves: List(Resource), names: List(Name))
@@ -8,7 +9,33 @@ pub type MoveAilment {
 
 const path = "move-ailment"
 
-/// Fetches a move ailment by the move ailment ID.
+/// Fetches a list of move ailment resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = ailment.fetch(options: None)
+/// let result = ailment.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a move ailment given a move ailment resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(ailment.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// ailment.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: move_ailment())
+}
+
+/// Fetches a move ailment given the move ailment ID.
 ///
 /// # Example
 ///
@@ -19,7 +46,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, move_ailment())
 }
 
-/// Fetches a move ailment by the move ailment name.
+/// Fetches a move ailment given the move ailment name.
 ///
 /// # Example
 ///

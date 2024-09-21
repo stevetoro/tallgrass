@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource
+import tallgrass/resource.{type PaginationOptions, type Resource}
 
 pub type MoveBattleStyle {
   MoveBattleStyle(id: Int, name: String, names: List(Name))
@@ -8,7 +9,33 @@ pub type MoveBattleStyle {
 
 const path = "move-battle-style"
 
-/// Fetches a move battle style by the move battle style ID.
+/// Fetches a list of move battle style resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = battle_style.fetch(options: None)
+/// let result = battle_style.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a move battle style given a move battle style resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(battle_style.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// battle_style.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: move_battle_style())
+}
+
+/// Fetches a move battle style given the move battle style ID.
 ///
 /// # Example
 ///
@@ -19,7 +46,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, move_battle_style())
 }
 
-/// Fetches a move battle style by the move battle style name.
+/// Fetches a move battle style given the move battle style name.
 ///
 /// # Example
 ///

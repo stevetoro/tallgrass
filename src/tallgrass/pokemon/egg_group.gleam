@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type EggGroup {
   EggGroup(
@@ -13,7 +14,33 @@ pub type EggGroup {
 
 const path = "egg-group"
 
-/// Fetches a pokemon egg group by the egg group ID.
+/// Fetches a list of pokemon egg group resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = egg_group.fetch(options: None)
+/// let result = egg_group.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon egg group given a pokemon egg group resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(egg_group.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// egg_group.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: egg_group())
+}
+
+/// Fetches a pokemon egg group given the pokemon egg group ID.
 ///
 /// # Example
 ///
@@ -24,7 +51,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, egg_group())
 }
 
-/// Fetches a pokemon egg group by the egg group name.
+/// Fetches a pokemon egg group given the pokemon egg group name.
 ///
 /// # Example
 ///

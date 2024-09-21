@@ -1,8 +1,16 @@
 import gleam/list
+import gleam/option.{Some}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/pokemon/stat.{type Stat}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{NamedResource, PaginationOptions}
+
+pub fn fetch_test() {
+  let options = PaginationOptions(limit: 1, offset: 1)
+  let response = stat.fetch(options: Some(options)) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  stat.fetch_resource(resource) |> should.be_ok |> should_be_attack
+}
 
 pub fn fetch_by_id_test() {
   stat.fetch_by_id(2) |> should.be_ok |> should_be_attack

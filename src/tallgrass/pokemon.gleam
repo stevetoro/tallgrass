@@ -51,7 +51,7 @@ pub type PokemonStat {
 
 const path = "pokemon"
 
-/// Fetches a list of named pokemon resources.
+/// Fetches a list of pokemon resources.
 /// Optionally accepts pagination options `limit` and `offset`.
 ///
 /// # Example
@@ -64,7 +64,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
   resource.fetch_resources(path, options)
 }
 
-/// Fetches a pokemon given a named pokemon resource.
+/// Fetches a pokemon given a pokemon resource.
 ///
 /// # Example
 ///
@@ -77,7 +77,7 @@ pub fn fetch_resource(resource: Resource) {
   resource.fetch_resource(resource, using: pokemon())
 }
 
-/// Fetches a pokemon by the pokemon ID.
+/// Fetches a pokemon given the pokemon ID.
 ///
 /// # Example
 ///
@@ -88,7 +88,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, using: pokemon())
 }
 
-/// Fetches a pokemon by the pokemon name.
+/// Fetches a pokemon given the pokemon name.
 ///
 /// # Example
 ///

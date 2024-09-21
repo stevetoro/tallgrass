@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Stat {
   Stat(
@@ -32,7 +33,33 @@ pub type MoveStatAffect {
 
 const path = "stat"
 
-/// Fetches a pokemon stat by the stat ID.
+/// Fetches a list of pokemon stat resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = stat.fetch(options: None)
+/// let result = stat.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon stat given a pokemon stat resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(stat.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// stat.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: stat())
+}
+
+/// Fetches a pokemon stat given the pokemon stat ID.
 ///
 /// # Example
 ///
@@ -43,7 +70,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, stat())
 }
 
-/// Fetches a pokemon stat by the stat name.
+/// Fetches a pokemon stat given the pokemon stat name.
 ///
 /// # Example
 ///

@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type EncounterConditionValue {
   EncounterConditionValue(
@@ -13,23 +14,49 @@ pub type EncounterConditionValue {
 
 const path = "encounter-condition-value"
 
-/// Fetches an encounter condition value by ID.
+/// Fetches a list of encounter condition value resources.
+/// Optionally accepts pagination options `limit` and `offset`.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = encounter_condition_value.fetch_by_id(1)
+/// let result = value.fetch(options: None)
+/// let result = value.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches an encounter condition value given an encounter condition value resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(value.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// value.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: encounter_condition_value())
+}
+
+/// Fetches an encounter condition value given the encounter condition value ID.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = value.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, encounter_condition_value())
 }
 
-/// Fetches an encounter condition value by name.
+/// Fetches an encounter condition value given the encounter condition value name.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = encounter_condition_value.fetch_by_name("swarm-yes")
+/// let result = value.fetch_by_name("swarm-yes")
 /// ```
 pub fn fetch_by_name(name: String) {
   resource.fetch_by_name(name, path, encounter_condition_value())

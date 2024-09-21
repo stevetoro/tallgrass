@@ -1,10 +1,11 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Ability {
   Ability(
@@ -25,7 +26,33 @@ pub type AbilityPokemon {
 
 const path = "ability"
 
-/// Fetches a pokemon ability by the ability ID.
+/// Fetches a list of pokemon ability resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = ability.fetch(options: None)
+/// let result = ability.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon ability given a pokemon ability resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(ability.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// ability.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: ability())
+}
+
+/// Fetches a pokemon ability given the pokemon ability ID.
 ///
 /// # Example
 ///
@@ -36,7 +63,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, ability())
 }
 
-/// Fetches a pokemon ability by the ability name.
+/// Fetches a pokemon ability given the pokemon ability name.
 ///
 /// # Example
 ///

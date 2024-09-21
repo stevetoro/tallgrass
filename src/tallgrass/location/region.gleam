@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Region {
   Region(
@@ -16,7 +17,33 @@ pub type Region {
 
 const path = "region"
 
-/// Fetches a region by the region ID.
+/// Fetches a list of region resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = region.fetch(options: None)
+/// let result = region.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a region given a region resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(region.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// region.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: region())
+}
+
+/// Fetches a region given the region ID.
 ///
 /// # Example
 ///
@@ -27,7 +54,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, region())
 }
 
-/// Fetches a region by the region name.
+/// Fetches a region given the region name.
 ///
 /// # Example
 ///

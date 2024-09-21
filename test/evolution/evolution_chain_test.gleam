@@ -1,13 +1,23 @@
 import gleam/list
+import gleam/option.{Some}
 import gleeunit/should
-import tallgrass/evolution/chain
-import tallgrass/resource.{NamedResource}
+import tallgrass/evolution/chain.{type EvolutionChain}
+import tallgrass/resource.{NamedResource, PaginationOptions}
 
 // TODO: Add test cases covering more fields.
 
-pub fn fetch_by_id_test() {
-  let evolution_chain = chain.fetch_by_id(200) |> should.be_ok
+pub fn fetch_test() {
+  let options = PaginationOptions(limit: 1, offset: 199)
+  let response = chain.fetch(options: Some(options)) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  chain.fetch_resource(resource) |> should.be_ok |> should_be_rayquaza
+}
 
+pub fn fetch_by_id_test() {
+  chain.fetch_by_id(200) |> should.be_ok |> should_be_rayquaza
+}
+
+pub fn should_be_rayquaza(evolution_chain: EvolutionChain) {
   evolution_chain.id |> should.equal(200)
   evolution_chain.baby_trigger_item |> should.be_none
 

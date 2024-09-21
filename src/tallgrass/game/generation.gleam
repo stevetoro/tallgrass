@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Generation {
   Generation(
@@ -18,7 +19,33 @@ pub type Generation {
 
 const path = "generation"
 
-/// Fetches a generation by the generation ID.
+/// Fetches a list of generation resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = generation.fetch(options: None)
+/// let result = generation.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a generation given a generation resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(generation.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// generation.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: generation())
+}
+
+/// Fetches a generation given the generation ID.
 ///
 /// # Example
 ///
@@ -29,7 +56,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, generation())
 }
 
-/// Fetches a generation by the generation name.
+/// Fetches a generation given the generation name.
 ///
 /// # Example
 ///

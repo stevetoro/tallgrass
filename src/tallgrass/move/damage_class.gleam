@@ -1,7 +1,8 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type MoveDamageClass {
   MoveDamageClass(
@@ -15,7 +16,33 @@ pub type MoveDamageClass {
 
 const path = "move-damage-class"
 
-/// Fetches a move damage class by the move damage class ID.
+/// Fetches a list of move damage class resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = damage_class.fetch(options: None)
+/// let result = damage_class.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a move damage class given a move damage class resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(damage_class.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// damage_class.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: move_damage_class())
+}
+
+/// Fetches a move damage class given the move damage class ID.
 ///
 /// # Example
 ///
@@ -26,7 +53,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, move_damage_class())
 }
 
-/// Fetches a move damage class by the move damage class name.
+/// Fetches a move damage class given the move damage class name.
 ///
 /// # Example
 ///

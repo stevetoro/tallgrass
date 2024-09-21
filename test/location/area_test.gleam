@@ -1,7 +1,15 @@
+import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/location/area.{type LocationArea}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = area.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  area.fetch_resource(resource) |> should.be_ok |> should_be_canalave_city_area
+}
 
 pub fn fetch_by_id_test() {
   area.fetch_by_id(1) |> should.be_ok |> should_be_canalave_city_area

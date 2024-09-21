@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type PokemonColor {
   PokemonColor(
@@ -13,7 +14,33 @@ pub type PokemonColor {
 
 const path = "pokemon-color"
 
-/// Fetches a pokemon color by the color ID.
+/// Fetches a list of pokemon color resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = color.fetch(options: None)
+/// let result = color.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon color given a pokemon color resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(color.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// color.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pokemon_color())
+}
+
+/// Fetches a pokemon color given the pokemon color ID.
 ///
 /// # Example
 ///
@@ -24,7 +51,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, pokemon_color())
 }
 
-/// Fetches a pokemon color by the color name.
+/// Fetches a pokemon color given the pokemon color name.
 ///
 /// # Example
 ///

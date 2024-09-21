@@ -1,11 +1,22 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
-import tallgrass/pokemon/characteristic
+import tallgrass/pokemon/characteristic.{type Characteristic}
 import tallgrass/resource.{NamedResource}
 
-pub fn fetch_by_id_test() {
-  let characteristic = characteristic.fetch_by_id(1) |> should.be_ok
+pub fn fetch_test() {
+  let response = characteristic.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  characteristic.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_characteristic
+}
 
+pub fn fetch_by_id_test() {
+  characteristic.fetch_by_id(1) |> should.be_ok |> should_be_characteristic
+}
+
+fn should_be_characteristic(characteristic: Characteristic) {
   characteristic.id |> should.equal(1)
   characteristic.gene_modulo |> should.equal(0)
   characteristic.possible_values |> should.equal([0, 5, 10, 15, 20, 25, 30])

@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource
+import tallgrass/resource.{type PaginationOptions, type Resource}
 
 // TODO: Add support for pokemon_encounters.
 
@@ -10,7 +11,33 @@ pub type PalParkArea {
 
 const path = "pal-park-area"
 
-/// Fetches a pal_park_area by the pal_park_area ID.
+/// Fetches a list of pal park area resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = pal_park_area.fetch(options: None)
+/// let result = pal_park_area.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pal park area given a pal park area resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(pal_park_area.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// pal_park_area.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pal_park_area())
+}
+
+/// Fetches a pal park area given the pal park area ID.
 ///
 /// # Example
 ///
@@ -21,7 +48,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, pal_park_area())
 }
 
-/// Fetches a pal_park_area by the pal_park_area name.
+/// Fetches a pal park area given the pal park area name.
 ///
 /// # Example
 ///

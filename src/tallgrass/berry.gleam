@@ -1,5 +1,6 @@
 import decode
-import tallgrass/resource.{type Resource, resource}
+import gleam/option.{type Option}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Berry {
   Berry(
@@ -24,7 +25,33 @@ pub type BerryFlavorMap {
 
 const path = "berry"
 
-/// Fetches a berry by the berry ID.
+/// Fetches a list of berry resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = berry.fetch(options: None)
+/// let result = berry.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a berry given a berry resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(berry.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// berry.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: berry())
+}
+
+/// Fetches a berry given the berry ID.
 ///
 /// # Example
 ///
@@ -35,7 +62,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, berry())
 }
 
-/// Fetches a berry by the berry name.
+/// Fetches a berry given the berry name.
 ///
 /// # Example
 ///

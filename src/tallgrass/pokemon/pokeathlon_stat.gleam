@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type PokeathlonStat {
   PokeathlonStat(
@@ -24,7 +25,33 @@ pub type NaturePokeathlonStatAffect {
 
 const path = "pokeathlon-stat"
 
-/// Fetches a pokemon pokeathlon stat by the pokeathlon stat ID.
+/// Fetches a list of pokeathlon stat resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = pokeathlon_stat.fetch(options: None)
+/// let result = pokeathlon_stat.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokeathlon stat given a pokeathlon stat resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(pokeathlon_stat.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// pokeathlon_stat.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pokeathlon_stat())
+}
+
+/// Fetches a pokeathlon stat given the pokeathlon stat ID.
 ///
 /// # Example
 ///
@@ -35,7 +62,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, pokeathlon_stat())
 }
 
-/// Fetches a pokemon pokeathlon stat by the pokeathlon stat name.
+/// Fetches a pokeathlon stat given the pokeathlon stat name.
 ///
 /// # Example
 ///

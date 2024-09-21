@@ -1,7 +1,8 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type ItemAttribute {
   ItemAttribute(
@@ -15,23 +16,49 @@ pub type ItemAttribute {
 
 const path = "item-attribute"
 
-/// Fetches an item_attribute by the item_attribute ID.
+/// Fetches a list of item attribute resources.
+/// Optionally accepts pagination options `limit` and `offset`.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = item_attribute.fetch_by_id(1)
+/// let result = attribute.fetch(options: None)
+/// let result = attribute.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches an item attribute given an item attribute resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(attribute.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// attribute.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: item_attribute())
+}
+
+/// Fetches an item attribute given the item attribute ID.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = attribute.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, item_attribute())
 }
 
-/// Fetches an item_attribute by the item_attribute name.
+/// Fetches an item attribute given the item attribute name.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = item_attribute.fetch_by_name("countable")
+/// let result = attribute.fetch_by_name("countable")
 /// ```
 pub fn fetch_by_name(name: String) {
   resource.fetch_by_name(name, path, item_attribute())

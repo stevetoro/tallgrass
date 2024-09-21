@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Version {
   Version(id: Int, name: String, names: List(Name), version_group: Resource)
@@ -8,7 +9,33 @@ pub type Version {
 
 const path = "version"
 
-/// Fetches a version by the version ID.
+/// Fetches a list of version resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = version.fetch(options: None)
+/// let result = version.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a version given a version resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(version.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// version.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: version())
+}
+
+/// Fetches a version given the version ID.
 ///
 /// # Example
 ///
@@ -19,7 +46,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, version())
 }
 
-/// Fetches a version by the version name.
+/// Fetches a version given the version name.
 ///
 /// # Example
 ///

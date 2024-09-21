@@ -1,10 +1,20 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
-import tallgrass/contest/effect
+import tallgrass/contest/effect.{type ContestEffect}
 import tallgrass/resource.{NamedResource}
 
+pub fn fetch_test() {
+  let response = effect.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  effect.fetch_resource(resource) |> should.be_ok |> should_be_contest_effect
+}
+
 pub fn fetch_by_id_test() {
-  let contest_effect = effect.fetch_by_id(1) |> should.be_ok
+  effect.fetch_by_id(1) |> should.be_ok |> should_be_contest_effect
+}
+
+fn should_be_contest_effect(contest_effect: ContestEffect) {
   contest_effect.id |> should.equal(1)
   contest_effect.appeal |> should.equal(4)
   contest_effect.jam |> should.equal(0)

@@ -1,7 +1,16 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import tallgrass/item/fling_effect.{type ItemFlingEffect}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = fling_effect.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  fling_effect.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_badly_poison
+}
 
 pub fn fetch_by_id_test() {
   fling_effect.fetch_by_id(1) |> should.be_ok |> should_be_badly_poison

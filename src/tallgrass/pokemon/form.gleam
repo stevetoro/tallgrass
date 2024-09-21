@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type PokemonForm {
   PokemonForm(
@@ -20,7 +21,33 @@ pub type PokemonForm {
 
 const path = "pokemon-form"
 
-/// Fetches a pokemon form by the form ID.
+/// Fetches a list of pokemon form resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = form.fetch(options: None)
+/// let result = form.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon form given a pokemon form resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(form.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// form.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: pokemon_form())
+}
+
+/// Fetches a pokemon form given the pokemon form ID.
 ///
 /// # Example
 ///
@@ -31,7 +58,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, pokemon_form())
 }
 
-/// Fetches a pokemon form by the form name.
+/// Fetches a pokemon form given the pokemon form name.
 ///
 /// # Example
 ///

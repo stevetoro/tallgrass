@@ -1,6 +1,14 @@
+import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/pokemon/habitat.{type Habitat}
+
+pub fn fetch_test() {
+  let response = habitat.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  habitat.fetch_resource(resource) |> should.be_ok |> should_be_cave
+}
 
 pub fn fetch_by_id_test() {
   habitat.fetch_by_id(1) |> should.be_ok |> should_be_cave

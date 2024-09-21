@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type EvolutionTrigger {
   EvolutionTrigger(
@@ -13,23 +14,49 @@ pub type EvolutionTrigger {
 
 const path = "evolution-trigger"
 
-/// Fetches an evolution trigger by ID.
+/// Fetches a list of evolution trigger resources.
+/// Optionally accepts pagination options `limit` and `offset`.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = evolution_trigger.fetch_by_id(1)
+/// let result = trigger.fetch(options: None)
+/// let result = trigger.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches an evolution trigger given an evolution trigger resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(trigger.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// trigger.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: evolution_trigger())
+}
+
+/// Fetches an evolution trigger given the evolution trigger ID.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = trigger.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, evolution_trigger())
 }
 
-/// Fetches an evolution trigger by name.
+/// Fetches an evolution trigger given the evolution trigger name.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = evolution_trigger.fetch_by_name("level-up")
+/// let result = trigger.fetch_by_name("level-up")
 /// ```
 pub fn fetch_by_name(name: String) {
   resource.fetch_by_name(name, path, evolution_trigger())

@@ -1,5 +1,6 @@
 import decode
-import tallgrass/resource.{type Resource, resource}
+import gleam/option.{type Option}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type VersionGroup {
   VersionGroup(
@@ -16,7 +17,33 @@ pub type VersionGroup {
 
 const path = "version-group"
 
-/// Fetches a version_group by the version_group ID.
+/// Fetches a list of version group resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = version_group.fetch(options: None)
+/// let result = version_group.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a version group given a version group resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(version_group.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// version_group.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: version_group())
+}
+
+/// Fetches a version group given the version group ID.
 ///
 /// # Example
 ///
@@ -27,7 +54,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, version_group())
 }
 
-/// Fetches a version_group by the version_group name.
+/// Fetches a version group given the version group name.
 ///
 /// # Example
 ///

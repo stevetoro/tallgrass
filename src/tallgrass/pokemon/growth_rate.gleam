@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/description.{type Description, description}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type GrowthRate {
   GrowthRate(
@@ -19,7 +20,33 @@ pub type GrowthRateExperienceLevel {
 
 const path = "growth-rate"
 
-/// Fetches a pokemon growth rate by the growth rate ID.
+/// Fetches a list of pokemon growth rate resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = growth_rate.fetch(options: None)
+/// let result = growth_rate.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon growth rate given a pokemon growth rate resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(growth_rate.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// growth_rate.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: growth_rate())
+}
+
+/// Fetches a pokemon growth rate given the pokemon growth rate ID.
 ///
 /// # Example
 ///
@@ -30,7 +57,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, growth_rate())
 }
 
-/// Fetches a pokemon growth rate by the growth rate name.
+/// Fetches a pokemon growth rate given the pokemon growth rate name.
 ///
 /// # Example
 ///

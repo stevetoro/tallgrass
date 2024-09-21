@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Habitat {
   Habitat(
@@ -13,7 +14,33 @@ pub type Habitat {
 
 const path = "pokemon-habitat"
 
-/// Fetches a pokemon habitat by the habitat ID.
+/// Fetches a list of pokemon habitat resources.
+/// Optionally accepts pagination options `limit` and `offset`.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = habitat.fetch(options: None)
+/// let result = habitat.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a pokemon habitat given a pokemon habitat resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(habitat.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// habitat.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: habitat())
+}
+
+/// Fetches a pokemon habitat given the pokemon habitat ID.
 ///
 /// # Example
 ///
@@ -24,7 +51,7 @@ pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, habitat())
 }
 
-/// Fetches a pokemon habitat by the habitat name.
+/// Fetches a pokemon habitat given the pokemon habitat name.
 ///
 /// # Example
 ///

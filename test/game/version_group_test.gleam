@@ -1,7 +1,14 @@
 import gleam/list
+import gleam/option.{None}
 import gleeunit/should
 import tallgrass/game/version_group.{type VersionGroup}
 import tallgrass/resource.{NamedResource}
+
+pub fn fetch_test() {
+  let response = version_group.fetch(options: None) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  version_group.fetch_resource(resource) |> should.be_ok |> should_be_red_blue
+}
 
 pub fn fetch_by_id_test() {
   version_group.fetch_by_id(1) |> should.be_ok |> should_be_red_blue

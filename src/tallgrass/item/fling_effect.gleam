@@ -1,6 +1,7 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/effect.{type Effect, effect}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type ItemFlingEffect {
   ItemFlingEffect(
@@ -13,23 +14,49 @@ pub type ItemFlingEffect {
 
 const path = "item-fling-effect"
 
-/// Fetches an item_fling_effect by the item_fling_effect ID.
+/// Fetches a list of item fling effect resources.
+/// Optionally accepts pagination options `limit` and `offset`.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = item_fling_effect.fetch_by_id(1)
+/// let result = fling_effect.fetch(options: None)
+/// let result = fling_effect.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches an item fling effect given an item fling effect resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(fling_effect.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// fling_effect.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: item_fling_effect())
+}
+
+/// Fetches an item fling effect given the item fling effect ID.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = fling_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, item_fling_effect())
 }
 
-/// Fetches an item_fling_effect by the item_fling_effect name.
+/// Fetches an item fling effect given the item fling effect name.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = item_fling_effect.fetch_by_name("badly-poison")
+/// let result = fling_effect.fetch_by_name("badly-poison")
 /// ```
 pub fn fetch_by_name(name: String) {
   resource.fetch_by_name(name, path, item_fling_effect())

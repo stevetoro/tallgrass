@@ -1,7 +1,8 @@
 import decode
+import gleam/option.{type Option}
 import tallgrass/common/effect.{type Effect, effect}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
-import tallgrass/resource
+import tallgrass/resource.{type PaginationOptions, type Resource}
 
 pub type ContestEffect {
   ContestEffect(
@@ -15,12 +16,38 @@ pub type ContestEffect {
 
 const path = "contest-effect"
 
-/// Fetches a contest effect by the effect ID.
+/// Fetches a list of contest effect resources.
+/// Optionally accepts pagination options `limit` and `offset`.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = contest_effect.fetch_by_id(1)
+/// let result = effect.fetch(options: None)
+/// let result = effect.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// ```
+pub fn fetch(options options: Option(PaginationOptions)) {
+  resource.fetch_resources(path, options)
+}
+
+/// Fetches a contest effect given a contest effect resource.
+///
+/// # Example
+///
+/// ```gleam
+/// use res <- result.try(effect.fetch(options: None))
+/// let assert Ok(first) = res.results |> list.first
+/// effect.fetch_resource(first)
+/// ```
+pub fn fetch_resource(resource: Resource) {
+  resource.fetch_resource(resource, using: contest_effect())
+}
+
+/// Fetches a contest effect given the contest effect ID.
+///
+/// # Example
+///
+/// ```gleam
+/// let result = effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int) {
   resource.fetch_by_id(id, path, contest_effect())

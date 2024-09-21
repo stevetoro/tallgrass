@@ -1,8 +1,16 @@
 import gleam/list
+import gleam/option.{Some}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/move/ailment.{type MoveAilment}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{NamedResource, PaginationOptions}
+
+pub fn fetch_test() {
+  let options = PaginationOptions(limit: 1, offset: 2)
+  let response = ailment.fetch(options: Some(options)) |> should.be_ok
+  let resource = response.results |> list.first |> should.be_ok
+  ailment.fetch_resource(resource) |> should.be_ok |> should_be_paralysis
+}
 
 pub fn fetch_by_id_test() {
   ailment.fetch_by_id(1) |> should.be_ok |> should_be_paralysis

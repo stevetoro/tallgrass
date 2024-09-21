@@ -17,5 +17,4 @@ fn should_be_walk(encounter_method: EncounterMethod) {
 
   let name = encounter_method.names |> should_have_english_name
   name.name |> should.equal("Walking in tall grass or a cave")
-  
 }

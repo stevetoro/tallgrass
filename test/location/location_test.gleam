@@ -24,7 +24,6 @@ fn should_be_canalave_city(location: Location) {
 
   let name = location.names |> should_have_english_name
   name.name |> should.equal("Canalave City")
-  
 
   let game_index = location.game_indices |> list.first |> should.be_ok
   game_index.index |> should.equal(7)

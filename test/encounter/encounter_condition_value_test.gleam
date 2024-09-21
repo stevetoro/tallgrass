@@ -21,5 +21,4 @@ fn should_be_swarm_yes(encounter_condition_value: EncounterConditionValue) {
 
   let name = encounter_condition_value.names |> should_have_english_name
   name.name |> should.equal("During a swarm")
-  
 }

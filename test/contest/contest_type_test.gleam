@@ -21,5 +21,4 @@ fn should_be_cool(contest_type: ContestType) {
 
   let name = contest_type.names |> should_have_english_name
   name.name |> should.equal("Cool")
-  
 }

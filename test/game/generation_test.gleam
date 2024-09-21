@@ -32,7 +32,6 @@ fn should_be_generation_i(generation: Generation) {
   let name = generation.names |> should_have_english_name
   name.name |> should.equal("Generation I")
 
-
   let assert NamedResource(url, name) =
     generation.pokemon_species |> list.first |> should.be_ok
   name |> should.equal("bulbasaur")

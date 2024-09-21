@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -21,10 +20,10 @@ const path = "pokemon-shape"
 /// # Example
 ///
 /// ```gleam
-/// let result = shape.fetch(options: None)
+/// let result = shape.fetch(options: Default)
 /// let result = shape.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -33,7 +32,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(shape.fetch(options: None))
+/// use res <- result.try(shape.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// shape.fetch_resource(first)
 /// ```

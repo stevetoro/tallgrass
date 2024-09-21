@@ -1,11 +1,11 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/move/battle_style.{type MoveBattleStyle}
+import tallgrass/resource.{Default}
 
 pub fn fetch_test() {
-  let response = battle_style.fetch(options: None) |> should.be_ok
+  let response = battle_style.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   battle_style.fetch_resource(resource) |> should.be_ok |> should_be_attack
 }

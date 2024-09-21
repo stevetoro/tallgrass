@@ -38,10 +38,10 @@ const path = "move"
 /// # Example
 ///
 /// ```gleam
-/// let result = move.fetch(options: None)
+/// let result = move.fetch(options: Default)
 /// let result = move.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -50,7 +50,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(move.fetch(options: None))
+/// use res <- result.try(move.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// move.fetch_resource(first)
 /// ```

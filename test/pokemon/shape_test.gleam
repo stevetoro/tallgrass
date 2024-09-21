@@ -1,12 +1,11 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/pokemon/shape.{type PokemonShape}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = shape.fetch(options: None) |> should.be_ok
+  let response = shape.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   shape.fetch_resource(resource) |> should.be_ok |> should_be_ball
 }

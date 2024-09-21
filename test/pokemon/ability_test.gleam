@@ -1,12 +1,11 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/pokemon/ability.{type Ability}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = ability.fetch(options: None) |> should.be_ok
+  let response = ability.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   ability.fetch_resource(resource) |> should.be_ok |> should_be_stench
 }

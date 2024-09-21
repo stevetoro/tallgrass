@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -15,10 +14,10 @@ const path = "version"
 /// # Example
 ///
 /// ```gleam
-/// let result = version.fetch(options: None)
+/// let result = version.fetch(options: Default)
 /// let result = version.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -27,7 +26,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(version.fetch(options: None))
+/// use res <- result.try(version.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// version.fetch_resource(first)
 /// ```

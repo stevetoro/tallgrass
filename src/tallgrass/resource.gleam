@@ -19,7 +19,10 @@ pub type Resource {
 }
 
 pub type PaginationOptions {
-  PaginationOptions(limit: Int, offset: Int)
+  Paginate(limit: Int, offset: Int)
+  Limit(Int)
+  Offset(Int)
+  Default
 }
 
 pub fn fetch_by_id(id: Int, path: String, using decoder: Decoder(t)) {
@@ -32,8 +35,8 @@ pub fn fetch_by_name(name: String, path: String, using decoder: Decoder(t)) {
   request.get(path, [], decoder: decoder)
 }
 
-pub fn fetch_resources(path: String, options: Option(PaginationOptions)) {
-  request.get(path, options |> unwrap, decoder: resource_list())
+pub fn fetch_resources(path: String, options: PaginationOptions) {
+  request.get(path, options |> query, decoder: resource_list())
 }
 
 pub fn fetch_resource(resource: Resource, using decoder: Decoder(t)) {
@@ -90,16 +93,14 @@ fn path_from(resource: Option(String), path: String) {
   }
 }
 
-fn unwrap(options: Option(PaginationOptions)) {
+fn query(options: PaginationOptions) {
   case options {
-    Some(options) -> query(from: options)
-    None -> []
+    Paginate(limit, offset) -> [
+      #("limit", limit |> to_string),
+      #("offset", offset |> to_string),
+    ]
+    Limit(limit) -> [#("limit", limit |> to_string)]
+    Offset(offset) -> [#("offset", offset |> to_string)]
+    Default -> []
   }
-}
-
-fn query(from options: PaginationOptions) {
-  [
-    #("limit", options.limit |> to_string),
-    #("offset", options.offset |> to_string),
-  ]
 }

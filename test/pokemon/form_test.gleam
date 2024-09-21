@@ -1,12 +1,11 @@
 import gleam/list
-import gleam/option.{Some}
 import gleeunit/should
 import tallgrass/pokemon/form.{type PokemonForm}
-import tallgrass/resource.{NamedResource, PaginationOptions}
+import tallgrass/resource.{NamedResource, Paginate}
 
 pub fn fetch_test() {
-  let options = PaginationOptions(limit: 1, offset: 1065)
-  let response = form.fetch(options: Some(options)) |> should.be_ok
+  let response =
+    form.fetch(options: Paginate(limit: 1, offset: 1065)) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   form.fetch_resource(resource) |> should.be_ok |> should_be_arceus_bug
 }

@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/effect.{type Effect, effect}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
 import tallgrass/resource.{type PaginationOptions, type Resource}
@@ -22,10 +21,10 @@ const path = "contest-effect"
 /// # Example
 ///
 /// ```gleam
-/// let result = effect.fetch(options: None)
+/// let result = effect.fetch(options: Default)
 /// let result = effect.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -34,7 +33,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(effect.fetch(options: None))
+/// use res <- result.try(effect.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// effect.fetch_resource(first)
 /// ```

@@ -1,12 +1,11 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/move.{type Move}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = move.fetch(options: None) |> should.be_ok
+  let response = move.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   move.fetch_resource(resource) |> should.be_ok |> should_be_pound
 }

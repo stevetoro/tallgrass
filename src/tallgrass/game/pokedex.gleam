@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
@@ -29,10 +28,10 @@ const path = "pokedex"
 /// # Example
 ///
 /// ```gleam
-/// let result = pokedex.fetch(options: None)
+/// let result = pokedex.fetch(options: Default)
 /// let result = pokedex.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -41,7 +40,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokedex.fetch(options: None))
+/// use res <- result.try(pokedex.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// pokedex.fetch_resource(first)
 /// ```

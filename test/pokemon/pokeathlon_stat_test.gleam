@@ -1,12 +1,11 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/pokemon/pokeathlon_stat.{type PokeathlonStat}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = pokeathlon_stat.fetch(options: None) |> should.be_ok
+  let response = pokeathlon_stat.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   pokeathlon_stat.fetch_resource(resource) |> should.be_ok |> should_be_speed
 }

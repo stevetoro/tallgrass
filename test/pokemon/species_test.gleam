@@ -1,13 +1,11 @@
 import gleam/list
-import gleam/option.{Some}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/pokemon/species.{type PokemonSpecies}
-import tallgrass/resource.{NamedResource, PaginationOptions}
+import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let options = PaginationOptions(limit: 1, offset: 412)
-  let response = species.fetch(options: Some(options)) |> should.be_ok
+  let response = species.fetch(options: Offset(412)) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   species.fetch_resource(resource) |> should.be_ok |> should_be_wormadam
 }

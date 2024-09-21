@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
@@ -32,10 +31,10 @@ const path = "ability"
 /// # Example
 ///
 /// ```gleam
-/// let result = ability.fetch(options: None)
+/// let result = ability.fetch(options: Default)
 /// let result = ability.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -44,7 +43,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(ability.fetch(options: None))
+/// use res <- result.try(ability.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// ability.fetch_resource(first)
 /// ```

@@ -1,15 +1,12 @@
 import gleam/list
-import gleam/option.{None, Some}
 import gleeunit/should
 import tallgrass/request.{NoNextPage, NoPreviousPage}
-import tallgrass/resource.{
-  type PaginationOptions, NamedResource, PaginationOptions, next, previous,
-}
+import tallgrass/resource.{Default, NamedResource, Paginate, next, previous}
 
 pub fn pagination_test() {
-  let options = PaginationOptions(limit: 3, offset: 2)
   let response =
-    resource.fetch_resources("pokemon", Some(options)) |> should.be_ok
+    resource.fetch_resources("pokemon", Paginate(limit: 3, offset: 2))
+    |> should.be_ok
   response.results |> list.length |> should.equal(3)
 
   let assert NamedResource(_url, name) =
@@ -31,9 +28,8 @@ pub fn pagination_test() {
 
 pub fn no_previous_page_test() {
   // fetch the first page of 5 resources
-  let options = PaginationOptions(limit: 5, offset: 0)
-  let response =
-    resource.fetch_resources("pokemon", Some(options)) |> should.be_ok
+  let options = Paginate(limit: 5, offset: 0)
+  let response = resource.fetch_resources("pokemon", options) |> should.be_ok
 
   response.results |> list.length |> should.equal(5)
 
@@ -46,12 +42,11 @@ pub fn no_previous_page_test() {
 }
 
 pub fn no_next_page_test() {
-  let response = resource.fetch_resources("pokemon", None) |> should.be_ok
+  let response = resource.fetch_resources("pokemon", Default) |> should.be_ok
 
   // fetch the final page of 10 resources
-  let options = PaginationOptions(limit: 10, offset: response.count - 10)
-  let response =
-    resource.fetch_resources("pokemon", Some(options)) |> should.be_ok
+  let options = Paginate(limit: 10, offset: response.count - 10)
+  let response = resource.fetch_resources("pokemon", options) |> should.be_ok
 
   response.results |> list.length |> should.equal(10)
 

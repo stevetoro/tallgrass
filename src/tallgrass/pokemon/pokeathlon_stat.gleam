@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -31,10 +30,10 @@ const path = "pokeathlon-stat"
 /// # Example
 ///
 /// ```gleam
-/// let result = pokeathlon_stat.fetch(options: None)
+/// let result = pokeathlon_stat.fetch(options: Default)
 /// let result = pokeathlon_stat.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -43,7 +42,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokeathlon_stat.fetch(options: None))
+/// use res <- result.try(pokeathlon_stat.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// pokeathlon_stat.fetch_resource(first)
 /// ```

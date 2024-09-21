@@ -1,11 +1,10 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import tallgrass/item/fling_effect.{type ItemFlingEffect}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = fling_effect.fetch(options: None) |> should.be_ok
+  let response = fling_effect.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   fling_effect.fetch_resource(resource)
   |> should.be_ok

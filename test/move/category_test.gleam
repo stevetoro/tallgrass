@@ -1,12 +1,10 @@
 import gleam/list
-import gleam/option.{Some}
 import gleeunit/should
 import tallgrass/move/category.{type MoveCategory}
-import tallgrass/resource.{NamedResource, PaginationOptions}
+import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let options = PaginationOptions(limit: 1, offset: 1)
-  let response = category.fetch(options: Some(options)) |> should.be_ok
+  let response = category.fetch(options: Offset(1)) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   category.fetch_resource(resource) |> should.be_ok |> should_be_ailment
 }

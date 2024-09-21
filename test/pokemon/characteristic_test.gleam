@@ -1,11 +1,10 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import tallgrass/pokemon/characteristic.{type Characteristic}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = characteristic.fetch(options: None) |> should.be_ok
+  let response = characteristic.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   characteristic.fetch_resource(resource)
   |> should.be_ok

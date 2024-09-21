@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
@@ -51,10 +50,10 @@ const path = "type"
 /// # Example
 ///
 /// ```gleam
-/// let result = pokemon_type.fetch(options: None)
+/// let result = pokemon_type.fetch(options: Default)
 /// let result = pokemon_type.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -63,7 +62,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon_type.fetch(options: None))
+/// use res <- result.try(pokemon_type.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// pokemon_type.fetch_resource(first)
 /// ```

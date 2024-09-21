@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource}
 
@@ -17,10 +16,10 @@ const path = "pal-park-area"
 /// # Example
 ///
 /// ```gleam
-/// let result = pal_park_area.fetch(options: None)
+/// let result = pal_park_area.fetch(options: Default)
 /// let result = pal_park_area.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -29,7 +28,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pal_park_area.fetch(options: None))
+/// use res <- result.try(pal_park_area.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// pal_park_area.fetch_resource(first)
 /// ```

@@ -37,10 +37,10 @@ const path = "nature"
 /// # Example
 ///
 /// ```gleam
-/// let result = nature.fetch(options: None)
+/// let result = nature.fetch(options: Default)
 /// let result = nature.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -49,7 +49,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(nature.fetch(options: None))
+/// use res <- result.try(nature.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// nature.fetch_resource(first)
 /// ```

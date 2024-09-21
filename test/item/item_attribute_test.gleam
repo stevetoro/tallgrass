@@ -1,12 +1,11 @@
 import gleam/list
-import gleam/option.{None}
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/item/attribute.{type ItemAttribute}
-import tallgrass/resource.{NamedResource}
+import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = attribute.fetch(options: None) |> should.be_ok
+  let response = attribute.fetch(options: Default) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   attribute.fetch_resource(resource) |> should.be_ok |> should_be_countable
 }

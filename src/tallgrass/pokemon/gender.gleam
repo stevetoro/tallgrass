@@ -1,5 +1,4 @@
 import decode
-import gleam/option.{type Option}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Gender {
@@ -23,10 +22,10 @@ const path = "gender"
 /// # Example
 ///
 /// ```gleam
-/// let result = gender.fetch(options: None)
+/// let result = gender.fetch(options: Default)
 /// let result = gender.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
 /// ```
-pub fn fetch(options options: Option(PaginationOptions)) {
+pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)
 }
 
@@ -35,7 +34,7 @@ pub fn fetch(options options: Option(PaginationOptions)) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(gender.fetch(options: None))
+/// use res <- result.try(gender.fetch(options: Default))
 /// let assert Ok(first) = res.results |> list.first
 /// gender.fetch_resource(first)
 /// ```

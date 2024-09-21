@@ -23,7 +23,7 @@ const path = "gender"
 ///
 /// ```gleam
 /// let result = gender.fetch(options: Default)
-/// let result = gender.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = gender.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

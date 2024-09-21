@@ -23,7 +23,7 @@ const path = "region"
 ///
 /// ```gleam
 /// let result = region.fetch(options: Default)
-/// let result = region.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = region.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

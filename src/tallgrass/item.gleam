@@ -53,7 +53,7 @@ const path = "item"
 ///
 /// ```gleam
 /// let result = item.fetch(options: Default)
-/// let result = item.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = item.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

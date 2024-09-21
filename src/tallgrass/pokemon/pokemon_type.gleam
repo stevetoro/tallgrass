@@ -51,7 +51,7 @@ const path = "type"
 ///
 /// ```gleam
 /// let result = pokemon_type.fetch(options: Default)
-/// let result = pokemon_type.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = pokemon_type.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

@@ -22,7 +22,7 @@ const path = "move-target"
 ///
 /// ```gleam
 /// let result = target.fetch(options: Default)
-/// let result = target.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = target.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

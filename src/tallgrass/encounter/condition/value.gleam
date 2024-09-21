@@ -20,7 +20,7 @@ const path = "encounter-condition-value"
 ///
 /// ```gleam
 /// let result = value.fetch(options: Default)
-/// let result = value.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = value.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

@@ -20,7 +20,7 @@ const path = "pokemon-habitat"
 ///
 /// ```gleam
 /// let result = habitat.fetch(options: Default)
-/// let result = habitat.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = habitat.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

@@ -35,7 +35,7 @@ const path = "pokemon-species"
 ///
 /// ```gleam
 /// let result = species.fetch(options: Default)
-/// let result = species.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = species.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

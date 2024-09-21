@@ -25,7 +25,7 @@ const path = "location"
 ///
 /// ```gleam
 /// let result = location.fetch(options: Default)
-/// let result = location.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = location.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

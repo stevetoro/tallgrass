@@ -15,7 +15,7 @@ const path = "move-ailment"
 ///
 /// ```gleam
 /// let result = ailment.fetch(options: Default)
-/// let result = ailment.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = ailment.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

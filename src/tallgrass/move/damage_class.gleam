@@ -22,7 +22,7 @@ const path = "move-damage-class"
 ///
 /// ```gleam
 /// let result = damage_class.fetch(options: Default)
-/// let result = damage_class.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = damage_class.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

@@ -22,7 +22,7 @@ const path = "item-attribute"
 ///
 /// ```gleam
 /// let result = attribute.fetch(options: Default)
-/// let result = attribute.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = attribute.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

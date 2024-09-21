@@ -20,7 +20,7 @@ const path = "super-contest-effect"
 ///
 /// ```gleam
 /// let result = super_contest_effect.fetch(options: Default)
-/// let result = super_contest_effect.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = super_contest_effect.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

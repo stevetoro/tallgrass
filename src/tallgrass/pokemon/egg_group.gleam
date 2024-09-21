@@ -20,7 +20,7 @@ const path = "egg-group"
 ///
 /// ```gleam
 /// let result = egg_group.fetch(options: Default)
-/// let result = egg_group.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = egg_group.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

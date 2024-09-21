@@ -25,7 +25,7 @@ const path = "generation"
 ///
 /// ```gleam
 /// let result = generation.fetch(options: Default)
-/// let result = generation.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = generation.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

@@ -20,7 +20,7 @@ const path = "pokemon-color"
 ///
 /// ```gleam
 /// let result = color.fetch(options: Default)
-/// let result = color.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = color.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

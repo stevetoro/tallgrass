@@ -29,7 +29,7 @@ const path = "pokedex"
 ///
 /// ```gleam
 /// let result = pokedex.fetch(options: Default)
-/// let result = pokedex.fetch(options: Some(PaginationOptions(limit: 100, offset: 0)))
+/// let result = pokedex.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
 pub fn fetch(options options: PaginationOptions) {
   resource.fetch_resources(path, options)

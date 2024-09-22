@@ -6,8 +6,7 @@ import tallgrass/pokemon/nature.{type Nature}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response =
-    nature.fetch(options: Offset(1), cache: NoCache) |> should.be_ok
+  let response = nature.fetch(Offset(1), NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   nature.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_bold
 }

@@ -27,10 +27,10 @@ const path = "pokemon-form"
 /// # Example
 ///
 /// ```gleam
-/// let result = form.fetch(options: Default)
-/// let result = form.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = form.fetch(DefaultPagination)
+/// let result = form.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -39,12 +39,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(form.fetch(options: Default))
+/// use res <- result.try(form.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// form.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: pokemon_form(), cache: cache)
+  resource.fetch_resource(resource, pokemon_form(), cache)
 }
 
 /// Fetches a pokemon form given the pokemon form ID.
@@ -55,7 +55,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = form.fetch_by_id(10143)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, pokemon_form(), cache: cache)
+  resource.fetch_by_id(id, path, pokemon_form(), cache)
 }
 
 /// Fetches a pokemon form given the pokemon form name.
@@ -66,7 +66,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = form.fetch_by_name("mewtwo-mega-x")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, pokemon_form(), cache: cache)
+  resource.fetch_by_name(name, path, pokemon_form(), cache)
 }
 
 fn pokemon_form() {

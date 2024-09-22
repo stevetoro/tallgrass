@@ -20,10 +20,10 @@ const path = "encounter-condition"
 /// # Example
 ///
 /// ```gleam
-/// let result = condition.fetch(options: Default)
-/// let result = condition.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = condition.fetch(DefaultPagination)
+/// let result = condition.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -32,12 +32,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(condition.fetch(options: Default))
+/// use res <- result.try(condition.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// condition.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: encounter_condition(), cache: cache)
+  resource.fetch_resource(resource, encounter_condition(), cache)
 }
 
 /// Fetches an encounter condition given the encounter condition ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = condition.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, encounter_condition(), cache: cache)
+  resource.fetch_by_id(id, path, encounter_condition(), cache)
 }
 
 /// Fetches an encounter condition given the encounter condition name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = condition.fetch_by_name("swarm")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, encounter_condition(), cache: cache)
+  resource.fetch_by_name(name, path, encounter_condition(), cache)
 }
 
 fn encounter_condition() {

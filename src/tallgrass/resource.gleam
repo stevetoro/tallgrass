@@ -23,47 +23,38 @@ pub type PaginationOptions {
   Paginate(limit: Int, offset: Int)
   Limit(Int)
   Offset(Int)
-  Default
+  DefaultPagination
 }
 
-pub fn fetch_by_id(
-  id: Int,
-  path: String,
-  using decoder: Decoder(t),
-  cache cache: Cache,
-) {
+pub fn fetch_by_id(id: Int, path: String, decoder: Decoder(t), cache: Cache) {
   let path = path_from(Some(id |> to_string), path)
-  request.get(path, [], decoder: decoder, cache: cache)
+  request.get(path, [], decoder, cache)
 }
 
 pub fn fetch_by_name(
   name: String,
   path: String,
-  using decoder: Decoder(t),
-  cache cache: Cache,
+  decoder: Decoder(t),
+  cache: Cache,
 ) {
   let path = path_from(Some(name), path)
-  request.get(path, [], decoder: decoder, cache: cache)
+  request.get(path, [], decoder, cache)
 }
 
 pub fn fetch_resources(path: String, options: PaginationOptions, cache: Cache) {
-  request.get(path, options |> query, decoder: resource_list(), cache: cache)
+  request.get(path, options |> query, resource_list(), cache)
 }
 
-pub fn fetch_resource(
-  resource: Resource,
-  using decoder: Decoder(t),
-  cache cache: Cache,
-) {
-  request.get_url(resource.url, decoder: decoder, cache: cache)
+pub fn fetch_resource(resource: Resource, decoder: Decoder(t), cache: Cache) {
+  request.get_url(resource.url, decoder, cache)
 }
 
 pub fn next(page: ResourceList, cache: Cache) {
-  request.next(page.next, decoder: resource_list(), cache: cache)
+  request.next(page.next, resource_list(), cache)
 }
 
 pub fn previous(page: ResourceList, cache: Cache) {
-  request.previous(page.previous, decoder: resource_list(), cache: cache)
+  request.previous(page.previous, resource_list(), cache)
 }
 
 @internal
@@ -116,6 +107,6 @@ fn query(options: PaginationOptions) {
     ]
     Limit(limit) -> [#("limit", limit |> to_string)]
     Offset(offset) -> [#("offset", offset |> to_string)]
-    Default -> []
+    DefaultPagination -> []
   }
 }

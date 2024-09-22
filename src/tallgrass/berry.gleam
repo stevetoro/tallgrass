@@ -31,10 +31,10 @@ const path = "berry"
 /// # Example
 ///
 /// ```gleam
-/// let result = berry.fetch(options: Default)
-/// let result = berry.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = berry.fetch(DefaultPagination)
+/// let result = berry.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -43,12 +43,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(berry.fetch(options: Default))
+/// use res <- result.try(berry.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// berry.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: berry(), cache: cache)
+  resource.fetch_resource(resource, berry(), cache)
 }
 
 /// Fetches a berry given the berry ID.

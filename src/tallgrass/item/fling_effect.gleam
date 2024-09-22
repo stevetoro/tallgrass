@@ -20,10 +20,10 @@ const path = "item-fling-effect"
 /// # Example
 ///
 /// ```gleam
-/// let result = fling_effect.fetch(options: Default)
-/// let result = fling_effect.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = fling_effect.fetch(DefaultPagination)
+/// let result = fling_effect.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -32,12 +32,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(fling_effect.fetch(options: Default))
+/// use res <- result.try(fling_effect.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// fling_effect.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: item_fling_effect(), cache: cache)
+  resource.fetch_resource(resource, item_fling_effect(), cache)
 }
 
 /// Fetches an item fling effect given the item fling effect ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = fling_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, item_fling_effect(), cache: cache)
+  resource.fetch_by_id(id, path, item_fling_effect(), cache)
 }
 
 /// Fetches an item fling effect given the item fling effect name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = fling_effect.fetch_by_name("badly-poison")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, item_fling_effect(), cache: cache)
+  resource.fetch_by_name(name, path, item_fling_effect(), cache)
 }
 
 fn item_fling_effect() {

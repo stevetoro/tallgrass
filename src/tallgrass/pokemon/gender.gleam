@@ -23,10 +23,10 @@ const path = "gender"
 /// # Example
 ///
 /// ```gleam
-/// let result = gender.fetch(options: Default)
-/// let result = gender.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = gender.fetch(DefaultPagination)
+/// let result = gender.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -35,12 +35,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(gender.fetch(options: Default))
+/// use res <- result.try(gender.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// gender.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: gender(), cache: cache)
+  resource.fetch_resource(resource, gender(), cache)
 }
 
 /// Fetches a pokemon gender given the pokemon gender ID.
@@ -51,7 +51,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = gender.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, gender(), cache: cache)
+  resource.fetch_by_id(id, path, gender(), cache)
 }
 
 /// Fetches a pokemon gender given the pokemon gender name.
@@ -62,7 +62,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = gender.fetch_by_name("genderless")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, gender(), cache: cache)
+  resource.fetch_by_name(name, path, gender(), cache)
 }
 
 fn gender() {

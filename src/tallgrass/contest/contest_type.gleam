@@ -15,10 +15,10 @@ const path = "contest-type"
 /// # Example
 ///
 /// ```gleam
-/// let result = contest_type.fetch(options: Default)
-/// let result = contest_type.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = contest_type.fetch(DefaultPagination)
+/// let result = contest_type.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -27,12 +27,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(contest_type.fetch(options: Default))
+/// use res <- result.try(contest_type.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// contest_type.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: contest_type(), cache: cache)
+  resource.fetch_resource(resource, contest_type(), cache)
 }
 
 /// Fetches a contest type given the contest type ID.
@@ -43,7 +43,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = contest_type.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, contest_type(), cache: cache)
+  resource.fetch_by_id(id, path, contest_type(), cache)
 }
 
 /// Fetches a contest type given the contest type name.
@@ -54,7 +54,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = contest_type.fetch_by_name("cool")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, contest_type(), cache: cache)
+  resource.fetch_by_name(name, path, contest_type(), cache)
 }
 
 fn contest_type() {

@@ -2,10 +2,10 @@ import gleam/list
 import gleeunit/should
 import tallgrass/berry.{type Berry}
 import tallgrass/cache.{NoCache}
-import tallgrass/resource.{Default, NamedResource}
+import tallgrass/resource.{DefaultPagination, NamedResource}
 
 pub fn fetch_test() {
-  let response = berry.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = berry.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   berry.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_cheri
 }

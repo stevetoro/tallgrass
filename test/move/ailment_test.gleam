@@ -6,8 +6,7 @@ import tallgrass/move/ailment.{type MoveAilment}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response =
-    ailment.fetch(options: Offset(2), cache: NoCache) |> should.be_ok
+  let response = ailment.fetch(Offset(2), NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   ailment.fetch_resource(resource, NoCache)
   |> should.be_ok

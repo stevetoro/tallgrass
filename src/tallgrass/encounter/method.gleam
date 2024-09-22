@@ -15,10 +15,10 @@ const path = "encounter-method"
 /// # Example
 ///
 /// ```gleam
-/// let result = method.fetch(options: Default)
-/// let result = method.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = method.fetch(DefaultPagination)
+/// let result = method.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -27,12 +27,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(method.fetch(options: Default))
+/// use res <- result.try(method.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// method.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: encounter_method(), cache: cache)
+  resource.fetch_resource(resource, encounter_method(), cache)
 }
 
 /// Fetches an encounter method given the encounter method ID.
@@ -43,7 +43,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = method.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, encounter_method(), cache: cache)
+  resource.fetch_by_id(id, path, encounter_method(), cache)
 }
 
 /// Fetches an encounter method given the encounter method name.
@@ -54,7 +54,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = method.fetch_by_name("walk")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, encounter_method(), cache: cache)
+  resource.fetch_by_name(name, path, encounter_method(), cache)
 }
 
 fn encounter_method() {

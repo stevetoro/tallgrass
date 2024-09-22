@@ -35,10 +35,10 @@ const path = "pokemon-species"
 /// # Example
 ///
 /// ```gleam
-/// let result = species.fetch(options: Default)
-/// let result = species.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = species.fetch(DefaultPagination)
+/// let result = species.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -47,12 +47,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(species.fetch(options: Default))
+/// use res <- result.try(species.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// species.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: pokemon_species(), cache: cache)
+  resource.fetch_resource(resource, pokemon_species(), cache)
 }
 
 /// Fetches a pokemon species given the pokemon species ID.
@@ -63,7 +63,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = species.fetch_by_id(132)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, pokemon_species(), cache: cache)
+  resource.fetch_by_id(id, path, pokemon_species(), cache)
 }
 
 /// Fetches a pokemon species given the pokemon species name.
@@ -74,7 +74,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = species.fetch_by_name("ditto")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, pokemon_species(), cache: cache)
+  resource.fetch_by_name(name, path, pokemon_species(), cache)
 }
 
 fn pokemon_species() {

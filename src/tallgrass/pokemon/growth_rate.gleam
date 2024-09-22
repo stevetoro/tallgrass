@@ -26,10 +26,10 @@ const path = "growth-rate"
 /// # Example
 ///
 /// ```gleam
-/// let result = growth_rate.fetch(options: Default)
-/// let result = growth_rate.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = growth_rate.fetch(DefaultPagination)
+/// let result = growth_rate.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -38,12 +38,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(growth_rate.fetch(options: Default))
+/// use res <- result.try(growth_rate.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// growth_rate.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: growth_rate(), cache: cache)
+  resource.fetch_resource(resource, growth_rate(), cache)
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate ID.
@@ -54,7 +54,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = growth_rate.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, growth_rate(), cache: cache)
+  resource.fetch_by_id(id, path, growth_rate(), cache)
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate name.
@@ -65,7 +65,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = growth_rate.fetch_by_name("slow")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, growth_rate(), cache: cache)
+  resource.fetch_by_name(name, path, growth_rate(), cache)
 }
 
 fn growth_rate() {

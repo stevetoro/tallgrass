@@ -53,10 +53,10 @@ const path = "item"
 /// # Example
 ///
 /// ```gleam
-/// let result = item.fetch(options: Default)
-/// let result = item.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = item.fetch(DefaultPagination)
+/// let result = item.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -65,12 +65,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(item.fetch(options: Default))
+/// use res <- result.try(item.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// item.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: item(), cache: cache)
+  resource.fetch_resource(resource, item(), cache)
 }
 
 /// Fetches an item given the item ID.
@@ -81,7 +81,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = item.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, item(), cache: cache)
+  resource.fetch_by_id(id, path, item(), cache)
 }
 
 /// Fetches a item given the item name.
@@ -92,7 +92,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = item.fetch_by_name("master-ball")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, item(), cache: cache)
+  resource.fetch_by_name(name, path, item(), cache)
 }
 
 fn item() {

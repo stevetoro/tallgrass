@@ -23,10 +23,10 @@ const path = "location-area"
 /// # Example
 ///
 /// ```gleam
-/// let result = area.fetch(options: Default)
-/// let result = area.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = area.fetch(DefaultPagination)
+/// let result = area.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -35,12 +35,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(area.fetch(options: Default))
+/// use res <- result.try(area.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// area.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: location_area(), cache: cache)
+  resource.fetch_resource(resource, location_area(), cache)
 }
 
 /// Fetches a location area given the location area ID.
@@ -51,7 +51,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = area.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, location_area(), cache: cache)
+  resource.fetch_by_id(id, path, location_area(), cache)
 }
 
 /// Fetches a location area given the location area name.
@@ -62,7 +62,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = area.fetch_by_name("canalave-city-area")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, location_area(), cache: cache)
+  resource.fetch_by_name(name, path, location_area(), cache)
 }
 
 fn location_area() {

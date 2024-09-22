@@ -2,11 +2,10 @@ import gleam/list
 import gleeunit/should
 import tallgrass/cache.{NoCache}
 import tallgrass/game/version_group.{type VersionGroup}
-import tallgrass/resource.{Default, NamedResource}
+import tallgrass/resource.{DefaultPagination, NamedResource}
 
 pub fn fetch_test() {
-  let response =
-    version_group.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = version_group.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   version_group.fetch_resource(resource, NoCache)
   |> should.be_ok

@@ -57,10 +57,10 @@ const path = "pokemon"
 /// # Example
 ///
 /// ```gleam
-/// let result = pokemon.fetch(options: Default)
-/// let result = pokemon.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = pokemon.fetch(DefaultPagination)
+/// let result = pokemon.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -69,12 +69,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon.fetch(options: Default))
+/// use res <- result.try(pokemon.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// pokemon.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: pokemon(), cache: cache)
+  resource.fetch_resource(resource, pokemon(), cache)
 }
 
 /// Fetches a pokemon given the pokemon ID.
@@ -85,7 +85,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = pokemon.fetch_by_id(132)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, using: pokemon(), cache: cache)
+  resource.fetch_by_id(id, path, pokemon(), cache)
 }
 
 /// Fetches a pokemon given the pokemon name.
@@ -96,7 +96,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = pokemon.fetch_by_name("ditto")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, using: pokemon(), cache: cache)
+  resource.fetch_by_name(name, path, pokemon(), cache)
 }
 
 fn pokemon() {

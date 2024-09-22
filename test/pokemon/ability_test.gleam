@@ -3,10 +3,10 @@ import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/ability.{type Ability}
-import tallgrass/resource.{Default, NamedResource}
+import tallgrass/resource.{DefaultPagination, NamedResource}
 
 pub fn fetch_test() {
-  let response = ability.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = ability.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   ability.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_stench
 }

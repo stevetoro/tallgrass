@@ -23,43 +23,30 @@ pub type Error {
 pub type QueryParams =
   List(#(String, String))
 
-pub fn next(
-  url: Option(String),
-  decoder decoder: Decoder(t),
-  cache cache: Cache,
-) {
+pub fn next(url: Option(String), decoder: Decoder(t), cache: Cache) {
   case url {
     Some(url) -> get_url(url, decoder, cache)
     None -> Error(NoNextPage)
   }
 }
 
-pub fn previous(
-  url: Option(String),
-  decoder decoder: Decoder(t),
-  cache cache: Cache,
-) {
+pub fn previous(url: Option(String), decoder: Decoder(t), cache: Cache) {
   case url {
     Some(url) -> get_url(url, decoder, cache)
     None -> Error(NoPreviousPage)
   }
 }
 
-pub fn get_url(url: String, decoder decoder: Decoder(t), cache cache: Cache) {
+pub fn get_url(url: String, decoder: Decoder(t), cache: Cache) {
   let assert [_, path] = url |> split(on: api_url)
   get(path, [], decoder, cache)
 }
 
-pub fn get(
-  path: String,
-  query: QueryParams,
-  decoder decoder: Decoder(t),
-  cache cache: Cache,
-) {
+pub fn get(path: String, query: QueryParams, decoder: Decoder(t), cache: Cache) {
   let req = new(path, query)
   case cache {
     Cache(_) -> {
-      use res <- result.try(req |> send_and_cache(using: cache))
+      use res <- result.try(req |> send_and_cache(cache))
       decode(res, using: decoder)
     }
     NoCache -> {
@@ -103,6 +90,6 @@ fn send(request: Request(String)) {
 
 fn decode(response: Response(String), using decoder: Decoder(t)) {
   response.body
-  |> json.decode(using: decode.from(decoder, _))
+  |> json.decode(decode.from(decoder, _))
   |> result.replace_error(DecodeError)
 }

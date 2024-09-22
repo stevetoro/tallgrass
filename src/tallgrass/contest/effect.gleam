@@ -22,10 +22,10 @@ const path = "contest-effect"
 /// # Example
 ///
 /// ```gleam
-/// let result = effect.fetch(options: Default)
-/// let result = effect.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = effect.fetch(DefaultPagination)
+/// let result = effect.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -34,12 +34,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(effect.fetch(options: Default))
+/// use res <- result.try(effect.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// effect.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: contest_effect(), cache: cache)
+  resource.fetch_resource(resource, contest_effect(), cache)
 }
 
 /// Fetches a contest effect given the contest effect ID.
@@ -50,7 +50,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, contest_effect(), cache: cache)
+  resource.fetch_by_id(id, path, contest_effect(), cache)
 }
 
 fn contest_effect() {

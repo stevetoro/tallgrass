@@ -6,8 +6,7 @@ import tallgrass/game/pokedex.{type Pokedex}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response =
-    pokedex.fetch(options: Offset(1), cache: NoCache) |> should.be_ok
+  let response = pokedex.fetch(Offset(1), NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   pokedex.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_kanto
 }

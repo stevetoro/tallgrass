@@ -32,10 +32,10 @@ const path = "ability"
 /// # Example
 ///
 /// ```gleam
-/// let result = ability.fetch(options: Default)
-/// let result = ability.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = ability.fetch(DefaultPagination)
+/// let result = ability.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -44,12 +44,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(ability.fetch(options: Default))
+/// use res <- result.try(ability.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// ability.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: ability(), cache: cache)
+  resource.fetch_resource(resource, ability(), cache)
 }
 
 /// Fetches a pokemon ability given the pokemon ability ID.
@@ -60,7 +60,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = ability.fetch_by_id(32)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, ability(), cache: cache)
+  resource.fetch_by_id(id, path, ability(), cache)
 }
 
 /// Fetches a pokemon ability given the pokemon ability name.
@@ -71,7 +71,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = ability.fetch_by_name("serene-grace")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, ability(), cache: cache)
+  resource.fetch_by_name(name, path, ability(), cache)
 }
 
 fn ability() {

@@ -3,11 +3,10 @@ import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/cache.{NoCache}
 import tallgrass/game/generation.{type Generation}
-import tallgrass/resource.{Default, NamedResource}
+import tallgrass/resource.{DefaultPagination, NamedResource}
 
 pub fn fetch_test() {
-  let response =
-    generation.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = generation.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   generation.fetch_resource(resource, NoCache)
   |> should.be_ok

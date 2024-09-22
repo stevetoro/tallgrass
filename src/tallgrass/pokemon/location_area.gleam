@@ -41,7 +41,7 @@ pub fn fetch_for_pokemon_with_id(id: Int, cache: Cache) {
     id,
     path,
     decode.list(of: pokemon_location_area()),
-    cache: cache,
+    cache,
   )
 }
 
@@ -57,7 +57,7 @@ pub fn fetch_for_pokemon_with_name(name: String, cache: Cache) {
     name,
     path,
     decode.list(of: pokemon_location_area()),
-    cache: cache,
+    cache,
   )
 }
 

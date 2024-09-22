@@ -20,10 +20,10 @@ const path = "move-category"
 /// # Example
 ///
 /// ```gleam
-/// let result = category.fetch(options: Default)
-/// let result = category.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = category.fetch(DefaultPagination)
+/// let result = category.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -32,12 +32,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(category.fetch(options: Default))
+/// use res <- result.try(category.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// category.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: move_category(), cache: cache)
+  resource.fetch_resource(resource, move_category(), cache)
 }
 
 /// Fetches a move category given the move category ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = category.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, move_category(), cache: cache)
+  resource.fetch_by_id(id, path, move_category(), cache)
 }
 
 /// Fetches a move category given the move category name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = category.fetch_by_name("ailment")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, move_category(), cache: cache)
+  resource.fetch_by_name(name, path, move_category(), cache)
 }
 
 fn move_category() {

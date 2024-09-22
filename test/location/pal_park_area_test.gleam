@@ -3,11 +3,10 @@ import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/cache.{NoCache}
 import tallgrass/location/pal_park_area.{type PalParkArea}
-import tallgrass/resource.{Default}
+import tallgrass/resource.{DefaultPagination}
 
 pub fn fetch_test() {
-  let response =
-    pal_park_area.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = pal_park_area.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   pal_park_area.fetch_resource(resource, NoCache)
   |> should.be_ok

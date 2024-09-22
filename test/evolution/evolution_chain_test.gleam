@@ -7,8 +7,7 @@ import tallgrass/resource.{NamedResource, Offset}
 // TODO: Add test cases covering more fields.
 
 pub fn fetch_test() {
-  let response =
-    chain.fetch(options: Offset(199), cache: NoCache) |> should.be_ok
+  let response = chain.fetch(Offset(199), NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   chain.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_rayquaza
 }

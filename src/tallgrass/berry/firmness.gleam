@@ -20,10 +20,10 @@ const path = "berry-firmness"
 /// # Example
 ///
 /// ```gleam
-/// let result = firmness.fetch(options: Default)
-/// let result = firmness.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = firmness.fetch(DefaultPagination)
+/// let result = firmness.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -32,12 +32,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(firmness.fetch(options: Default))
+/// use res <- result.try(firmness.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// firmness.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: berry_firmness(), cache: cache)
+  resource.fetch_resource(resource, berry_firmness(), cache)
 }
 
 /// Fetches a berry firmness given the berry firmness ID.

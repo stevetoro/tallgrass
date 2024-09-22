@@ -39,10 +39,10 @@ const path = "move"
 /// # Example
 ///
 /// ```gleam
-/// let result = move.fetch(options: Default)
-/// let result = move.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = move.fetch(DefaultPagination)
+/// let result = move.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -51,12 +51,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(move.fetch(options: Default))
+/// use res <- result.try(move.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// move.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: move(), cache: cache)
+  resource.fetch_resource(resource, move(), cache)
 }
 
 /// Fetches a move given the move ID.
@@ -67,7 +67,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = move.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, move(), cache: cache)
+  resource.fetch_by_id(id, path, move(), cache)
 }
 
 /// Fetches a move given the move name.
@@ -78,7 +78,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = move.fetch_by_name("pound")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, move(), cache: cache)
+  resource.fetch_by_name(name, path, move(), cache)
 }
 
 fn move() {

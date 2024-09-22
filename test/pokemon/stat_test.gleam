@@ -6,7 +6,7 @@ import tallgrass/pokemon/stat.{type Stat}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response = stat.fetch(options: Offset(1), cache: NoCache) |> should.be_ok
+  let response = stat.fetch(Offset(1), NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   stat.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_attack
 }

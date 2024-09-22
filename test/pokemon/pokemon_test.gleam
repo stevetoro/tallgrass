@@ -2,10 +2,10 @@ import gleam/list
 import gleeunit/should
 import tallgrass/cache.{NoCache}
 import tallgrass/pokemon.{type Pokemon}
-import tallgrass/resource.{Default, NamedResource}
+import tallgrass/resource.{DefaultPagination, NamedResource}
 
 pub fn fetch_test() {
-  let response = pokemon.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = pokemon.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   pokemon.fetch_resource(resource, NoCache)
   |> should.be_ok

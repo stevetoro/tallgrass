@@ -22,10 +22,10 @@ const path = "item-attribute"
 /// # Example
 ///
 /// ```gleam
-/// let result = attribute.fetch(options: Default)
-/// let result = attribute.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = attribute.fetch(DefaultPagination)
+/// let result = attribute.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -34,12 +34,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(attribute.fetch(options: Default))
+/// use res <- result.try(attribute.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// attribute.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: item_attribute(), cache: cache)
+  resource.fetch_resource(resource, item_attribute(), cache)
 }
 
 /// Fetches an item attribute given the item attribute ID.
@@ -50,7 +50,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = attribute.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, item_attribute(), cache: cache)
+  resource.fetch_by_id(id, path, item_attribute(), cache)
 }
 
 /// Fetches an item attribute given the item attribute name.
@@ -61,7 +61,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = attribute.fetch_by_name("countable")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, item_attribute(), cache: cache)
+  resource.fetch_by_name(name, path, item_attribute(), cache)
 }
 
 fn item_attribute() {

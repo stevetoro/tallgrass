@@ -23,10 +23,10 @@ const path = "version-group"
 /// # Example
 ///
 /// ```gleam
-/// let result = version_group.fetch(options: Default)
-/// let result = version_group.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = version_group.fetch(DefaultPagination)
+/// let result = version_group.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -35,12 +35,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(version_group.fetch(options: Default))
+/// use res <- result.try(version_group.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// version_group.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: version_group(), cache: cache)
+  resource.fetch_resource(resource, version_group(), cache)
 }
 
 /// Fetches a version group given the version group ID.
@@ -51,7 +51,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = version_group.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, version_group(), cache: cache)
+  resource.fetch_by_id(id, path, version_group(), cache)
 }
 
 /// Fetches a version group given the version group name.
@@ -62,7 +62,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = version_group.fetch_by_name("red-blue")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, version_group(), cache: cache)
+  resource.fetch_by_name(name, path, version_group(), cache)
 }
 
 fn version_group() {

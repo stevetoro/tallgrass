@@ -20,10 +20,10 @@ const path = "encounter-condition-value"
 /// # Example
 ///
 /// ```gleam
-/// let result = value.fetch(options: Default)
-/// let result = value.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = value.fetch(DefaultPagination)
+/// let result = value.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -32,16 +32,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(value.fetch(options: Default))
+/// use res <- result.try(value.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// value.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(
-    resource,
-    using: encounter_condition_value(),
-    cache: cache,
-  )
+  resource.fetch_resource(resource, encounter_condition_value(), cache)
 }
 
 /// Fetches an encounter condition value given the encounter condition value ID.
@@ -52,7 +48,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = value.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, encounter_condition_value(), cache: cache)
+  resource.fetch_by_id(id, path, encounter_condition_value(), cache)
 }
 
 /// Fetches an encounter condition value given the encounter condition value name.
@@ -63,7 +59,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = value.fetch_by_name("swarm-yes")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, encounter_condition_value(), cache: cache)
+  resource.fetch_by_name(name, path, encounter_condition_value(), cache)
 }
 
 fn encounter_condition_value() {

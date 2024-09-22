@@ -6,8 +6,7 @@ import tallgrass/pokemon/species.{type PokemonSpecies}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response =
-    species.fetch(options: Offset(412), cache: NoCache) |> should.be_ok
+  let response = species.fetch(Offset(412), NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   species.fetch_resource(resource, NoCache)
   |> should.be_ok

@@ -2,11 +2,10 @@ import gleam/list
 import gleeunit/should
 import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/growth_rate.{type GrowthRate}
-import tallgrass/resource.{Default, NamedResource}
+import tallgrass/resource.{DefaultPagination, NamedResource}
 
 pub fn fetch_test() {
-  let response =
-    growth_rate.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = growth_rate.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   growth_rate.fetch_resource(resource, NoCache)
   |> should.be_ok

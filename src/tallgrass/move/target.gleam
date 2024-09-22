@@ -22,10 +22,10 @@ const path = "move-target"
 /// # Example
 ///
 /// ```gleam
-/// let result = target.fetch(options: Default)
-/// let result = target.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = target.fetch(DefaultPagination)
+/// let result = target.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -34,12 +34,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(target.fetch(options: Default))
+/// use res <- result.try(target.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// target.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: move_target(), cache: cache)
+  resource.fetch_resource(resource, move_target(), cache)
 }
 
 /// Fetches a move target given the move target ID.
@@ -50,7 +50,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = target.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, move_target(), cache: cache)
+  resource.fetch_by_id(id, path, move_target(), cache)
 }
 
 /// Fetches a move target given the move target name.
@@ -61,7 +61,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = target.fetch_by_name("specific-move")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, move_target(), cache: cache)
+  resource.fetch_by_name(name, path, move_target(), cache)
 }
 
 fn move_target() {

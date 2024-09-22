@@ -38,10 +38,10 @@ const path = "nature"
 /// # Example
 ///
 /// ```gleam
-/// let result = nature.fetch(options: Default)
-/// let result = nature.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = nature.fetch(DefaultPagination)
+/// let result = nature.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -50,12 +50,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(nature.fetch(options: Default))
+/// use res <- result.try(nature.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// nature.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: nature(), cache: cache)
+  resource.fetch_resource(resource, nature(), cache)
 }
 
 /// Fetches a pokemon nature given the pokemon nature ID.
@@ -66,7 +66,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = nature.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, nature(), cache: cache)
+  resource.fetch_by_id(id, path, nature(), cache)
 }
 
 /// Fetches a pokemon nature given the pokemon nature name.
@@ -77,7 +77,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = nature.fetch_by_name("hardy")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, nature(), cache: cache)
+  resource.fetch_by_name(name, path, nature(), cache)
 }
 
 fn nature() {

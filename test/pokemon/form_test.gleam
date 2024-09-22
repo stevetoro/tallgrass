@@ -6,7 +6,7 @@ import tallgrass/resource.{NamedResource, Paginate}
 
 pub fn fetch_test() {
   let response =
-    form.fetch(options: Paginate(limit: 1, offset: 1065), cache: NoCache)
+    form.fetch(Paginate(limit: 1, offset: 1065), NoCache)
     |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   form.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_arceus_bug

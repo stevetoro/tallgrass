@@ -20,10 +20,10 @@ const path = "pokemon-habitat"
 /// # Example
 ///
 /// ```gleam
-/// let result = habitat.fetch(options: Default)
-/// let result = habitat.fetch(options: Paginate(limit: 100, offset: 0))
+/// let result = habitat.fetch(DefaultPagination)
+/// let result = habitat.fetch(Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
 }
 
@@ -32,12 +32,12 @@ pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(habitat.fetch(options: Default))
+/// use res <- result.try(habitat.fetch(DefaultPagination))
 /// let assert Ok(first) = res.results |> list.first
 /// habitat.fetch_resource(first)
 /// ```
 pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, using: habitat(), cache: cache)
+  resource.fetch_resource(resource, habitat(), cache)
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// let result = habitat.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, habitat(), cache: cache)
+  resource.fetch_by_id(id, path, habitat(), cache)
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// let result = habitat.fetch_by_name("cave")
 /// ```
 pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, habitat(), cache: cache)
+  resource.fetch_by_name(name, path, habitat(), cache)
 }
 
 fn habitat() {

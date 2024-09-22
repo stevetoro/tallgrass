@@ -3,10 +3,10 @@ import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/cache.{NoCache}
 import tallgrass/move.{type Move}
-import tallgrass/resource.{Default, NamedResource}
+import tallgrass/resource.{DefaultPagination, NamedResource}
 
 pub fn fetch_test() {
-  let response = move.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = move.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   move.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_pound
 }

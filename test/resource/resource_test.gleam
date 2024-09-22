@@ -2,7 +2,9 @@ import gleam/list
 import gleeunit/should
 import tallgrass/cache.{NoCache}
 import tallgrass/request.{NoNextPage, NoPreviousPage}
-import tallgrass/resource.{Default, NamedResource, Paginate, next, previous}
+import tallgrass/resource.{
+  DefaultPagination, NamedResource, Paginate, next, previous,
+}
 
 pub fn pagination_test() {
   let response =
@@ -45,7 +47,8 @@ pub fn no_previous_page_test() {
 
 pub fn no_next_page_test() {
   let response =
-    resource.fetch_resources("pokemon", Default, NoCache) |> should.be_ok
+    resource.fetch_resources("pokemon", DefaultPagination, NoCache)
+    |> should.be_ok
 
   // fetch the final page of 10 resources
   let options = Paginate(limit: 10, offset: response.count - 10)

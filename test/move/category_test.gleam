@@ -5,8 +5,7 @@ import tallgrass/move/category.{type MoveCategory}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response =
-    category.fetch(options: Offset(1), cache: NoCache) |> should.be_ok
+  let response = category.fetch(Offset(1), NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   category.fetch_resource(resource, NoCache)
   |> should.be_ok

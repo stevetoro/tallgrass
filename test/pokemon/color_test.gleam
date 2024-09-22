@@ -3,10 +3,10 @@ import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/color.{type PokemonColor}
-import tallgrass/resource.{Default}
+import tallgrass/resource.{DefaultPagination}
 
 pub fn fetch_test() {
-  let response = color.fetch(options: Default, cache: NoCache) |> should.be_ok
+  let response = color.fetch(DefaultPagination, NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
   color.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_black
 }

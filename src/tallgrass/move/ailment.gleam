@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -17,8 +18,8 @@ const path = "move-ailment"
 /// let result = ailment.fetch(options: Default)
 /// let result = ailment.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a move ailment given a move ailment resource.
@@ -30,8 +31,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// ailment.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: move_ailment())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: move_ailment(), cache: cache)
 }
 
 /// Fetches a move ailment given the move ailment ID.
@@ -41,8 +42,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = ailment.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, move_ailment())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, move_ailment(), cache: cache)
 }
 
 /// Fetches a move ailment given the move ailment name.
@@ -52,8 +53,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = ailment.fetch_by_name("paralysis")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, move_ailment())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, move_ailment(), cache: cache)
 }
 
 fn move_ailment() {

@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -27,8 +28,8 @@ const path = "generation"
 /// let result = generation.fetch(options: Default)
 /// let result = generation.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a generation given a generation resource.
@@ -40,8 +41,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// generation.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: generation())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: generation(), cache: cache)
 }
 
 /// Fetches a generation given the generation ID.
@@ -51,8 +52,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = generation.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, generation())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, generation(), cache: cache)
 }
 
 /// Fetches a generation given the generation name.
@@ -62,8 +63,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = generation.fetch_by_name("generation-i")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, generation())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, generation(), cache: cache)
 }
 
 fn generation() {

@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -23,8 +24,8 @@ const path = "characteristic"
 /// let result = characteristic.fetch(options: Default)
 /// let result = characteristic.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokemon characteristic given a pokemon characteristic resource.
@@ -36,8 +37,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// characteristic.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: characteristic())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: characteristic(), cache: cache)
 }
 
 /// Fetches a pokemon characteristic given the pokemon characteristic ID.
@@ -47,8 +48,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = characteristic.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, characteristic())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, characteristic(), cache: cache)
 }
 
 fn characteristic() {

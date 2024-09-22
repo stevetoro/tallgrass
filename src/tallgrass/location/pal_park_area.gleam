@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource}
 
@@ -19,8 +20,8 @@ const path = "pal-park-area"
 /// let result = pal_park_area.fetch(options: Default)
 /// let result = pal_park_area.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pal park area given a pal park area resource.
@@ -32,8 +33,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// pal_park_area.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: pal_park_area())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: pal_park_area(), cache: cache)
 }
 
 /// Fetches a pal park area given the pal park area ID.
@@ -43,8 +44,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = pal_park_area.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, pal_park_area())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, pal_park_area(), cache: cache)
 }
 
 /// Fetches a pal park area given the pal park area name.
@@ -54,8 +55,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = pal_park_area.fetch_by_name("forest")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, pal_park_area())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, pal_park_area(), cache: cache)
 }
 
 fn pal_park_area() {

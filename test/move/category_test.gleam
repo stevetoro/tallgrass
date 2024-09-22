@@ -1,20 +1,26 @@
 import gleam/list
 import gleeunit/should
+import tallgrass/cache.{NoCache}
 import tallgrass/move/category.{type MoveCategory}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response = category.fetch(options: Offset(1)) |> should.be_ok
+  let response =
+    category.fetch(options: Offset(1), cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  category.fetch_resource(resource) |> should.be_ok |> should_be_ailment
+  category.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_ailment
 }
 
 pub fn fetch_by_id_test() {
-  category.fetch_by_id(1) |> should.be_ok |> should_be_ailment
+  category.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_ailment
 }
 
 pub fn fetch_by_name_test() {
-  category.fetch_by_name("ailment") |> should.be_ok |> should_be_ailment
+  category.fetch_by_name("ailment", NoCache)
+  |> should.be_ok
+  |> should_be_ailment
 }
 
 fn should_be_ailment(category: MoveCategory) {

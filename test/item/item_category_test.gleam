@@ -1,21 +1,27 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/item/category.{type ItemCategory}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = category.fetch(options: Default) |> should.be_ok
+  let response =
+    category.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  category.fetch_resource(resource) |> should.be_ok |> should_be_stat_boosts
+  category.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_stat_boosts
 }
 
 pub fn fetch_by_id_test() {
-  category.fetch_by_id(1) |> should.be_ok |> should_be_stat_boosts
+  category.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_stat_boosts
 }
 
 pub fn fetch_by_name_test() {
-  category.fetch_by_name("stat-boosts") |> should.be_ok |> should_be_stat_boosts
+  category.fetch_by_name("stat-boosts", NoCache)
+  |> should.be_ok
+  |> should_be_stat_boosts
 }
 
 fn should_be_stat_boosts(category: ItemCategory) {

@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
@@ -31,8 +32,8 @@ const path = "pokedex"
 /// let result = pokedex.fetch(options: Default)
 /// let result = pokedex.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokedex given a pokedex resource.
@@ -44,8 +45,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// pokedex.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: pokedex())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: pokedex(), cache: cache)
 }
 
 /// Fetches a pokedex given the pokedex ID.
@@ -55,8 +56,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = pokedex.fetch_by_id(2)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, pokedex())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, pokedex(), cache: cache)
 }
 
 /// Fetches a pokedex given the pokedex name.
@@ -66,8 +67,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = pokedex.fetch_by_name("kanto")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, pokedex())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, pokedex(), cache: cache)
 }
 
 fn pokedex() {

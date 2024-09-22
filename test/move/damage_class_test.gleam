@@ -1,21 +1,27 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/move/damage_class.{type MoveDamageClass}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = damage_class.fetch(options: Default) |> should.be_ok
+  let response =
+    damage_class.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  damage_class.fetch_resource(resource) |> should.be_ok |> should_be_status
+  damage_class.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_status
 }
 
 pub fn fetch_by_id_test() {
-  damage_class.fetch_by_id(1) |> should.be_ok |> should_be_status
+  damage_class.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_status
 }
 
 pub fn fetch_by_name_test() {
-  damage_class.fetch_by_name("status") |> should.be_ok |> should_be_status
+  damage_class.fetch_by_name("status", NoCache)
+  |> should.be_ok
+  |> should_be_status
 }
 
 fn should_be_status(damage_class: MoveDamageClass) {

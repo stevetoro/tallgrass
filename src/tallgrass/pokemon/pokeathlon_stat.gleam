@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -33,8 +34,8 @@ const path = "pokeathlon-stat"
 /// let result = pokeathlon_stat.fetch(options: Default)
 /// let result = pokeathlon_stat.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokeathlon stat given a pokeathlon stat resource.
@@ -46,8 +47,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// pokeathlon_stat.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: pokeathlon_stat())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: pokeathlon_stat(), cache: cache)
 }
 
 /// Fetches a pokeathlon stat given the pokeathlon stat ID.
@@ -57,8 +58,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = pokeathlon_stat.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, pokeathlon_stat())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, pokeathlon_stat(), cache: cache)
 }
 
 /// Fetches a pokeathlon stat given the pokeathlon stat name.
@@ -68,8 +69,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = pokeathlon_stat.fetch_by_name("skill")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, pokeathlon_stat())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, pokeathlon_stat(), cache: cache)
 }
 
 fn pokeathlon_stat() {

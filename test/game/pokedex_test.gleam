@@ -1,21 +1,23 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/game/pokedex.{type Pokedex}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response = pokedex.fetch(options: Offset(1)) |> should.be_ok
+  let response =
+    pokedex.fetch(options: Offset(1), cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  pokedex.fetch_resource(resource) |> should.be_ok |> should_be_kanto
+  pokedex.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_kanto
 }
 
 pub fn fetch_by_id_test() {
-  pokedex.fetch_by_id(2) |> should.be_ok |> should_be_kanto
+  pokedex.fetch_by_id(2, NoCache) |> should.be_ok |> should_be_kanto
 }
 
 pub fn fetch_by_name_test() {
-  pokedex.fetch_by_name("kanto") |> should.be_ok |> should_be_kanto
+  pokedex.fetch_by_name("kanto", NoCache) |> should.be_ok |> should_be_kanto
 }
 
 fn should_be_kanto(pokedex: Pokedex) {

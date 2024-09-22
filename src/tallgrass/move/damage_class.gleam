@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
@@ -24,8 +25,8 @@ const path = "move-damage-class"
 /// let result = damage_class.fetch(options: Default)
 /// let result = damage_class.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a move damage class given a move damage class resource.
@@ -37,8 +38,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// damage_class.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: move_damage_class())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: move_damage_class(), cache: cache)
 }
 
 /// Fetches a move damage class given the move damage class ID.
@@ -48,8 +49,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = damage_class.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, move_damage_class())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, move_damage_class(), cache: cache)
 }
 
 /// Fetches a move damage class given the move damage class name.
@@ -59,8 +60,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = damage_class.fetch_by_name("level-up")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, move_damage_class())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, move_damage_class(), cache: cache)
 }
 
 fn move_damage_class() {

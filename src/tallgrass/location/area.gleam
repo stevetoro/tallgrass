@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -25,8 +26,8 @@ const path = "location-area"
 /// let result = area.fetch(options: Default)
 /// let result = area.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a location area given a location area resource.
@@ -38,8 +39,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// area.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: location_area())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: location_area(), cache: cache)
 }
 
 /// Fetches a location area given the location area ID.
@@ -49,8 +50,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = area.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, location_area())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, location_area(), cache: cache)
 }
 
 /// Fetches a location area given the location area name.
@@ -60,8 +61,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = area.fetch_by_name("canalave-city-area")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, location_area())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, location_area(), cache: cache)
 }
 
 fn location_area() {

@@ -1,21 +1,25 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/game/generation.{type Generation}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = generation.fetch(options: Default) |> should.be_ok
+  let response =
+    generation.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  generation.fetch_resource(resource) |> should.be_ok |> should_be_generation_i
+  generation.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_generation_i
 }
 
 pub fn fetch_by_id_test() {
-  generation.fetch_by_id(1) |> should.be_ok |> should_be_generation_i
+  generation.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_generation_i
 }
 
 pub fn fetch_by_name_test() {
-  generation.fetch_by_name("generation-i")
+  generation.fetch_by_name("generation-i", NoCache)
   |> should.be_ok
   |> should_be_generation_i
 }

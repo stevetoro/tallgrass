@@ -1,21 +1,27 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/pokeathlon_stat.{type PokeathlonStat}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = pokeathlon_stat.fetch(options: Default) |> should.be_ok
+  let response =
+    pokeathlon_stat.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  pokeathlon_stat.fetch_resource(resource) |> should.be_ok |> should_be_speed
+  pokeathlon_stat.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_speed
 }
 
 pub fn fetch_by_id_test() {
-  pokeathlon_stat.fetch_by_id(1) |> should.be_ok |> should_be_speed
+  pokeathlon_stat.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_speed
 }
 
 pub fn fetch_by_name_test() {
-  pokeathlon_stat.fetch_by_name("speed") |> should.be_ok |> should_be_speed
+  pokeathlon_stat.fetch_by_name("speed", NoCache)
+  |> should.be_ok
+  |> should_be_speed
 }
 
 fn should_be_speed(pokeathlon_stat: PokeathlonStat) {

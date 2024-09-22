@@ -1,21 +1,24 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/location/area.{type LocationArea}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = area.fetch(options: Default) |> should.be_ok
+  let response = area.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  area.fetch_resource(resource) |> should.be_ok |> should_be_canalave_city_area
+  area.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_canalave_city_area
 }
 
 pub fn fetch_by_id_test() {
-  area.fetch_by_id(1) |> should.be_ok |> should_be_canalave_city_area
+  area.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_canalave_city_area
 }
 
 pub fn fetch_by_name_test() {
-  area.fetch_by_name("canalave-city-area")
+  area.fetch_by_name("canalave-city-area", NoCache)
   |> should.be_ok
   |> should_be_canalave_city_area
 }

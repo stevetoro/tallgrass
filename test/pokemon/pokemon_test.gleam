@@ -1,20 +1,25 @@
 import gleam/list
 import gleeunit/should
+import tallgrass/cache.{NoCache}
 import tallgrass/pokemon.{type Pokemon}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = pokemon.fetch(options: Default) |> should.be_ok
+  let response = pokemon.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  pokemon.fetch_resource(resource) |> should.be_ok |> should_be_bulbasaur
+  pokemon.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_bulbasaur
 }
 
 pub fn fetch_by_id_test() {
-  pokemon.fetch_by_id(1) |> should.be_ok |> should_be_bulbasaur
+  pokemon.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_bulbasaur
 }
 
 pub fn fetch_by_name_test() {
-  pokemon.fetch_by_name("bulbasaur") |> should.be_ok |> should_be_bulbasaur
+  pokemon.fetch_by_name("bulbasaur", NoCache)
+  |> should.be_ok
+  |> should_be_bulbasaur
 }
 
 fn should_be_bulbasaur(pokemon: Pokemon) {

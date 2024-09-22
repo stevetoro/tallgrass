@@ -1,18 +1,20 @@
 import gleam/list
 import gleeunit/should
+import tallgrass/cache.{NoCache}
 import tallgrass/contest/super_contest_effect.{type SuperContestEffect}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = super_contest_effect.fetch(options: Default) |> should.be_ok
+  let response =
+    super_contest_effect.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  super_contest_effect.fetch_resource(resource)
+  super_contest_effect.fetch_resource(resource, NoCache)
   |> should.be_ok
   |> should_be_super_contest_effect
 }
 
 pub fn fetch_by_id_test() {
-  super_contest_effect.fetch_by_id(1)
+  super_contest_effect.fetch_by_id(1, NoCache)
   |> should.be_ok
   |> should_be_super_contest_effect
 }

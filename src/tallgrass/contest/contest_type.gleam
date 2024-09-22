@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -17,8 +18,8 @@ const path = "contest-type"
 /// let result = contest_type.fetch(options: Default)
 /// let result = contest_type.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a contest type given a contest type resource.
@@ -30,8 +31,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// contest_type.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: contest_type())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: contest_type(), cache: cache)
 }
 
 /// Fetches a contest type given the contest type ID.
@@ -41,8 +42,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = contest_type.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, contest_type())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, contest_type(), cache: cache)
 }
 
 /// Fetches a contest type given the contest type name.
@@ -52,8 +53,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = contest_type.fetch_by_name("cool")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, contest_type())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, contest_type(), cache: cache)
 }
 
 fn contest_type() {

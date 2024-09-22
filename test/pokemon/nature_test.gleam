@@ -1,21 +1,23 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/nature.{type Nature}
 import tallgrass/resource.{NamedResource, Offset}
 
 pub fn fetch_test() {
-  let response = nature.fetch(options: Offset(1)) |> should.be_ok
+  let response =
+    nature.fetch(options: Offset(1), cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  nature.fetch_resource(resource) |> should.be_ok |> should_be_bold
+  nature.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_bold
 }
 
 pub fn fetch_by_id_test() {
-  nature.fetch_by_id(2) |> should.be_ok |> should_be_bold
+  nature.fetch_by_id(2, NoCache) |> should.be_ok |> should_be_bold
 }
 
 pub fn fetch_by_name_test() {
-  nature.fetch_by_name("bold") |> should.be_ok |> should_be_bold
+  nature.fetch_by_name("bold", NoCache) |> should.be_ok |> should_be_bold
 }
 
 fn should_be_bold(nature: Nature) {

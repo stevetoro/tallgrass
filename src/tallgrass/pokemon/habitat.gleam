@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -22,8 +23,8 @@ const path = "pokemon-habitat"
 /// let result = habitat.fetch(options: Default)
 /// let result = habitat.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokemon habitat given a pokemon habitat resource.
@@ -35,8 +36,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// habitat.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: habitat())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: habitat(), cache: cache)
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat ID.
@@ -46,8 +47,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = habitat.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, habitat())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, habitat(), cache: cache)
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat name.
@@ -57,8 +58,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = habitat.fetch_by_name("cave")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, habitat())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, habitat(), cache: cache)
 }
 
 fn habitat() {

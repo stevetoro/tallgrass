@@ -1,5 +1,6 @@
 import decode
 import gleam/option.{type Option}
+import tallgrass/cache.{type Cache}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
@@ -55,8 +56,8 @@ const path = "item"
 /// let result = item.fetch(options: Default)
 /// let result = item.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches an item given an item resource.
@@ -68,8 +69,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// item.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: item())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: item(), cache: cache)
 }
 
 /// Fetches an item given the item ID.
@@ -79,8 +80,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = item.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, item())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, item(), cache: cache)
 }
 
 /// Fetches a item given the item name.
@@ -90,8 +91,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = item.fetch_by_name("master-ball")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, item())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, item(), cache: cache)
 }
 
 fn item() {

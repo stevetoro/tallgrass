@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -27,8 +28,8 @@ const path = "berry-flavor"
 /// let result = flavor.fetch(options: Default)
 /// let result = flavor.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a berry flavor given a berry flavor resource.
@@ -40,8 +41,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// flavor.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: berry_flavor())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: berry_flavor(), cache: cache)
 }
 
 /// Fetches a berry flavor given the berry flavor ID.
@@ -51,8 +52,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = flavor.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, berry_flavor())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, berry_flavor(), cache: cache)
 }
 
 /// Fetches a berry flavor given the berry flavor name.
@@ -62,8 +63,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = flavor.fetch_by_name("spicy")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, berry_flavor())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, berry_flavor(), cache: cache)
 }
 
 fn berry_flavor() {

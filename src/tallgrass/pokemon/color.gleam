@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -22,8 +23,8 @@ const path = "pokemon-color"
 /// let result = color.fetch(options: Default)
 /// let result = color.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokemon color given a pokemon color resource.
@@ -35,8 +36,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// color.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: pokemon_color())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: pokemon_color(), cache: cache)
 }
 
 /// Fetches a pokemon color given the pokemon color ID.
@@ -46,8 +47,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = color.fetch_by_id(9)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, pokemon_color())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, pokemon_color(), cache: cache)
 }
 
 /// Fetches a pokemon color given the pokemon color name.
@@ -57,8 +58,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = color.fetch_by_name("white")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, pokemon_color())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, pokemon_color(), cache: cache)
 }
 
 fn pokemon_color() {

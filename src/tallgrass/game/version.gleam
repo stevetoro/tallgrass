@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -17,8 +18,8 @@ const path = "version"
 /// let result = version.fetch(options: Default)
 /// let result = version.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a version given a version resource.
@@ -30,8 +31,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// version.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: version())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: version(), cache: cache)
 }
 
 /// Fetches a version given the version ID.
@@ -41,8 +42,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = version.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, version())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, version(), cache: cache)
 }
 
 /// Fetches a version given the version name.
@@ -52,8 +53,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = version.fetch_by_name("red")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, version())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, version(), cache: cache)
 }
 
 fn version() {

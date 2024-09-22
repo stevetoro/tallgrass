@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -22,8 +23,8 @@ const path = "berry-firmness"
 /// let result = firmness.fetch(options: Default)
 /// let result = firmness.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a berry firmness given a berry firmness resource.
@@ -35,8 +36,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// firmness.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: berry_firmness())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: berry_firmness(), cache: cache)
 }
 
 /// Fetches a berry firmness given the berry firmness ID.
@@ -46,8 +47,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = firmness.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, berry_firmness())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, berry_firmness(), cache)
 }
 
 /// Fetches a berry firmness given the berry firmness name.
@@ -57,8 +58,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = firmness.fetch_by_name("very-soft")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, berry_firmness())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, berry_firmness(), cache)
 }
 
 fn berry_firmness() {

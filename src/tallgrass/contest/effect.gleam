@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/effect.{type Effect, effect}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
 import tallgrass/resource.{type PaginationOptions, type Resource}
@@ -24,8 +25,8 @@ const path = "contest-effect"
 /// let result = effect.fetch(options: Default)
 /// let result = effect.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a contest effect given a contest effect resource.
@@ -37,8 +38,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// effect.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: contest_effect())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: contest_effect(), cache: cache)
 }
 
 /// Fetches a contest effect given the contest effect ID.
@@ -48,8 +49,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = effect.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, contest_effect())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, contest_effect(), cache: cache)
 }
 
 fn contest_effect() {

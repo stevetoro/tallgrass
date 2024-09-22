@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type VersionGroup {
@@ -25,8 +26,8 @@ const path = "version-group"
 /// let result = version_group.fetch(options: Default)
 /// let result = version_group.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a version group given a version group resource.
@@ -38,8 +39,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// version_group.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: version_group())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: version_group(), cache: cache)
 }
 
 /// Fetches a version group given the version group ID.
@@ -49,8 +50,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = version_group.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, version_group())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, version_group(), cache: cache)
 }
 
 /// Fetches a version group given the version group name.
@@ -60,8 +61,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = version_group.fetch_by_name("red-blue")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, version_group())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, version_group(), cache: cache)
 }
 
 fn version_group() {

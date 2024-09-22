@@ -1,5 +1,6 @@
 import decode
 import gleam/option.{type Option}
+import tallgrass/cache.{type Cache}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
@@ -41,8 +42,8 @@ const path = "move"
 /// let result = move.fetch(options: Default)
 /// let result = move.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a move given a move resource.
@@ -54,8 +55,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// move.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: move())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: move(), cache: cache)
 }
 
 /// Fetches a move given the move ID.
@@ -65,8 +66,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = move.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, move())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, move(), cache: cache)
 }
 
 /// Fetches a move given the move name.
@@ -76,8 +77,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = move.fetch_by_name("pound")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, move())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, move(), cache: cache)
 }
 
 fn move() {

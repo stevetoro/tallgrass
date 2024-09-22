@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
@@ -23,8 +24,8 @@ const path = "evolution-trigger"
 /// let result = trigger.fetch(options: Default)
 /// let result = trigger.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches an evolution trigger given an evolution trigger resource.
@@ -36,8 +37,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// trigger.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: evolution_trigger())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: evolution_trigger(), cache: cache)
 }
 
 /// Fetches an evolution trigger given the evolution trigger ID.
@@ -47,8 +48,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = trigger.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, evolution_trigger())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, evolution_trigger(), cache: cache)
 }
 
 /// Fetches an evolution trigger given the evolution trigger name.
@@ -58,8 +59,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = trigger.fetch_by_name("level-up")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, evolution_trigger())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, evolution_trigger(), cache: cache)
 }
 
 fn evolution_trigger() {

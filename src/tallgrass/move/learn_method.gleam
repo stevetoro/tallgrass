@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
@@ -24,8 +25,8 @@ const path = "move-learn-method"
 /// let result = learn_method.fetch(options: Default)
 /// let result = learn_method.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a move learn method given a move learn method resource.
@@ -37,8 +38,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// learn_method.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: move_learn_method())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: move_learn_method(), cache: cache)
 }
 
 /// Fetches a move learn method given the move learn method ID.
@@ -48,8 +49,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = learn_method.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, move_learn_method())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, move_learn_method(), cache: cache)
 }
 
 /// Fetches a move learn method given the move learn method name.
@@ -59,8 +60,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = learn_method.fetch_by_name("ailment")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, move_learn_method())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, move_learn_method(), cache: cache)
 }
 
 fn move_learn_method() {

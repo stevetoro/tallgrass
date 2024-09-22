@@ -1,20 +1,25 @@
 import gleam/list
 import gleeunit/should
+import tallgrass/cache.{NoCache}
 import tallgrass/item.{type Item}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = item.fetch(options: Default) |> should.be_ok
+  let response = item.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  item.fetch_resource(resource) |> should.be_ok |> should_be_master_ball
+  item.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_master_ball
 }
 
 pub fn fetch_by_id_test() {
-  item.fetch_by_id(1) |> should.be_ok |> should_be_master_ball
+  item.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_master_ball
 }
 
 pub fn fetch_by_name_test() {
-  item.fetch_by_name("master-ball") |> should.be_ok |> should_be_master_ball
+  item.fetch_by_name("master-ball", NoCache)
+  |> should.be_ok
+  |> should_be_master_ball
 }
 
 fn should_be_master_ball(item: Item) {

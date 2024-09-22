@@ -2,6 +2,7 @@ import decode.{type Decoder}
 import gleam/int.{to_string}
 import gleam/option.{type Option, None, Some}
 import gleam/string
+import tallgrass/cache.{type Cache}
 import tallgrass/request
 
 pub type ResourceList {
@@ -25,30 +26,44 @@ pub type PaginationOptions {
   Default
 }
 
-pub fn fetch_by_id(id: Int, path: String, using decoder: Decoder(t)) {
+pub fn fetch_by_id(
+  id: Int,
+  path: String,
+  using decoder: Decoder(t),
+  cache cache: Cache,
+) {
   let path = path_from(Some(id |> to_string), path)
-  request.get(path, [], decoder: decoder)
+  request.get(path, [], decoder: decoder, cache: cache)
 }
 
-pub fn fetch_by_name(name: String, path: String, using decoder: Decoder(t)) {
+pub fn fetch_by_name(
+  name: String,
+  path: String,
+  using decoder: Decoder(t),
+  cache cache: Cache,
+) {
   let path = path_from(Some(name), path)
-  request.get(path, [], decoder: decoder)
+  request.get(path, [], decoder: decoder, cache: cache)
 }
 
-pub fn fetch_resources(path: String, options: PaginationOptions) {
-  request.get(path, options |> query, decoder: resource_list())
+pub fn fetch_resources(path: String, options: PaginationOptions, cache: Cache) {
+  request.get(path, options |> query, decoder: resource_list(), cache: cache)
 }
 
-pub fn fetch_resource(resource: Resource, using decoder: Decoder(t)) {
-  request.get_url(resource.url, decoder: decoder)
+pub fn fetch_resource(
+  resource: Resource,
+  using decoder: Decoder(t),
+  cache cache: Cache,
+) {
+  request.get_url(resource.url, decoder: decoder, cache: cache)
 }
 
-pub fn next(page: ResourceList) {
-  request.next(page.next, decoder: resource_list())
+pub fn next(page: ResourceList, cache: Cache) {
+  request.next(page.next, decoder: resource_list(), cache: cache)
 }
 
-pub fn previous(page: ResourceList) {
-  request.previous(page.previous, decoder: resource_list())
+pub fn previous(page: ResourceList, cache: Cache) {
+  request.previous(page.previous, decoder: resource_list(), cache: cache)
 }
 
 @internal

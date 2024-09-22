@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource}
 
@@ -17,8 +18,8 @@ const path = "move-battle-style"
 /// let result = battle_style.fetch(options: Default)
 /// let result = battle_style.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a move battle style given a move battle style resource.
@@ -30,8 +31,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// battle_style.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: move_battle_style())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: move_battle_style(), cache: cache)
 }
 
 /// Fetches a move battle style given the move battle style ID.
@@ -41,8 +42,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = battle_style.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, move_battle_style())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, move_battle_style(), cache: cache)
 }
 
 /// Fetches a move battle style given the move battle style name.
@@ -52,8 +53,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = battle_style.fetch_by_name("attack")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, move_battle_style())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, move_battle_style(), cache: cache)
 }
 
 fn move_battle_style() {

@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -25,8 +26,8 @@ const path = "region"
 /// let result = region.fetch(options: Default)
 /// let result = region.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a region given a region resource.
@@ -38,8 +39,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// region.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: region())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: region(), cache: cache)
 }
 
 /// Fetches a region given the region ID.
@@ -49,8 +50,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = region.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, region())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, region(), cache: cache)
 }
 
 /// Fetches a region given the region name.
@@ -60,8 +61,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = region.fetch_by_name("kanto")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, region())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, region(), cache: cache)
 }
 
 fn region() {

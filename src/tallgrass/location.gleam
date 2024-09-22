@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
@@ -27,8 +28,8 @@ const path = "location"
 /// let result = location.fetch(options: Default)
 /// let result = location.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a location given a location resource.
@@ -40,8 +41,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// location.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: location())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: location(), cache: cache)
 }
 
 /// Fetches a location given the location ID.
@@ -51,8 +52,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = location.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, location())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, location(), cache: cache)
 }
 
 /// Fetches a location given the location name.
@@ -62,8 +63,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = location.fetch_by_name("canalave-city")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, location())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, location(), cache: cache)
 }
 
 fn location() {

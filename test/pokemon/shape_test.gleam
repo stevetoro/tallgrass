@@ -1,21 +1,22 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/shape.{type PokemonShape}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = shape.fetch(options: Default) |> should.be_ok
+  let response = shape.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  shape.fetch_resource(resource) |> should.be_ok |> should_be_ball
+  shape.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_ball
 }
 
 pub fn fetch_by_id_test() {
-  shape.fetch_by_id(1) |> should.be_ok |> should_be_ball
+  shape.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_ball
 }
 
 pub fn fetch_by_name_test() {
-  shape.fetch_by_name("ball") |> should.be_ok |> should_be_ball
+  shape.fetch_by_name("ball", NoCache) |> should.be_ok |> should_be_ball
 }
 
 fn should_be_ball(shape: PokemonShape) {

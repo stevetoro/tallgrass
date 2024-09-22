@@ -1,21 +1,26 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/evolution/trigger.{type EvolutionTrigger}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = trigger.fetch(options: Default) |> should.be_ok
+  let response = trigger.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  trigger.fetch_resource(resource) |> should.be_ok |> should_be_level_up
+  trigger.fetch_resource(resource, NoCache)
+  |> should.be_ok
+  |> should_be_level_up
 }
 
 pub fn fetch_by_id_test() {
-  trigger.fetch_by_id(1) |> should.be_ok |> should_be_level_up
+  trigger.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_level_up
 }
 
 pub fn fetch_by_name_test() {
-  trigger.fetch_by_name("level-up") |> should.be_ok |> should_be_level_up
+  trigger.fetch_by_name("level-up", NoCache)
+  |> should.be_ok
+  |> should_be_level_up
 }
 
 fn should_be_level_up(evolution_trigger: EvolutionTrigger) {

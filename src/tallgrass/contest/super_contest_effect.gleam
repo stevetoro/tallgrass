@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -22,8 +23,8 @@ const path = "super-contest-effect"
 /// let result = super_contest_effect.fetch(options: Default)
 /// let result = super_contest_effect.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a super contest effect given a super contest effect resource.
@@ -35,8 +36,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// super_contest_effect.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: super_contest_effect())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: super_contest_effect(), cache: cache)
 }
 
 /// Fetches a super contest effect given the super contest effect ID.
@@ -46,8 +47,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = super_contest_effect.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, super_contest_effect())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, super_contest_effect(), cache: cache)
 }
 
 fn super_contest_effect() {

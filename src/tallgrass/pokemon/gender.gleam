@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Gender {
@@ -25,8 +26,8 @@ const path = "gender"
 /// let result = gender.fetch(options: Default)
 /// let result = gender.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokemon gender given a pokemon gender resource.
@@ -38,8 +39,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// gender.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: gender())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: gender(), cache: cache)
 }
 
 /// Fetches a pokemon gender given the pokemon gender ID.
@@ -49,8 +50,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = gender.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, gender())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, gender(), cache: cache)
 }
 
 /// Fetches a pokemon gender given the pokemon gender name.
@@ -60,8 +61,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = gender.fetch_by_name("genderless")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, gender())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, gender(), cache: cache)
 }
 
 fn gender() {

@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -29,8 +30,8 @@ const path = "pokemon-form"
 /// let result = form.fetch(options: Default)
 /// let result = form.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokemon form given a pokemon form resource.
@@ -42,8 +43,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// form.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: pokemon_form())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: pokemon_form(), cache: cache)
 }
 
 /// Fetches a pokemon form given the pokemon form ID.
@@ -53,8 +54,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = form.fetch_by_id(10143)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, pokemon_form())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, pokemon_form(), cache: cache)
 }
 
 /// Fetches a pokemon form given the pokemon form name.
@@ -64,8 +65,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = form.fetch_by_name("mewtwo-mega-x")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, pokemon_form())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, pokemon_form(), cache: cache)
 }
 
 fn pokemon_form() {

@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type Machine {
@@ -16,8 +17,8 @@ const path = "machine"
 /// let result = machine.fetch(options: Default)
 /// let result = machine.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a machine given a machine resource.
@@ -29,8 +30,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// machine.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: machine())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: machine(), cache: cache)
 }
 
 /// Fetches a machine given the machine ID.
@@ -40,8 +41,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = machine.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, machine())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, machine(), cache: cache)
 }
 
 fn machine() {

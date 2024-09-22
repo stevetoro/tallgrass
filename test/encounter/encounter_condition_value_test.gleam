@@ -1,21 +1,24 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
+import tallgrass/cache.{NoCache}
 import tallgrass/encounter/condition/value.{type EncounterConditionValue}
 import tallgrass/resource.{Default, NamedResource}
 
 pub fn fetch_test() {
-  let response = value.fetch(options: Default) |> should.be_ok
+  let response = value.fetch(options: Default, cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  value.fetch_resource(resource) |> should.be_ok |> should_be_swarm_yes
+  value.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_swarm_yes
 }
 
 pub fn fetch_by_id_test() {
-  value.fetch_by_id(1) |> should.be_ok |> should_be_swarm_yes
+  value.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_swarm_yes
 }
 
 pub fn fetch_by_name_test() {
-  value.fetch_by_name("swarm-yes") |> should.be_ok |> should_be_swarm_yes
+  value.fetch_by_name("swarm-yes", NoCache)
+  |> should.be_ok
+  |> should_be_swarm_yes
 }
 
 fn should_be_swarm_yes(encounter_condition_value: EncounterConditionValue) {

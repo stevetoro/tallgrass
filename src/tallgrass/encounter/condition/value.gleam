@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -22,8 +23,8 @@ const path = "encounter-condition-value"
 /// let result = value.fetch(options: Default)
 /// let result = value.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches an encounter condition value given an encounter condition value resource.
@@ -35,8 +36,12 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// value.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: encounter_condition_value())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(
+    resource,
+    using: encounter_condition_value(),
+    cache: cache,
+  )
 }
 
 /// Fetches an encounter condition value given the encounter condition value ID.
@@ -46,8 +51,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = value.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, encounter_condition_value())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, encounter_condition_value(), cache: cache)
 }
 
 /// Fetches an encounter condition value given the encounter condition value name.
@@ -57,8 +62,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = value.fetch_by_name("swarm-yes")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, encounter_condition_value())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, encounter_condition_value(), cache: cache)
 }
 
 fn encounter_condition_value() {

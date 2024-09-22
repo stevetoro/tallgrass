@@ -1,18 +1,20 @@
 import gleam/list
 import gleeunit/should
+import tallgrass/cache.{NoCache}
 import tallgrass/evolution/chain.{type EvolutionChain}
 import tallgrass/resource.{NamedResource, Offset}
 
 // TODO: Add test cases covering more fields.
 
 pub fn fetch_test() {
-  let response = chain.fetch(options: Offset(199)) |> should.be_ok
+  let response =
+    chain.fetch(options: Offset(199), cache: NoCache) |> should.be_ok
   let resource = response.results |> list.first |> should.be_ok
-  chain.fetch_resource(resource) |> should.be_ok |> should_be_rayquaza
+  chain.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_rayquaza
 }
 
 pub fn fetch_by_id_test() {
-  chain.fetch_by_id(200) |> should.be_ok |> should_be_rayquaza
+  chain.fetch_by_id(200, NoCache) |> should.be_ok |> should_be_rayquaza
 }
 
 pub fn should_be_rayquaza(evolution_chain: EvolutionChain) {

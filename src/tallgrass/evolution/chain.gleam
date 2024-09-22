@@ -1,5 +1,6 @@
 import decode
 import gleam/option.{type Option}
+import tallgrass/cache.{type Cache}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
 pub type EvolutionChain {
@@ -50,8 +51,8 @@ const path = "evolution-chain"
 /// let result = chain.fetch(options: Default)
 /// let result = chain.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches an evolution chain given an evolution chain resource.
@@ -63,8 +64,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// chain.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: evolution_chain())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: evolution_chain(), cache: cache)
 }
 
 /// Fetches an evolution chain given the evolution chain ID.
@@ -74,8 +75,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = chain.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, evolution_chain())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, evolution_chain(), cache: cache)
 }
 
 fn evolution_chain() {

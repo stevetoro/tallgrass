@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/name.{type Name, name}
 import tallgrass/resource.{type PaginationOptions, type Resource}
 
@@ -17,8 +18,8 @@ const path = "encounter-method"
 /// let result = method.fetch(options: Default)
 /// let result = method.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches an encounter method given an encounter method resource.
@@ -30,8 +31,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// method.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: encounter_method())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: encounter_method(), cache: cache)
 }
 
 /// Fetches an encounter method given the encounter method ID.
@@ -41,8 +42,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = method.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, encounter_method())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, encounter_method(), cache: cache)
 }
 
 /// Fetches an encounter method given the encounter method name.
@@ -52,8 +53,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = method.fetch_by_name("walk")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, encounter_method())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, encounter_method(), cache: cache)
 }
 
 fn encounter_method() {

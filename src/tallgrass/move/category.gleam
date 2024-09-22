@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/resource.{type PaginationOptions, type Resource, resource}
 
@@ -22,8 +23,8 @@ const path = "move-category"
 /// let result = category.fetch(options: Default)
 /// let result = category.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a move category given a move category resource.
@@ -35,8 +36,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// category.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: move_category())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: move_category(), cache: cache)
 }
 
 /// Fetches a move category given the move category ID.
@@ -46,8 +47,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = category.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, move_category())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, move_category(), cache: cache)
 }
 
 /// Fetches a move category given the move category name.
@@ -57,8 +58,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = category.fetch_by_name("ailment")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, move_category())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, move_category(), cache: cache)
 }
 
 fn move_category() {

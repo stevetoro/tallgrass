@@ -1,4 +1,5 @@
 import decode
+import tallgrass/cache.{type Cache}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
@@ -34,8 +35,8 @@ const path = "ability"
 /// let result = ability.fetch(options: Default)
 /// let result = ability.fetch(options: Paginate(limit: 100, offset: 0))
 /// ```
-pub fn fetch(options options: PaginationOptions) {
-  resource.fetch_resources(path, options)
+pub fn fetch(options options: PaginationOptions, cache cache: Cache) {
+  resource.fetch_resources(path, options, cache)
 }
 
 /// Fetches a pokemon ability given a pokemon ability resource.
@@ -47,8 +48,8 @@ pub fn fetch(options options: PaginationOptions) {
 /// let assert Ok(first) = res.results |> list.first
 /// ability.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource) {
-  resource.fetch_resource(resource, using: ability())
+pub fn fetch_resource(resource: Resource, cache: Cache) {
+  resource.fetch_resource(resource, using: ability(), cache: cache)
 }
 
 /// Fetches a pokemon ability given the pokemon ability ID.
@@ -58,8 +59,8 @@ pub fn fetch_resource(resource: Resource) {
 /// ```gleam
 /// let result = ability.fetch_by_id(32)
 /// ```
-pub fn fetch_by_id(id: Int) {
-  resource.fetch_by_id(id, path, ability())
+pub fn fetch_by_id(id: Int, cache: Cache) {
+  resource.fetch_by_id(id, path, ability(), cache: cache)
 }
 
 /// Fetches a pokemon ability given the pokemon ability name.
@@ -69,8 +70,8 @@ pub fn fetch_by_id(id: Int) {
 /// ```gleam
 /// let result = ability.fetch_by_name("serene-grace")
 /// ```
-pub fn fetch_by_name(name: String) {
-  resource.fetch_by_name(name, path, ability())
+pub fn fetch_by_name(name: String, cache: Cache) {
+  resource.fetch_by_name(name, path, ability(), cache: cache)
 }
 
 fn ability() {

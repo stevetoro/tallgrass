@@ -21,8 +21,8 @@ const path = "pokemon-shape"
 /// # Example
 ///
 /// ```gleam
-/// let result = shape.fetch(DefaultPagination)
-/// let result = shape.fetch(Paginate(limit: 100, offset: 0))
+/// let result = shape.fetch(DefaultPagination, NoCache)
+/// let result = shape.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -33,7 +33,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(shape.fetch(DefaultPagination))
+/// use res <- result.try(shape.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// shape.fetch_resource(first)
 /// ```

@@ -15,8 +15,8 @@ const path = "move-battle-style"
 /// # Example
 ///
 /// ```gleam
-/// let result = battle_style.fetch(DefaultPagination)
-/// let result = battle_style.fetch(Paginate(limit: 100, offset: 0))
+/// let result = battle_style.fetch(DefaultPagination, NoCache)
+/// let result = battle_style.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -27,7 +27,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(battle_style.fetch(DefaultPagination))
+/// use res <- result.try(battle_style.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// battle_style.fetch_resource(first)
 /// ```

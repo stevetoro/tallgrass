@@ -22,8 +22,8 @@ const path = "move-damage-class"
 /// # Example
 ///
 /// ```gleam
-/// let result = damage_class.fetch(DefaultPagination)
-/// let result = damage_class.fetch(Paginate(limit: 100, offset: 0))
+/// let result = damage_class.fetch(DefaultPagination, NoCache)
+/// let result = damage_class.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -34,7 +34,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(damage_class.fetch(DefaultPagination))
+/// use res <- result.try(damage_class.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// damage_class.fetch_resource(first)
 /// ```

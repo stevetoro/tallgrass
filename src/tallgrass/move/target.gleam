@@ -22,8 +22,8 @@ const path = "move-target"
 /// # Example
 ///
 /// ```gleam
-/// let result = target.fetch(DefaultPagination)
-/// let result = target.fetch(Paginate(limit: 100, offset: 0))
+/// let result = target.fetch(DefaultPagination, NoCache)
+/// let result = target.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -34,7 +34,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(target.fetch(DefaultPagination))
+/// use res <- result.try(target.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// target.fetch_resource(first)
 /// ```

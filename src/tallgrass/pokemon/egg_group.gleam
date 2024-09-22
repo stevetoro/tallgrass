@@ -20,8 +20,8 @@ const path = "egg-group"
 /// # Example
 ///
 /// ```gleam
-/// let result = egg_group.fetch(DefaultPagination)
-/// let result = egg_group.fetch(Paginate(limit: 100, offset: 0))
+/// let result = egg_group.fetch(DefaultPagination, NoCache)
+/// let result = egg_group.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -32,7 +32,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(egg_group.fetch(DefaultPagination))
+/// use res <- result.try(egg_group.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// egg_group.fetch_resource(first)
 /// ```

@@ -21,8 +21,8 @@ const path = "characteristic"
 /// # Example
 ///
 /// ```gleam
-/// let result = characteristic.fetch(DefaultPagination)
-/// let result = characteristic.fetch(Paginate(limit: 100, offset: 0))
+/// let result = characteristic.fetch(DefaultPagination, NoCache)
+/// let result = characteristic.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -33,7 +33,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(characteristic.fetch(DefaultPagination))
+/// use res <- result.try(characteristic.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// characteristic.fetch_resource(first)
 /// ```

@@ -20,8 +20,8 @@ const path = "berry-firmness"
 /// # Example
 ///
 /// ```gleam
-/// let result = firmness.fetch(DefaultPagination)
-/// let result = firmness.fetch(Paginate(limit: 100, offset: 0))
+/// let result = firmness.fetch(DefaultPagination, NoCache)
+/// let result = firmness.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -32,7 +32,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(firmness.fetch(DefaultPagination))
+/// use res <- result.try(firmness.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// firmness.fetch_resource(first)
 /// ```

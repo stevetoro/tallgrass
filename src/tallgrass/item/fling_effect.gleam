@@ -20,8 +20,8 @@ const path = "item-fling-effect"
 /// # Example
 ///
 /// ```gleam
-/// let result = fling_effect.fetch(DefaultPagination)
-/// let result = fling_effect.fetch(Paginate(limit: 100, offset: 0))
+/// let result = fling_effect.fetch(DefaultPagination, NoCache)
+/// let result = fling_effect.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -32,7 +32,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(fling_effect.fetch(DefaultPagination))
+/// use res <- result.try(fling_effect.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// fling_effect.fetch_resource(first)
 /// ```

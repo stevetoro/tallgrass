@@ -15,8 +15,8 @@ const path = "move-ailment"
 /// # Example
 ///
 /// ```gleam
-/// let result = ailment.fetch(DefaultPagination)
-/// let result = ailment.fetch(Paginate(limit: 100, offset: 0))
+/// let result = ailment.fetch(DefaultPagination, NoCache)
+/// let result = ailment.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -27,7 +27,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(ailment.fetch(DefaultPagination))
+/// use res <- result.try(ailment.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// ailment.fetch_resource(first)
 /// ```

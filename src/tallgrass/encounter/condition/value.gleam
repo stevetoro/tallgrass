@@ -20,8 +20,8 @@ const path = "encounter-condition-value"
 /// # Example
 ///
 /// ```gleam
-/// let result = value.fetch(DefaultPagination)
-/// let result = value.fetch(Paginate(limit: 100, offset: 0))
+/// let result = value.fetch(DefaultPagination, NoCache)
+/// let result = value.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -32,7 +32,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(value.fetch(DefaultPagination))
+/// use res <- result.try(value.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// value.fetch_resource(first)
 /// ```

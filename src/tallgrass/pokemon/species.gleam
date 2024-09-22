@@ -35,8 +35,8 @@ const path = "pokemon-species"
 /// # Example
 ///
 /// ```gleam
-/// let result = species.fetch(DefaultPagination)
-/// let result = species.fetch(Paginate(limit: 100, offset: 0))
+/// let result = species.fetch(DefaultPagination, NoCache)
+/// let result = species.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -47,7 +47,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(species.fetch(DefaultPagination))
+/// use res <- result.try(species.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// species.fetch_resource(first)
 /// ```

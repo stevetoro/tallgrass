@@ -23,8 +23,8 @@ const path = "version-group"
 /// # Example
 ///
 /// ```gleam
-/// let result = version_group.fetch(DefaultPagination)
-/// let result = version_group.fetch(Paginate(limit: 100, offset: 0))
+/// let result = version_group.fetch(DefaultPagination, NoCache)
+/// let result = version_group.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -35,7 +35,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(version_group.fetch(DefaultPagination))
+/// use res <- result.try(version_group.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// version_group.fetch_resource(first)
 /// ```

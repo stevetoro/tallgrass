@@ -32,8 +32,8 @@ const path = "ability"
 /// # Example
 ///
 /// ```gleam
-/// let result = ability.fetch(DefaultPagination)
-/// let result = ability.fetch(Paginate(limit: 100, offset: 0))
+/// let result = ability.fetch(DefaultPagination, NoCache)
+/// let result = ability.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -44,7 +44,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(ability.fetch(DefaultPagination))
+/// use res <- result.try(ability.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// ability.fetch_resource(first)
 /// ```

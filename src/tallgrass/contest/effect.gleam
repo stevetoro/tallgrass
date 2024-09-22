@@ -22,8 +22,8 @@ const path = "contest-effect"
 /// # Example
 ///
 /// ```gleam
-/// let result = effect.fetch(DefaultPagination)
-/// let result = effect.fetch(Paginate(limit: 100, offset: 0))
+/// let result = effect.fetch(DefaultPagination, NoCache)
+/// let result = effect.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -34,7 +34,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(effect.fetch(DefaultPagination))
+/// use res <- result.try(effect.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// effect.fetch_resource(first)
 /// ```

@@ -48,8 +48,8 @@ const path = "evolution-chain"
 /// # Example
 ///
 /// ```gleam
-/// let result = chain.fetch(DefaultPagination)
-/// let result = chain.fetch(Paginate(limit: 100, offset: 0))
+/// let result = chain.fetch(DefaultPagination, NoCache)
+/// let result = chain.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -60,7 +60,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(chain.fetch(DefaultPagination))
+/// use res <- result.try(chain.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// chain.fetch_resource(first)
 /// ```

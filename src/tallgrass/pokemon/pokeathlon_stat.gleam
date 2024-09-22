@@ -31,8 +31,8 @@ const path = "pokeathlon-stat"
 /// # Example
 ///
 /// ```gleam
-/// let result = pokeathlon_stat.fetch(DefaultPagination)
-/// let result = pokeathlon_stat.fetch(Paginate(limit: 100, offset: 0))
+/// let result = pokeathlon_stat.fetch(DefaultPagination, NoCache)
+/// let result = pokeathlon_stat.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -43,7 +43,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokeathlon_stat.fetch(DefaultPagination))
+/// use res <- result.try(pokeathlon_stat.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// pokeathlon_stat.fetch_resource(first)
 /// ```

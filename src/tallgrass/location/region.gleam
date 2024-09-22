@@ -23,8 +23,8 @@ const path = "region"
 /// # Example
 ///
 /// ```gleam
-/// let result = region.fetch(DefaultPagination)
-/// let result = region.fetch(Paginate(limit: 100, offset: 0))
+/// let result = region.fetch(DefaultPagination, NoCache)
+/// let result = region.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -35,7 +35,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(region.fetch(DefaultPagination))
+/// use res <- result.try(region.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// region.fetch_resource(first)
 /// ```

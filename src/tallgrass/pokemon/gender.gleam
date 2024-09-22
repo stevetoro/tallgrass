@@ -23,8 +23,8 @@ const path = "gender"
 /// # Example
 ///
 /// ```gleam
-/// let result = gender.fetch(DefaultPagination)
-/// let result = gender.fetch(Paginate(limit: 100, offset: 0))
+/// let result = gender.fetch(DefaultPagination, NoCache)
+/// let result = gender.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -35,7 +35,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(gender.fetch(DefaultPagination))
+/// use res <- result.try(gender.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// gender.fetch_resource(first)
 /// ```

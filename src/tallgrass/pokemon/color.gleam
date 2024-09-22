@@ -20,8 +20,8 @@ const path = "pokemon-color"
 /// # Example
 ///
 /// ```gleam
-/// let result = color.fetch(DefaultPagination)
-/// let result = color.fetch(Paginate(limit: 100, offset: 0))
+/// let result = color.fetch(DefaultPagination, NoCache)
+/// let result = color.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -32,7 +32,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(color.fetch(DefaultPagination))
+/// use res <- result.try(color.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// color.fetch_resource(first)
 /// ```

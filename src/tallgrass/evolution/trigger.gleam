@@ -21,8 +21,8 @@ const path = "evolution-trigger"
 /// # Example
 ///
 /// ```gleam
-/// let result = trigger.fetch(DefaultPagination)
-/// let result = trigger.fetch(Paginate(limit: 100, offset: 0))
+/// let result = trigger.fetch(DefaultPagination, NoCache)
+/// let result = trigger.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -33,7 +33,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(trigger.fetch(DefaultPagination))
+/// use res <- result.try(trigger.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// trigger.fetch_resource(first)
 /// ```

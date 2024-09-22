@@ -20,8 +20,8 @@ const path = "pokemon-habitat"
 /// # Example
 ///
 /// ```gleam
-/// let result = habitat.fetch(DefaultPagination)
-/// let result = habitat.fetch(Paginate(limit: 100, offset: 0))
+/// let result = habitat.fetch(DefaultPagination, NoCache)
+/// let result = habitat.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -32,7 +32,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(habitat.fetch(DefaultPagination))
+/// use res <- result.try(habitat.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// habitat.fetch_resource(first)
 /// ```

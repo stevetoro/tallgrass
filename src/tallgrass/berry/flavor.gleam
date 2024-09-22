@@ -25,8 +25,8 @@ const path = "berry-flavor"
 /// # Example
 ///
 /// ```gleam
-/// let result = flavor.fetch(DefaultPagination)
-/// let result = flavor.fetch(Paginate(limit: 100, offset: 0))
+/// let result = flavor.fetch(DefaultPagination, NoCache)
+/// let result = flavor.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -37,7 +37,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(flavor.fetch(DefaultPagination))
+/// use res <- result.try(flavor.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// flavor.fetch_resource(first)
 /// ```

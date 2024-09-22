@@ -26,8 +26,8 @@ const path = "growth-rate"
 /// # Example
 ///
 /// ```gleam
-/// let result = growth_rate.fetch(DefaultPagination)
-/// let result = growth_rate.fetch(Paginate(limit: 100, offset: 0))
+/// let result = growth_rate.fetch(DefaultPagination, NoCache)
+/// let result = growth_rate.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -38,7 +38,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(growth_rate.fetch(DefaultPagination))
+/// use res <- result.try(growth_rate.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// growth_rate.fetch_resource(first)
 /// ```

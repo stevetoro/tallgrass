@@ -27,8 +27,8 @@ const path = "pokemon-form"
 /// # Example
 ///
 /// ```gleam
-/// let result = form.fetch(DefaultPagination)
-/// let result = form.fetch(Paginate(limit: 100, offset: 0))
+/// let result = form.fetch(DefaultPagination, NoCache)
+/// let result = form.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -39,7 +39,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(form.fetch(DefaultPagination))
+/// use res <- result.try(form.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// form.fetch_resource(first)
 /// ```

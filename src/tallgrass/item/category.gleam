@@ -21,8 +21,8 @@ const path = "item-category"
 /// # Example
 ///
 /// ```gleam
-/// let result = category.fetch(DefaultPagination)
-/// let result = category.fetch(Paginate(limit: 100, offset: 0))
+/// let result = category.fetch(DefaultPagination, NoCache)
+/// let result = category.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -33,7 +33,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(category.fetch(DefaultPagination))
+/// use res <- result.try(category.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// category.fetch_resource(first)
 /// ```

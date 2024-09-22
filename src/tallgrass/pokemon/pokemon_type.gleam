@@ -51,8 +51,8 @@ const path = "type"
 /// # Example
 ///
 /// ```gleam
-/// let result = pokemon_type.fetch(DefaultPagination)
-/// let result = pokemon_type.fetch(Paginate(limit: 100, offset: 0))
+/// let result = pokemon_type.fetch(DefaultPagination, NoCache)
+/// let result = pokemon_type.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -63,7 +63,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon_type.fetch(DefaultPagination))
+/// use res <- result.try(pokemon_type.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// pokemon_type.fetch_resource(first)
 /// ```

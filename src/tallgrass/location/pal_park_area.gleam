@@ -17,8 +17,8 @@ const path = "pal-park-area"
 /// # Example
 ///
 /// ```gleam
-/// let result = pal_park_area.fetch(DefaultPagination)
-/// let result = pal_park_area.fetch(Paginate(limit: 100, offset: 0))
+/// let result = pal_park_area.fetch(DefaultPagination, NoCache)
+/// let result = pal_park_area.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -29,7 +29,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pal_park_area.fetch(DefaultPagination))
+/// use res <- result.try(pal_park_area.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// pal_park_area.fetch_resource(first)
 /// ```

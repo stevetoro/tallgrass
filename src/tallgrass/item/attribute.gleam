@@ -22,8 +22,8 @@ const path = "item-attribute"
 /// # Example
 ///
 /// ```gleam
-/// let result = attribute.fetch(DefaultPagination)
-/// let result = attribute.fetch(Paginate(limit: 100, offset: 0))
+/// let result = attribute.fetch(DefaultPagination, NoCache)
+/// let result = attribute.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -34,7 +34,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(attribute.fetch(DefaultPagination))
+/// use res <- result.try(attribute.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// attribute.fetch_resource(first)
 /// ```

@@ -14,8 +14,8 @@ const path = "machine"
 /// # Example
 ///
 /// ```gleam
-/// let result = machine.fetch(DefaultPagination)
-/// let result = machine.fetch(Paginate(limit: 100, offset: 0))
+/// let result = machine.fetch(DefaultPagination, NoCache)
+/// let result = machine.fetch(Paginate(limit: 100, offset: 0), NoCache)
 /// ```
 pub fn fetch(options: PaginationOptions, cache: Cache) {
   resource.fetch_resources(path, options, cache)
@@ -26,7 +26,7 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(machine.fetch(DefaultPagination))
+/// use res <- result.try(machine.fetch(DefaultPagination, NoCache))
 /// let assert Ok(first) = res.results |> list.first
 /// machine.fetch_resource(first)
 /// ```

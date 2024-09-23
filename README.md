@@ -79,9 +79,9 @@ import tallgrass/pokemon
 fn example() {
   // Initialize a new cache with a unique name and the expiration interval.
   let assert Ok(cache) = cache.new("unique-cache-name", Hours(4))
-  let assert Ok(ditto) = pokemon.fetch_by_id("ditto", cache)
+  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", cache)
 
   // Subsequent requests will be served from cache/memory instead of the API.
-  let assert Ok(ditto) = pokemon.fetch_by_id("ditto", cache)
+  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", cache)
 }
 ```

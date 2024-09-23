@@ -26,7 +26,7 @@ import tallgrass/pokemon
 
 fn example() {
   // Pokemon can be fetched by name or ID.
-  let assert Ok(ditto) = pokemon.fetch_by_id("ditto", NoCache)
+  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", NoCache)
   let assert Ok(ditto) = pokemon.fetch_by_id(132, NoCache)
 
   // Machines can only be fetched by ID.

@@ -46,7 +46,7 @@ pub fn get(path: String, query: QueryParams, decoder: Decoder(t), cache: Cache) 
   let req = new(path, query)
   case cache {
     Cache(_) -> {
-      use res <- result.try(req |> send_and_cache(cache))
+      use res <- result.try(req |> send_and_cache(using: cache))
       decode(res, using: decoder)
     }
     NoCache -> {

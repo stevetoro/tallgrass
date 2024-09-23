@@ -60,10 +60,10 @@ pub type Resource {
 /// pokemon.fetch(Paginate(limit: 100, offset: 20), NoCache)
 /// ```
 pub type PaginationOptions {
-  Paginate(limit: Int, offset: Int)
+  DefaultPagination
   Limit(Int)
   Offset(Int)
-  DefaultPagination
+  Paginate(limit: Int, offset: Int)
 }
 
 /// Follows the `next` link of a given `ResourceList` and returns an error if the `next` link is `null`.
@@ -109,7 +109,7 @@ pub fn fetch_by_name(
 
 @internal
 pub fn fetch_resources(path: String, options: PaginationOptions, cache: Cache) {
-  request.get(path, options |> query, resource_list(), cache)
+  request.get(path, query(from: options), resource_list(), cache)
 }
 
 @internal
@@ -159,14 +159,14 @@ fn path_from(resource: Option(String), path: String) {
   }
 }
 
-fn query(options: PaginationOptions) {
+fn query(from options: PaginationOptions) {
   case options {
+    DefaultPagination -> []
+    Limit(limit) -> [#("limit", limit |> to_string)]
+    Offset(offset) -> [#("offset", offset |> to_string)]
     Paginate(limit, offset) -> [
       #("limit", limit |> to_string),
       #("offset", offset |> to_string),
     ]
-    Limit(limit) -> [#("limit", limit |> to_string)]
-    Offset(offset) -> [#("offset", offset |> to_string)]
-    DefaultPagination -> []
   }
 }

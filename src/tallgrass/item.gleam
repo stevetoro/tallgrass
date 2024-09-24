@@ -1,12 +1,12 @@
 import decode
 import gleam/option.{type Option}
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Item {
   Item(
@@ -47,17 +47,21 @@ pub type ItemHolderPokemonVersionDetail {
 
 const path = "item"
 
-/// Fetches a list of item resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of item resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = item.fetch(DefaultPagination, NoCache)
-/// let result = item.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = item.new() |> item.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches an item given an item resource.
@@ -65,12 +69,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(item.fetch(DefaultPagination, NoCache))
+/// let client = client.new()
+/// use res <- result.try(client |> item.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// item.fetch_resource(first)
+/// client |> item.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, item(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, item())
 }
 
 /// Fetches an item given the item ID.
@@ -78,21 +83,21 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = item.fetch_by_id(1)
+/// let result = item.new() |> item.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, item(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, item())
 }
 
-/// Fetches a item given the item name.
+/// Fetches an item given the item name.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = item.fetch_by_name("master-ball")
+/// let result = item.new() |> item.fetch_by_name("master-ball")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, item(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, item())
 }
 
 fn item() {

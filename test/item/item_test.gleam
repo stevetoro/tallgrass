@@ -1,23 +1,31 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/item.{type Item}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = item.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  item.fetch_resource(resource, NoCache)
+  let resource =
+    item.new()
+    |> item.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  item.new()
+  |> item.fetch_resource(resource)
   |> should.be_ok
   |> should_be_master_ball
 }
 
 pub fn fetch_by_id_test() {
-  item.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_master_ball
+  item.new()
+  |> item.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_master_ball
 }
 
 pub fn fetch_by_name_test() {
-  item.fetch_by_name("master-ball", NoCache)
+  item.new()
+  |> item.fetch_by_name("master-ball")
   |> should.be_ok
   |> should_be_master_ball
 }

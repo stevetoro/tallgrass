@@ -1,6 +1,6 @@
 import decode
-import tallgrass/cache.{type Cache}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/client.{type Client}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Berry {
   Berry(
@@ -25,17 +25,21 @@ pub type BerryFlavorMap {
 
 const path = "berry"
 
-/// Fetches a list of berry resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of berry resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = berry.fetch(DefaultPagination, NoCache)
-/// let result = berry.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = berry.new() |> berry.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a berry given a berry resource.
@@ -43,12 +47,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(berry.fetch(DefaultPagination, NoCache))
+/// let client = berry.new()
+/// use res <- result.try(client |> berry.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// berry.fetch_resource(first)
+/// client |> berry.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, berry(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, berry())
 }
 
 /// Fetches a berry given the berry ID.
@@ -56,10 +61,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = berry.fetch_by_id(1)
+/// let result = berry.new() |> berry.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, berry(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, berry())
 }
 
 /// Fetches a berry given the berry name.
@@ -67,10 +72,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = berry.fetch_by_name("cheri")
+/// let result = berry.new() |> berry.fetch_by_name("cheri")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, berry(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, berry())
 }
 
 fn berry() {

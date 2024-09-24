@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type EncounterConditionValue {
   EncounterConditionValue(
@@ -14,17 +14,21 @@ pub type EncounterConditionValue {
 
 const path = "encounter-condition-value"
 
-/// Fetches a list of encounter condition value resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of encounter condition value resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = value.fetch(DefaultPagination, NoCache)
-/// let result = value.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = value |> method.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches an encounter condition value given an encounter condition value resource.
@@ -32,12 +36,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(value.fetch(DefaultPagination, NoCache))
+/// let client = value.new()
+/// use res <- result.try(client |> value.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// value.fetch_resource(first)
+/// client |> value.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, encounter_condition_value(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, encounter_condition_value())
 }
 
 /// Fetches an encounter condition value given the encounter condition value ID.
@@ -45,10 +50,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = value.fetch_by_id(1)
+/// let result = value.new() |> value.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, encounter_condition_value(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, encounter_condition_value())
 }
 
 /// Fetches an encounter condition value given the encounter condition value name.
@@ -56,10 +61,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = value.fetch_by_name("swarm-yes")
+/// let result = value.new() |> value.fetch_by_name("swarm-yes")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, encounter_condition_value(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, encounter_condition_value())
 }
 
 fn encounter_condition_value() {

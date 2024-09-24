@@ -1,24 +1,34 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/contest/contest_type.{type ContestType}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = contest_type.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  contest_type.fetch_resource(resource, NoCache)
+  let resource =
+    contest_type.new()
+    |> contest_type.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  contest_type.new()
+  |> contest_type.fetch_resource(resource)
   |> should.be_ok
   |> should_be_cool
 }
 
 pub fn fetch_by_id_test() {
-  contest_type.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_cool
+  contest_type.new()
+  |> contest_type.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_cool
 }
 
 pub fn fetch_by_name_test() {
-  contest_type.fetch_by_name("cool", NoCache) |> should.be_ok |> should_be_cool
+  contest_type.new()
+  |> contest_type.fetch_by_name("cool")
+  |> should.be_ok
+  |> should_be_cool
 }
 
 fn should_be_cool(contest_type: ContestType) {

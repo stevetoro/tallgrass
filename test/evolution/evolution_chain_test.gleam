@@ -1,19 +1,31 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
+import tallgrass/client.{with_pagination}
 import tallgrass/evolution/chain.{type EvolutionChain}
-import tallgrass/resource.{NamedResource, Offset}
+import tallgrass/page.{Offset}
+import tallgrass/resource.{NamedResource}
 
 // TODO: Add test cases covering more fields.
 
 pub fn fetch_test() {
-  let response = chain.fetch(Offset(199), NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  chain.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_rayquaza
+  let resource =
+    chain.new()
+    |> with_pagination(Offset(199))
+    |> chain.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  chain.new()
+  |> chain.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_rayquaza
 }
 
 pub fn fetch_by_id_test() {
-  chain.fetch_by_id(200, NoCache) |> should.be_ok |> should_be_rayquaza
+  chain.new()
+  |> chain.fetch_by_id(200)
+  |> should.be_ok
+  |> should_be_rayquaza
 }
 
 pub fn should_be_rayquaza(evolution_chain: EvolutionChain) {

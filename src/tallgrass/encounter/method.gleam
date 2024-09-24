@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource}
+import tallgrass/resource.{type Resource}
 
 pub type EncounterMethod {
   EncounterMethod(id: Int, name: String, order: Int, names: List(Name))
@@ -9,17 +9,21 @@ pub type EncounterMethod {
 
 const path = "encounter-method"
 
-/// Fetches a list of encounter method resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of encounter method resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = method.fetch(DefaultPagination, NoCache)
-/// let result = method.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = method |> method.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches an encounter method given an encounter method resource.
@@ -27,12 +31,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(method.fetch(DefaultPagination, NoCache))
+/// let client = method.new()
+/// use res <- result.try(client |> method.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// method.fetch_resource(first)
+/// client |> method.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, encounter_method(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, encounter_method())
 }
 
 /// Fetches an encounter method given the encounter method ID.
@@ -40,10 +45,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = method.fetch_by_id(1)
+/// let result = method.new() |> method.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, encounter_method(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, encounter_method())
 }
 
 /// Fetches an encounter method given the encounter method name.
@@ -51,10 +56,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = method.fetch_by_name("walk")
+/// let result = method.new() |> method.fetch_by_name("walk")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, encounter_method(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, encounter_method())
 }
 
 fn encounter_method() {

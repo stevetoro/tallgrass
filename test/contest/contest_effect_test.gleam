@@ -1,19 +1,26 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/contest/effect.{type ContestEffect}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = effect.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  effect.fetch_resource(resource, NoCache)
+  let resource =
+    effect.new()
+    |> effect.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  effect.new()
+  |> effect.fetch_resource(resource)
   |> should.be_ok
   |> should_be_contest_effect
 }
 
 pub fn fetch_by_id_test() {
-  effect.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_contest_effect
+  effect.new()
+  |> effect.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_contest_effect
 }
 
 fn should_be_contest_effect(contest_effect: ContestEffect) {

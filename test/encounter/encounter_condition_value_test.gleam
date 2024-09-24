@@ -1,22 +1,32 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/encounter/condition/value.{type EncounterConditionValue}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = value.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  value.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_swarm_yes
+  let resource =
+    value.new()
+    |> value.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  value.new()
+  |> value.fetch_resource(resource)
+  |> should.be_ok
+  should_be_swarm_yes
 }
 
 pub fn fetch_by_id_test() {
-  value.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_swarm_yes
+  value.new()
+  |> value.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_swarm_yes
 }
 
 pub fn fetch_by_name_test() {
-  value.fetch_by_name("swarm-yes", NoCache)
+  value.new()
+  |> value.fetch_by_name("swarm-yes")
   |> should.be_ok
   |> should_be_swarm_yes
 }

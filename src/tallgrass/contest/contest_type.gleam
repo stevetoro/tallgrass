@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type ContestType {
   ContestType(id: Int, name: String, berry_flavor: Resource, names: List(Name))
@@ -9,17 +9,21 @@ pub type ContestType {
 
 const path = "contest-type"
 
-/// Fetches a list of contest type resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of contest type resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = contest_type.fetch(DefaultPagination, NoCache)
-/// let result = contest_type.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = contest_type.new() |> contest_type.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a contest type given a contest type resource.
@@ -27,12 +31,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(contest_type.fetch(DefaultPagination, NoCache))
+/// let client = contest_type.new()
+/// use res <- result.try(client |> contest_type.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// contest_type.fetch_resource(first)
+/// client |> contest_type.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, contest_type(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, contest_type())
 }
 
 /// Fetches a contest type given the contest type ID.
@@ -40,10 +45,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = contest_type.fetch_by_id(1)
+/// let result = contest_type.new() |> contest_type.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, contest_type(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, contest_type())
 }
 
 /// Fetches a contest type given the contest type name.
@@ -51,10 +56,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = contest_type.fetch_by_name("cool")
+/// let result = contest_type.new() |> contest_type.fetch_by_name("cool")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, contest_type(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, contest_type())
 }
 
 fn contest_type() {

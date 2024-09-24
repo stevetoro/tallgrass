@@ -2,23 +2,31 @@ import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/berry/firmness.{type BerryFirmness}
-import tallgrass/cache.{NoCache}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = firmness.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  firmness.fetch_resource(resource, NoCache)
+  let resource =
+    firmness.new()
+    |> firmness.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  firmness.new()
+  |> firmness.fetch_resource(resource)
   |> should.be_ok
   |> should_be_very_soft
 }
 
 pub fn fetch_by_id_test() {
-  firmness.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_very_soft
+  firmness.new()
+  |> firmness.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_very_soft
 }
 
 pub fn fetch_by_name_test() {
-  firmness.fetch_by_name("very-soft", NoCache)
+  firmness.new()
+  |> firmness.fetch_by_name("very-soft")
   |> should.be_ok
   |> should_be_very_soft
 }

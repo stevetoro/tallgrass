@@ -1,21 +1,33 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/berry.{type Berry}
-import tallgrass/cache.{NoCache}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = berry.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  berry.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_cheri
+  let resource =
+    berry.new()
+    |> berry.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  berry.new()
+  |> berry.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_cheri
 }
 
 pub fn fetch_by_id_test() {
-  berry.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_cheri
+  berry.new()
+  |> berry.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_cheri
 }
 
 pub fn fetch_by_name_test() {
-  berry.fetch_by_name("cheri", NoCache) |> should.be_ok |> should_be_cheri
+  berry.new()
+  |> berry.fetch_by_name("cheri")
+  |> should.be_ok
+  |> should_be_cheri
 }
 
 fn should_be_cheri(berry: Berry) {

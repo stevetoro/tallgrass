@@ -5,6 +5,8 @@ import gleam/int.{to_string}
 import gleam/option.{type Option, None, Some}
 import gleam/string
 import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client, cache, pagination}
+import tallgrass/page
 import tallgrass/request
 
 /// The type of response returned by paginated endpoints. `count` is the total number of records for that resource, `results` are a list of
@@ -97,6 +99,17 @@ pub fn fetch_by_id(id: Int, path: String, decoder: Decoder(t), cache: Cache) {
 }
 
 @internal
+pub fn client_fetch_by_id(
+  client: Client,
+  path: String,
+  id: Int,
+  decoder: Decoder(t),
+) {
+  let path = path_from(Some(id |> to_string), path)
+  request.get(path, [], decoder, client |> cache)
+}
+
+@internal
 pub fn fetch_by_name(
   name: String,
   path: String,
@@ -108,13 +121,43 @@ pub fn fetch_by_name(
 }
 
 @internal
+pub fn client_fetch_by_name(
+  client: Client,
+  path: String,
+  name: String,
+  decoder: Decoder(t),
+) {
+  let path = path_from(Some(name), path)
+  request.get(path, [], decoder, client |> cache)
+}
+
+@internal
 pub fn fetch_resources(path: String, options: PaginationOptions, cache: Cache) {
   request.get(path, query(from: options), resource_list(), cache)
 }
 
 @internal
+pub fn client_fetch_resources(client: Client, path: String) {
+  request.get(
+    path,
+    client_query(from: client |> pagination),
+    resource_list(),
+    client |> cache,
+  )
+}
+
+@internal
 pub fn fetch_resource(resource: Resource, decoder: Decoder(t), cache: Cache) {
   request.get_url(resource.url, decoder, cache)
+}
+
+@internal
+pub fn client_fetch_resource(
+  client: Client,
+  resource: Resource,
+  decoder: Decoder(t),
+) {
+  request.get_url(resource.url, decoder, client |> cache)
 }
 
 @internal
@@ -165,6 +208,18 @@ fn query(from options: PaginationOptions) {
     Limit(limit) -> [#("limit", limit |> to_string)]
     Offset(offset) -> [#("offset", offset |> to_string)]
     Paginate(limit, offset) -> [
+      #("limit", limit |> to_string),
+      #("offset", offset |> to_string),
+    ]
+  }
+}
+
+fn client_query(from options: page.PaginationOptions) {
+  case options {
+    page.Default -> []
+    page.Limit(limit) -> [#("limit", limit |> to_string)]
+    page.Offset(offset) -> [#("offset", offset |> to_string)]
+    page.Paginate(limit, offset) -> [
       #("limit", limit |> to_string),
       #("offset", offset |> to_string),
     ]

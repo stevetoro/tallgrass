@@ -1,17 +1,26 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/machine.{type Machine}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = machine.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  machine.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_tm_00
+  let resource =
+    machine.new()
+    |> machine.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  machine.new()
+  |> machine.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_tm_00
 }
 
 pub fn fetch_by_id_test() {
-  machine.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_tm_00
+  machine.new()
+  |> machine.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_tm_00
 }
 
 fn should_be_tm_00(machine: Machine) {

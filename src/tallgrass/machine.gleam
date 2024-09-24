@@ -1,6 +1,6 @@
 import decode
-import tallgrass/cache.{type Cache}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/client.{type Client}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Machine {
   Machine(id: Int, item: Resource, move: Resource, version_group: Resource)
@@ -8,17 +8,21 @@ pub type Machine {
 
 const path = "machine"
 
-/// Fetches a list of machine resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of machine resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = machine.fetch(DefaultPagination, NoCache)
-/// let result = machine.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = machine.new() |> machine.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a machine given a machine resource.
@@ -26,12 +30,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(machine.fetch(DefaultPagination, NoCache))
+/// let client = machine.new()
+/// use res <- result.try(client |> machine.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// machine.fetch_resource(first)
+/// client |> machine.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, machine(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, machine())
 }
 
 /// Fetches a machine given the machine ID.
@@ -39,10 +44,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = machine.fetch_by_id(1)
+/// let result = machine.new() |> machine.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, machine(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, machine())
 }
 
 fn machine() {

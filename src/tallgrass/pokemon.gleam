@@ -1,8 +1,8 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
 import tallgrass/common/version.{type VersionGameIndex, version_game_index}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Pokemon {
   Pokemon(
@@ -51,17 +51,21 @@ pub type PokemonStat {
 
 const path = "pokemon"
 
-/// Fetches a list of pokemon resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of pokemon resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = pokemon.fetch(DefaultPagination, NoCache)
-/// let result = pokemon.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = pokemon.new() |> pokemon.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a pokemon given a pokemon resource.
@@ -69,12 +73,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon.fetch(DefaultPagination, NoCache))
+/// let client = pokemon.new()
+/// use res <- result.try(client |> pokemon.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// pokemon.fetch_resource(first)
+/// client |> pokemon.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, pokemon(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, pokemon())
 }
 
 /// Fetches a pokemon given the pokemon ID.
@@ -82,10 +87,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = pokemon.fetch_by_id(132)
+/// let result = pokemon.new() |> pokemon.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, pokemon(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, pokemon())
 }
 
 /// Fetches a pokemon given the pokemon name.
@@ -93,10 +98,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = pokemon.fetch_by_name("ditto")
+/// let result = pokemon.new() |> pokemon.fetch_by_name("ditto")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, pokemon(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, pokemon())
 }
 
 fn pokemon() {

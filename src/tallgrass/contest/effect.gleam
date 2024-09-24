@@ -1,8 +1,8 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/effect.{type Effect, effect}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
-import tallgrass/resource.{type PaginationOptions, type Resource}
+import tallgrass/resource.{type Resource}
 
 pub type ContestEffect {
   ContestEffect(
@@ -16,17 +16,21 @@ pub type ContestEffect {
 
 const path = "contest-effect"
 
-/// Fetches a list of contest effect resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of contest effect resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = effect.fetch(DefaultPagination, NoCache)
-/// let result = effect.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = effect.new() |> effect.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a contest effect given a contest effect resource.
@@ -34,12 +38,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(effect.fetch(DefaultPagination, NoCache))
+/// let client = effect.new()
+/// use res <- result.try(client |> effect.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// effect.fetch_resource(first)
+/// client |> effect.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, contest_effect(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, contest_effect())
 }
 
 /// Fetches a contest effect given the contest effect ID.
@@ -47,10 +52,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = effect.fetch_by_id(1)
+/// let result = effect.new() |> effect.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, contest_effect(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, contest_effect())
 }
 
 fn contest_effect() {

@@ -1,7 +1,7 @@
 import decode
 import gleam/option.{type Option}
-import tallgrass/cache.{type Cache}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/client.{type Client}
+import tallgrass/resource.{type Resource, resource}
 
 pub type EvolutionChain {
   EvolutionChain(id: Int, baby_trigger_item: Option(Resource), chain: ChainLink)
@@ -42,17 +42,21 @@ pub type EvolutionDetail {
 
 const path = "evolution-chain"
 
-/// Fetches a list of evolution chain resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of evolution chain resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = chain.fetch(DefaultPagination, NoCache)
-/// let result = chain.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = chain.new() |> chain.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches an evolution chain given an evolution chain resource.
@@ -60,12 +64,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(chain.fetch(DefaultPagination, NoCache))
+/// let client = chain.new()
+/// use res <- result.try(client |> chain.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// chain.fetch_resource(first)
+/// client |> chain.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, evolution_chain(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, evolution_chain())
 }
 
 /// Fetches an evolution chain given the evolution chain ID.
@@ -73,10 +78,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = chain.fetch_by_id(1)
+/// let result = chain.new() |> chain.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, evolution_chain(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, evolution_chain())
 }
 
 fn evolution_chain() {

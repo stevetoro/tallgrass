@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type SuperContestEffect {
   SuperContestEffect(
@@ -14,17 +14,21 @@ pub type SuperContestEffect {
 
 const path = "super-contest-effect"
 
-/// Fetches a list of super contest effect resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of super contest effect resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = super_contest_effect.fetch(DefaultPagination, NoCache)
-/// let result = super_contest_effect.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = super_contest_effect.new() |> super_contest_effect.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a super contest effect given a super contest effect resource.
@@ -32,12 +36,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(super_contest_effect.fetch(DefaultPagination, NoCache))
+/// let client = super_contest_effect.new()
+/// use res <- result.try(client |> super_contest_effect.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// super_contest_effect.fetch_resource(first)
+/// client |> super_contest_effect.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, super_contest_effect(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, super_contest_effect())
 }
 
 /// Fetches a super contest effect given the super contest effect ID.
@@ -45,10 +50,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = super_contest_effect.fetch_by_id(1)
+/// let result = super_contest_effect.new() |> super_contest_effect.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, super_contest_effect(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, super_contest_effect())
 }
 
 fn super_contest_effect() {

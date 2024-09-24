@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type BerryFirmness {
   BerryFirmness(
@@ -14,17 +14,21 @@ pub type BerryFirmness {
 
 const path = "berry-firmness"
 
-/// Fetches a list of berry firmness resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of berry firmness resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = firmness.fetch(DefaultPagination, NoCache)
-/// let result = firmness.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = firmness.new() |> firmness.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a berry firmness given a berry firmness resource.
@@ -32,12 +36,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(firmness.fetch(DefaultPagination, NoCache))
+/// let client = firmness.new()
+/// use res <- result.try(client |> firmness.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// firmness.fetch_resource(first)
+/// client |> firmness.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, berry_firmness(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, berry_firmness())
 }
 
 /// Fetches a berry firmness given the berry firmness ID.
@@ -45,10 +50,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = firmness.fetch_by_id(1)
+/// let result = firmness.new() |> firmness.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, berry_firmness(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, berry_firmness())
 }
 
 /// Fetches a berry firmness given the berry firmness name.
@@ -56,10 +61,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = firmness.fetch_by_name("very-soft")
+/// let result = firmness.new() |> firmness.fetch_by_name("very-soft")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, berry_firmness(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, berry_firmness())
 }
 
 fn berry_firmness() {

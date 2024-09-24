@@ -2,21 +2,33 @@ import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/berry/flavor.{type BerryFlavor}
-import tallgrass/cache.{NoCache}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = flavor.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  flavor.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_spicy
+  let resource =
+    flavor.new()
+    |> flavor.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  flavor.new()
+  |> flavor.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_spicy
 }
 
 pub fn fetch_by_id_test() {
-  flavor.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_spicy
+  flavor.new()
+  |> flavor.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_spicy
 }
 
 pub fn fetch_by_name_test() {
-  flavor.fetch_by_name("spicy", NoCache) |> should.be_ok |> should_be_spicy
+  flavor.new()
+  |> flavor.fetch_by_name("spicy")
+  |> should.be_ok
+  |> should_be_spicy
 }
 
 fn should_be_spicy(flavor: BerryFlavor) {

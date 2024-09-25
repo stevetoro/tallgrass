@@ -3,8 +3,8 @@ import gleam/option.{type Option}
 
 /// The type of response returned by paginated endpoints. `count` is the total number of records for that type of resource, `results` is a list of
 /// fetcheable resources on the current page, and the `next` and `previous` links can be used to traverse the rest of the pages.
-pub type ResourcePage {
-  ResourcePage(
+pub type PaginatedResource {
+  PaginatedResource(
     count: Int,
     next: Option(String),
     previous: Option(String),
@@ -39,13 +39,13 @@ pub type Resource {
 }
 
 @internal
-pub fn resource_page() {
+pub fn paginated_resource() {
   decode.into({
     use count <- decode.parameter
     use next <- decode.parameter
     use previous <- decode.parameter
     use results <- decode.parameter
-    ResourcePage(count, next, previous, results)
+    PaginatedResource(count, next, previous, results)
   })
   |> decode.field("count", decode.int)
   |> decode.field("next", decode.optional(decode.string))

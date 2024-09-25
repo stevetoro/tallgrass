@@ -5,7 +5,7 @@ import gleam/string
 import tallgrass/client/cache.{type Cache, NoCache}
 import tallgrass/client/request
 import tallgrass/common/resource.{
-  type Resource, type ResourcePage, resource_page,
+  type PaginatedResource, type Resource, paginated_resource,
 }
 
 /// Client is the basic type used to make requests. Client should be initialized with client.new and provided
@@ -62,7 +62,7 @@ pub type PaginationOptions {
   Paginate(limit: Int, offset: Int)
 }
 
-/// Follows the `next` link of a given `ResourcePage` and returns an error if the `next` link is `null`.
+/// Follows the `next` link of a given `PaginatedResource` and returns an error if the `next` link is `null`.
 ///
 /// # Example
 ///
@@ -71,11 +71,11 @@ pub type PaginationOptions {
 /// use res <- result.try(client |> pokemon.fetch())
 /// client |> client.next(res)
 /// ```
-pub fn next(client: Client, page: ResourcePage) {
-  request.next(page.next, resource_page(), client |> cache)
+pub fn next(client: Client, page: PaginatedResource) {
+  request.next(page.next, paginated_resource(), client |> cache)
 }
 
-/// Follows the `previous` link of a given `ResourcePage` and returns an error if the `previous` link is `null`.
+/// Follows the `previous` link of a given `PaginatedResource` and returns an error if the `previous` link is `null`.
 ///
 /// # Example
 ///
@@ -84,8 +84,8 @@ pub fn next(client: Client, page: ResourcePage) {
 /// use res <- result.try(client |> pokemon.fetch())
 /// client |> client.previous(res)
 /// ```
-pub fn previous(client: Client, page: ResourcePage) {
-  request.previous(page.previous, resource_page(), client |> cache)
+pub fn previous(client: Client, page: PaginatedResource) {
+  request.previous(page.previous, paginated_resource(), client |> cache)
 }
 
 @internal
@@ -110,7 +110,7 @@ pub fn fetch_resources(client: Client, path: String) {
   request.get(
     path,
     query(from: client |> pagination),
-    resource_page(),
+    paginated_resource(),
     client |> cache,
   )
 }

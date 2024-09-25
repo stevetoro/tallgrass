@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type Habitat {
   Habitat(

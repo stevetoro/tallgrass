@@ -1,8 +1,8 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/game/version.{type Version}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/game/version.{type Version}
 
 pub fn fetch_test() {
   let resource =

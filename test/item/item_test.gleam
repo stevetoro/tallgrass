@@ -1,7 +1,7 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/item.{type Item}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/item.{type Item}
 
 pub fn fetch_test() {
   let resource =

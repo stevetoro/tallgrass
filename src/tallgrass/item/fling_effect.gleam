@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/common/effect.{type Effect, effect}
 import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/effect.{type Effect, effect}
 
 pub type ItemFlingEffect {
   ItemFlingEffect(

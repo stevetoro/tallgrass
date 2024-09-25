@@ -1,8 +1,8 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/item/category.{type ItemCategory}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/item/category.{type ItemCategory}
 
 pub fn fetch_test() {
   let resource =

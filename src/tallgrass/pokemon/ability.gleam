@@ -1,11 +1,11 @@
 import decode
 import tallgrass/client.{type Client}
+import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/client/resource.{type Resource, resource}
 
 pub type Ability {
   Ability(

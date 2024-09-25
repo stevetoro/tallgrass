@@ -1,8 +1,8 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/encounter/condition/value.{type EncounterConditionValue}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/encounter/condition/value.{type EncounterConditionValue}
 
 pub fn fetch_test() {
   let resource =

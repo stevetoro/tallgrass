@@ -1,7 +1,7 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/game/version_group.{type VersionGroup}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/game/version_group.{type VersionGroup}
 
 pub fn fetch_test() {
   let resource =

@@ -1,8 +1,8 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/pokemon/ability.{type Ability}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/pokemon/ability.{type Ability}
 
 pub fn fetch_test() {
   let resource =

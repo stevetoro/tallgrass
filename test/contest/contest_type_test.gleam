@@ -1,8 +1,8 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/contest/contest_type.{type ContestType}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/contest/contest_type.{type ContestType}
 
 pub fn fetch_test() {
   let resource =

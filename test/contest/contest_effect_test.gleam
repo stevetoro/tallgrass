@@ -1,7 +1,7 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/contest/effect.{type ContestEffect}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/contest/effect.{type ContestEffect}
 
 pub fn fetch_test() {
   let resource =

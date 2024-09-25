@@ -1,22 +1,37 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
+import tallgrass/client.{with_pagination}
 import tallgrass/game/pokedex.{type Pokedex}
-import tallgrass/resource.{NamedResource, Offset}
+import tallgrass/page.{Offset}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = pokedex.fetch(Offset(1), NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  pokedex.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_kanto
+  let resource =
+    pokedex.new()
+    |> with_pagination(Offset(1))
+    |> pokedex.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  pokedex.new()
+  |> pokedex.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_kanto
 }
 
 pub fn fetch_by_id_test() {
-  pokedex.fetch_by_id(2, NoCache) |> should.be_ok |> should_be_kanto
+  pokedex.new()
+  |> pokedex.fetch_by_id(2)
+  |> should.be_ok
+  |> should_be_kanto
 }
 
 pub fn fetch_by_name_test() {
-  pokedex.fetch_by_name("kanto", NoCache) |> should.be_ok |> should_be_kanto
+  pokedex.new()
+  |> pokedex.fetch_by_name("kanto")
+  |> should.be_ok
+  |> should_be_kanto
 }
 
 fn should_be_kanto(pokedex: Pokedex) {

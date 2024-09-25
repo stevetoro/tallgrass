@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/effect.{type Effect, effect}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type ItemFlingEffect {
   ItemFlingEffect(
@@ -14,17 +14,21 @@ pub type ItemFlingEffect {
 
 const path = "item-fling-effect"
 
-/// Fetches a list of item fling effect resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of item fling effect resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = fling_effect.fetch(DefaultPagination, NoCache)
-/// let result = fling_effect.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = fling_effect.new() |> fling_effect.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches an item fling effect given an item fling effect resource.
@@ -32,12 +36,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(fling_effect.fetch(DefaultPagination, NoCache))
+/// let client = fling_effect.new()
+/// use res <- result.try(client |> fling_effect.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// fling_effect.fetch_resource(first)
+/// client |> fling_effect.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, item_fling_effect(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, item_fling_effect())
 }
 
 /// Fetches an item fling effect given the item fling effect ID.
@@ -45,10 +50,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = fling_effect.fetch_by_id(1)
+/// let result = fling_effect.new() |> fling_effect.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, item_fling_effect(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, item_fling_effect())
 }
 
 /// Fetches an item fling effect given the item fling effect name.
@@ -56,10 +61,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = fling_effect.fetch_by_name("badly-poison")
+/// let result = fling_effect.new() |> fling_effect.fetch_by_name("badly-poison")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, item_fling_effect(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, item_fling_effect())
 }
 
 fn item_fling_effect() {

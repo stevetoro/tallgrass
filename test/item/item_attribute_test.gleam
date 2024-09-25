@@ -1,24 +1,32 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/item/attribute.{type ItemAttribute}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = attribute.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  attribute.fetch_resource(resource, NoCache)
+  let resource =
+    attribute.new()
+    |> attribute.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  attribute.new()
+  |> attribute.fetch_resource(resource)
   |> should.be_ok
   |> should_be_countable
 }
 
 pub fn fetch_by_id_test() {
-  attribute.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_countable
+  attribute.new()
+  |> attribute.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_countable
 }
 
 pub fn fetch_by_name_test() {
-  attribute.fetch_by_name("countable", NoCache)
+  attribute.new()
+  |> attribute.fetch_by_name("countable")
   |> should.be_ok
   |> should_be_countable
 }

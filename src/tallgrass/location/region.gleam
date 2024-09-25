@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Region {
   Region(
@@ -17,17 +17,21 @@ pub type Region {
 
 const path = "region"
 
-/// Fetches a list of region resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of region resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = region.fetch(DefaultPagination, NoCache)
-/// let result = region.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = region.new() |> region.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a region given a region resource.
@@ -35,12 +39,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(region.fetch(DefaultPagination, NoCache))
+/// let client = region.new()
+/// use res <- result.try(client |> region.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// region.fetch_resource(first)
+/// client |> region.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, region(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, region())
 }
 
 /// Fetches a region given the region ID.
@@ -48,10 +53,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = region.fetch_by_id(1)
+/// let result = region.new() |> region.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, region(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, region())
 }
 
 /// Fetches a region given the region name.
@@ -59,10 +64,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = region.fetch_by_name("kanto")
+/// let result = region.new() |> region.fetch_by_name("kanto")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, region(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, region())
 }
 
 fn region() {

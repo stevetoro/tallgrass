@@ -18,7 +18,8 @@ pub type PaginatedResource {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon.fetch(DefaultPagination, None))
+/// let client = client.new()
+/// use res <- result.try(client |> pokemon.fetch())
 /// let assert Ok(resource) = res.results |> list.first
 ///
 /// // most resources will take this shape
@@ -31,7 +32,7 @@ pub type PaginatedResource {
 /// }
 ///
 /// // fetch the full resource to get more than just the name and url
-/// pokemon.fetch_resource(resource, None)
+/// client |> pokemon.fetch_resource(resource)
 /// ```
 pub type Resource {
   Resource(url: String)

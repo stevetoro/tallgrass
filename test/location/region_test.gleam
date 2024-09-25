@@ -1,22 +1,34 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/location/region.{type Region}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = region.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  region.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_kanto
+  let resource =
+    region.new()
+    |> region.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  region.new()
+  |> region.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_kanto
 }
 
 pub fn fetch_by_id_test() {
-  region.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_kanto
+  region.new()
+  |> region.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_kanto
 }
 
 pub fn fetch_by_name_test() {
-  region.fetch_by_name("kanto", NoCache) |> should.be_ok |> should_be_kanto
+  region.new()
+  |> region.fetch_by_name("kanto")
+  |> should.be_ok
+  |> should_be_kanto
 }
 
 fn should_be_kanto(region: Region) {

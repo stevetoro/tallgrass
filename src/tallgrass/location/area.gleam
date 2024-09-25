@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 // TODO: Add support for encounter_method_rates and pokemon_encounters.
 
@@ -17,17 +17,21 @@ pub type LocationArea {
 
 const path = "location-area"
 
-/// Fetches a list of location area resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of location area resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = area.fetch(DefaultPagination, NoCache)
-/// let result = area.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = area.new() |> area.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a location area given a location area resource.
@@ -35,12 +39,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(area.fetch(DefaultPagination, NoCache))
+/// let client = area.new()
+/// use res <- result.try(client |> area.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// area.fetch_resource(first)
+/// client |> area.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, location_area(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, location_area())
 }
 
 /// Fetches a location area given the location area ID.
@@ -48,10 +53,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = area.fetch_by_id(1)
+/// let result = area.new() |> area.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, location_area(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, location_area())
 }
 
 /// Fetches a location area given the location area name.
@@ -59,10 +64,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = area.fetch_by_name("canalave-city-area")
+/// let result = area.new() |> area.fetch_by_name("canalave-city-area")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, location_area(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, location_area())
 }
 
 fn location_area() {

@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource}
+import tallgrass/resource.{type Resource}
 
 // TODO: Add support for pokemon_encounters.
 
@@ -11,17 +11,21 @@ pub type PalParkArea {
 
 const path = "pal-park-area"
 
-/// Fetches a list of pal park area resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of pal park area resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = pal_park_area.fetch(DefaultPagination, NoCache)
-/// let result = pal_park_area.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = pal_park_area.new() |> pal_park_area.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a pal park area given a pal park area resource.
@@ -29,12 +33,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pal_park_area.fetch(DefaultPagination, NoCache))
+/// let client = pal_park_area.new()
+/// use res <- result.try(client |> pal_park_area.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// pal_park_area.fetch_resource(first)
+/// client |> pal_park_area.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, pal_park_area(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, pal_park_area())
 }
 
 /// Fetches a pal park area given the pal park area ID.
@@ -42,10 +47,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = pal_park_area.fetch_by_id(1)
+/// let result = pal_park_area.new() |> pal_park_area.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, pal_park_area(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, pal_park_area())
 }
 
 /// Fetches a pal park area given the pal park area name.
@@ -53,10 +58,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = pal_park_area.fetch_by_name("forest")
+/// let result = pal_park_area.new() |> pal_park_area.fetch_by_name("forest")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, pal_park_area(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, pal_park_area())
 }
 
 fn pal_park_area() {

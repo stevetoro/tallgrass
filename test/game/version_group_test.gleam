@@ -1,23 +1,31 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/game/version_group.{type VersionGroup}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = version_group.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  version_group.fetch_resource(resource, NoCache)
+  let resource =
+    version_group.new()
+    |> version_group.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  version_group.new()
+  |> version_group.fetch_resource(resource)
   |> should.be_ok
   |> should_be_red_blue
 }
 
 pub fn fetch_by_id_test() {
-  version_group.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_red_blue
+  version_group.new()
+  |> version_group.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_red_blue
 }
 
 pub fn fetch_by_name_test() {
-  version_group.fetch_by_name("red-blue", NoCache)
+  version_group.new()
+  |> version_group.fetch_by_name("red-blue")
   |> should.be_ok
   |> should_be_red_blue
 }

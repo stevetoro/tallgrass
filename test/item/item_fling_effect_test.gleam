@@ -1,23 +1,31 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/item/fling_effect.{type ItemFlingEffect}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = fling_effect.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  fling_effect.fetch_resource(resource, NoCache)
+  let resource =
+    fling_effect.new()
+    |> fling_effect.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  fling_effect.new()
+  |> fling_effect.fetch_resource(resource)
   |> should.be_ok
   |> should_be_badly_poison
 }
 
 pub fn fetch_by_id_test() {
-  fling_effect.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_badly_poison
+  fling_effect.new()
+  |> fling_effect.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_badly_poison
 }
 
 pub fn fetch_by_name_test() {
-  fling_effect.fetch_by_name("badly-poison", NoCache)
+  fling_effect.new()
+  |> fling_effect.fetch_by_name("badly-poison")
   |> should.be_ok
   |> should_be_badly_poison
 }

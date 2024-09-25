@@ -1,24 +1,31 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/move/battle_style.{type MoveBattleStyle}
-import tallgrass/resource.{DefaultPagination}
 
 pub fn fetch_test() {
-  let response = battle_style.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  battle_style.fetch_resource(resource, NoCache)
+  let resource =
+    battle_style.new()
+    |> battle_style.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  battle_style.new()
+  |> battle_style.fetch_resource(resource)
   |> should.be_ok
   |> should_be_attack
 }
 
 pub fn fetch_by_id_test() {
-  battle_style.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_attack
+  battle_style.new()
+  |> battle_style.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_attack
 }
 
 pub fn fetch_by_name_test() {
-  battle_style.fetch_by_name("attack", NoCache)
+  battle_style.new()
+  |> battle_style.fetch_by_name("attack")
   |> should.be_ok
   |> should_be_attack
 }

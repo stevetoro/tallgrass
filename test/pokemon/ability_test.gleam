@@ -1,22 +1,34 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/ability.{type Ability}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = ability.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  ability.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_stench
+  let resource =
+    ability.new()
+    |> ability.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  ability.new()
+  |> ability.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_stench
 }
 
 pub fn fetch_by_id_test() {
-  ability.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_stench
+  ability.new()
+  |> ability.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_stench
 }
 
 pub fn fetch_by_name_test() {
-  ability.fetch_by_name("stench", NoCache) |> should.be_ok |> should_be_stench
+  ability.new()
+  |> ability.fetch_by_name("stench")
+  |> should.be_ok
+  |> should_be_stench
 }
 
 fn should_be_stench(ability: Ability) {

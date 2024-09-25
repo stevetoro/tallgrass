@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/description.{type Description, description}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type GrowthRate {
   GrowthRate(
@@ -20,17 +20,21 @@ pub type GrowthRateExperienceLevel {
 
 const path = "growth-rate"
 
-/// Fetches a list of pokemon growth rate resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of pokemon growth rate resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = growth_rate.fetch(DefaultPagination, NoCache)
-/// let result = growth_rate.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = growth_rate.new() |> growth_rate.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a pokemon growth rate given a pokemon growth rate resource.
@@ -38,12 +42,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(growth_rate.fetch(DefaultPagination, NoCache))
+/// let client = growth_rate.new()
+/// use res <- result.try(client |> growth_rate.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// growth_rate.fetch_resource(first)
+/// client |> growth_rate.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, growth_rate(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, growth_rate())
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate ID.
@@ -51,10 +56,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = growth_rate.fetch_by_id(1)
+/// let result = growth_rate.new() |> growth_rate.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, growth_rate(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, growth_rate())
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate name.
@@ -62,10 +67,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = growth_rate.fetch_by_name("slow")
+/// let result = growth_rate.new() |> growth_rate.fetch_by_name("slow")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, growth_rate(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, growth_rate())
 }
 
 fn growth_rate() {

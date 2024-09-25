@@ -1,23 +1,34 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
+import tallgrass/client.{with_pagination}
+import tallgrass/page.{Paginate}
 import tallgrass/pokemon/form.{type PokemonForm}
-import tallgrass/resource.{NamedResource, Paginate}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response =
-    form.fetch(Paginate(limit: 1, offset: 1065), NoCache)
+  let resource =
+    form.new()
+    |> with_pagination(Paginate(limit: 1, offset: 1065))
+    |> form.fetch
     |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  form.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_arceus_bug
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  form.new()
+  |> form.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_arceus_bug
 }
 
 pub fn fetch_by_id_test() {
-  form.fetch_by_id(10_041, NoCache) |> should.be_ok |> should_be_arceus_bug
+  form.new()
+  |> form.fetch_by_id(10_041)
+  |> should.be_ok
+  |> should_be_arceus_bug
 }
 
 pub fn fetch_by_name_test() {
-  form.fetch_by_name("arceus-bug", NoCache)
+  form.new()
+  |> form.fetch_by_name("arceus-bug")
   |> should.be_ok
   |> should_be_arceus_bug
 }

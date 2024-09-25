@@ -1,22 +1,37 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
+import tallgrass/client.{with_pagination}
+import tallgrass/page.{Offset}
 import tallgrass/pokemon/nature.{type Nature}
-import tallgrass/resource.{NamedResource, Offset}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = nature.fetch(Offset(1), NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  nature.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_bold
+  let resource =
+    nature.new()
+    |> with_pagination(Offset(1))
+    |> nature.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  nature.new()
+  |> nature.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_bold
 }
 
 pub fn fetch_by_id_test() {
-  nature.fetch_by_id(2, NoCache) |> should.be_ok |> should_be_bold
+  nature.new()
+  |> nature.fetch_by_id(2)
+  |> should.be_ok
+  |> should_be_bold
 }
 
 pub fn fetch_by_name_test() {
-  nature.fetch_by_name("bold", NoCache) |> should.be_ok |> should_be_bold
+  nature.new()
+  |> nature.fetch_by_name("bold")
+  |> should.be_ok
+  |> should_be_bold
 }
 
 fn should_be_bold(nature: Nature) {

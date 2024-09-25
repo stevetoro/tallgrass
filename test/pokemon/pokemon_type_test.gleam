@@ -1,24 +1,35 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
+import tallgrass/client.{with_pagination}
+import tallgrass/page.{Offset}
 import tallgrass/pokemon/pokemon_type.{type PokemonType}
-import tallgrass/resource.{NamedResource, Offset}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = pokemon_type.fetch(Offset(8), NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  pokemon_type.fetch_resource(resource, NoCache)
+  let resource =
+    pokemon_type.new()
+    |> with_pagination(Offset(8))
+    |> pokemon_type.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  pokemon_type.new()
+  |> pokemon_type.fetch_resource(resource)
   |> should.be_ok
   |> should_be_steel
 }
 
 pub fn fetch_by_id_test() {
-  pokemon_type.fetch_by_id(9, NoCache) |> should.be_ok |> should_be_steel
+  pokemon_type.new()
+  |> pokemon_type.fetch_by_id(9)
+  |> should.be_ok
+  |> should_be_steel
 }
 
 pub fn fetch_by_name_test() {
-  pokemon_type.fetch_by_name("steel", NoCache)
+  pokemon_type.new()
+  |> pokemon_type.fetch_by_name("steel")
   |> should.be_ok
   |> should_be_steel
 }

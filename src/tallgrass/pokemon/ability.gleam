@@ -1,11 +1,11 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Ability {
   Ability(
@@ -26,17 +26,21 @@ pub type AbilityPokemon {
 
 const path = "ability"
 
-/// Fetches a list of pokemon ability resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of pokemon ability resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = ability.fetch(DefaultPagination, NoCache)
-/// let result = ability.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = ability.new() |> ability.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a pokemon ability given a pokemon ability resource.
@@ -44,12 +48,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(ability.fetch(DefaultPagination, NoCache))
+/// let client = ability.new()
+/// use res <- result.try(client |> ability.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// ability.fetch_resource(first)
+/// client |> ability.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, ability(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, ability())
 }
 
 /// Fetches a pokemon ability given the pokemon ability ID.
@@ -57,10 +62,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = ability.fetch_by_id(32)
+/// let result = ability.new() |> ability.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, ability(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, ability())
 }
 
 /// Fetches a pokemon ability given the pokemon ability name.
@@ -68,10 +73,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = ability.fetch_by_name("serene-grace")
+/// let result = ability.new() |> ability.fetch_by_name("stench")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, ability(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, ability())
 }
 
 fn ability() {

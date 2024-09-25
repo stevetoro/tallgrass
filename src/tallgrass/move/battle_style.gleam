@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource}
+import tallgrass/resource.{type Resource}
 
 pub type MoveBattleStyle {
   MoveBattleStyle(id: Int, name: String, names: List(Name))
@@ -9,17 +9,21 @@ pub type MoveBattleStyle {
 
 const path = "move-battle-style"
 
-/// Fetches a list of move battle style resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of move battle style resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = battle_style.fetch(DefaultPagination, NoCache)
-/// let result = battle_style.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = battle_style.new() |> battle_style.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a move battle style given a move battle style resource.
@@ -27,12 +31,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(battle_style.fetch(DefaultPagination, NoCache))
+/// let client = battle_style.new()
+/// use res <- result.try(client |> battle_style.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// battle_style.fetch_resource(first)
+/// client |> battle_style.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, move_battle_style(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, move_battle_style())
 }
 
 /// Fetches a move battle style given the move battle style ID.
@@ -40,10 +45,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = battle_style.fetch_by_id(1)
+/// let result = battle_style.new() |> battle_style.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, move_battle_style(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, move_battle_style())
 }
 
 /// Fetches a move battle style given the move battle style name.
@@ -51,10 +56,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = battle_style.fetch_by_name("attack")
+/// let result = battle_style.new() |> battle_style.fetch_by_name("attack")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, move_battle_style(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, move_battle_style())
 }
 
 fn move_battle_style() {

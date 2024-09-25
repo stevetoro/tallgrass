@@ -1,24 +1,32 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/move/target.{type MoveTarget}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = target.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  target.fetch_resource(resource, NoCache)
+  let resource =
+    target.new()
+    |> target.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  target.new()
+  |> target.fetch_resource(resource)
   |> should.be_ok
   |> should_be_specific_move
 }
 
 pub fn fetch_by_id_test() {
-  target.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_specific_move
+  target.new()
+  |> target.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_specific_move
 }
 
 pub fn fetch_by_name_test() {
-  target.fetch_by_name("specific-move", NoCache)
+  target.new()
+  |> target.fetch_by_name("specific-move")
   |> should.be_ok
   |> should_be_specific_move
 }

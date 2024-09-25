@@ -1,5 +1,5 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/resource.{type Resource, resource}
 
 pub type PokemonLocationArea {
@@ -29,35 +29,41 @@ pub type EncounterDetail {
 
 const path = "pokemon,encounters"
 
-/// Fetches location areas for a given pokemon ID.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a pokemon location area given the pokemon ID.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = location_area.fetch_for_pokemon_with_id(1)
+/// let result = location_area.new() |> location_area.fetch_for_pokemon_with_id(1)
 /// ```
-pub fn fetch_for_pokemon_with_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(
-    id,
+pub fn fetch_for_pokemon_with_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(
+    client,
     path,
+    id,
     decode.list(of: pokemon_location_area()),
-    cache,
   )
 }
 
-/// Fetches location areas for a given pokemon name.
+/// Fetches a pokemon location area given the pokemon name.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = location_area.fetch_for_pokemon_with_name("bulbasaur")
+/// let result = location_area.new() |> location_area.fetch_for_pokemon_with_name("bulbasaur")
 /// ```
-pub fn fetch_for_pokemon_with_name(name: String, cache: Cache) {
-  resource.fetch_by_name(
-    name,
+pub fn fetch_for_pokemon_with_name(client: Client, name: String) {
+  resource.client_fetch_by_name(
+    client,
     path,
+    name,
     decode.list(of: pokemon_location_area()),
-    cache,
   )
 }
 

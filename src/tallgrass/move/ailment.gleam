@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type MoveAilment {
   MoveAilment(id: Int, name: String, moves: List(Resource), names: List(Name))
@@ -9,17 +9,21 @@ pub type MoveAilment {
 
 const path = "move-ailment"
 
-/// Fetches a list of move ailment resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of move ailment resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = ailment.fetch(DefaultPagination, NoCache)
-/// let result = ailment.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = ailment.new() |> ailment.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a move ailment given a move ailment resource.
@@ -27,12 +31,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(ailment.fetch(DefaultPagination, NoCache))
+/// let client = ailment.new()
+/// use res <- result.try(client |> ailment.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// ailment.fetch_resource(first)
+/// client |> ailment.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, move_ailment(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, move_ailment())
 }
 
 /// Fetches a move ailment given the move ailment ID.
@@ -40,10 +45,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = ailment.fetch_by_id(1)
+/// let result = ailment.new() |> ailment.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, move_ailment(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, move_ailment())
 }
 
 /// Fetches a move ailment given the move ailment name.
@@ -51,10 +56,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = ailment.fetch_by_name("paralysis")
+/// let result = ailment.new() |> ailment.fetch_by_name("paralysis")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, move_ailment(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, move_ailment())
 }
 
 fn move_ailment() {

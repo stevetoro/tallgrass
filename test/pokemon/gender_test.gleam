@@ -1,21 +1,33 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/gender.{type Gender}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = gender.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  gender.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_female
+  let resource =
+    gender.new()
+    |> gender.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  gender.new()
+  |> gender.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_female
 }
 
 pub fn fetch_by_id_test() {
-  gender.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_female
+  gender.new()
+  |> gender.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_female
 }
 
 pub fn fetch_by_name_test() {
-  gender.fetch_by_name("female", NoCache) |> should.be_ok |> should_be_female
+  gender.new()
+  |> gender.fetch_by_name("female")
+  |> should.be_ok
+  |> should_be_female
 }
 
 fn should_be_female(gender: Gender) {

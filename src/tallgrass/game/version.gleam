@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type Version {
   Version(id: Int, name: String, names: List(Name), version_group: Resource)
@@ -23,7 +23,7 @@ pub fn new() {
 /// let result = version.new() |> version.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a version given a version resource.
@@ -37,7 +37,7 @@ pub fn fetch(client: Client) {
 /// client |> version.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, version())
+  client.fetch_resource(client, resource, version())
 }
 
 /// Fetches a version given the version ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = version.new() |> version.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, version())
+  client.fetch_by_id(client, path, id, version())
 }
 
 /// Fetches a version given the version name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = version.new() |> version.fetch_by_name("red")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, version())
+  client.fetch_by_name(client, path, name, version())
 }
 
 fn version() {

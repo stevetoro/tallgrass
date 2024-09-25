@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
 
 pub type ItemPocket {
@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = pocket.new() |> pocket.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches an item pocket given an item pocket resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> pocket.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, item_pocket())
+  client.fetch_resource(client, resource, item_pocket())
 }
 
 /// Fetches an item pocket given the item pocket ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = pocket.new() |> pocket.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, item_pocket())
+  client.fetch_by_id(client, path, id, item_pocket())
 }
 
 /// Fetches an item pocket given the item pocket name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = pocket.new() |> pocket.fetch_by_name("misc")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, item_pocket())
+  client.fetch_by_name(client, path, name, item_pocket())
 }
 
 fn item_pocket() {

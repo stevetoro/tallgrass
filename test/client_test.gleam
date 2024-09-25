@@ -1,15 +1,14 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client.{with_pagination}
-import tallgrass/client/pagination.{Limit, Paginate}
+import tallgrass/client.{Limit, Paginate, next, previous, with_pagination}
 import tallgrass/client/request.{NoNextPage, NoPreviousPage}
-import tallgrass/client/resource.{NamedResource, next, previous}
+import tallgrass/common/resource.{NamedResource}
 
 pub fn pagination_test() {
   let first_page =
     client.new()
     |> with_pagination(Paginate(3, 2))
-    |> resource.fetch_resources("pokemon")
+    |> client.fetch_resources("pokemon")
     |> should.be_ok
 
   let assert NamedResource(_url, name) =
@@ -21,7 +20,7 @@ pub fn pagination_test() {
 
   let second_page =
     client.new()
-    |> resource.next(first_page)
+    |> client.next(first_page)
     |> should.be_ok
 
   let assert NamedResource(_url, name) =
@@ -33,7 +32,7 @@ pub fn pagination_test() {
 
   let first_page =
     client.new()
-    |> resource.previous(second_page)
+    |> client.previous(second_page)
     |> should.be_ok
 
   let assert NamedResource(_url, name) =
@@ -48,7 +47,7 @@ pub fn no_previous_page_test() {
   let first_page =
     client.new()
     |> with_pagination(Limit(5))
-    |> resource.fetch_resources("pokemon")
+    |> client.fetch_resources("pokemon")
     |> should.be_ok
 
   first_page.results |> list.length |> should.equal(5)
@@ -63,12 +62,12 @@ pub fn no_previous_page_test() {
 pub fn no_next_page_test() {
   let final_page =
     client.new()
-    |> resource.fetch_resources("pokemon")
+    |> client.fetch_resources("pokemon")
     |> should.be_ok
     |> fn(response) {
       client.new()
       |> with_pagination(Paginate(10, response.count - 10))
-      |> resource.fetch_resources("pokemon")
+      |> client.fetch_resources("pokemon")
       |> should.be_ok
     }
 

@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
 
 pub type EggGroup {
@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = egg_group.new() |> egg_group.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a egg group given a egg group resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> egg_group.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, egg_group())
+  client.fetch_resource(client, resource, egg_group())
 }
 
 /// Fetches a egg group given the egg group ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = egg_group.new() |> egg_group.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, egg_group())
+  client.fetch_by_id(client, path, id, egg_group())
 }
 
 /// Fetches a egg group given the egg group name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = egg_group.new() |> egg_group.fetch_by_name("monster")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, egg_group())
+  client.fetch_by_name(client, path, name, egg_group())
 }
 
 fn egg_group() {

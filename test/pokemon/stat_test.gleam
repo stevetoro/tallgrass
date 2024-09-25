@@ -1,9 +1,8 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/client.{with_pagination}
-import tallgrass/client/pagination.{Offset}
-import tallgrass/client/resource.{NamedResource}
+import tallgrass/client.{Offset, with_pagination}
+import tallgrass/common/resource.{NamedResource}
 import tallgrass/pokemon/stat.{type Stat}
 
 pub fn fetch_test() {

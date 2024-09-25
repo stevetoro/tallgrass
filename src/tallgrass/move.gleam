@@ -1,12 +1,12 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
 }
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type Move {
   Move(
@@ -47,7 +47,7 @@ pub fn new() {
 /// let result = move.new() |> move.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a move given a move resource.
@@ -61,7 +61,7 @@ pub fn fetch(client: Client) {
 /// client |> move.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, move())
+  client.fetch_resource(client, resource, move())
 }
 
 /// Fetches a move given the move ID.
@@ -72,7 +72,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = move.new() |> move.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, move())
+  client.fetch_by_id(client, path, id, move())
 }
 
 /// Fetches a move given the move name.
@@ -83,7 +83,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = move.new() |> move.fetch_by_name("pound")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, move())
+  client.fetch_by_name(client, path, name, move())
 }
 
 fn move() {

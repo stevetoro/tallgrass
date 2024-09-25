@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type BerryFlavor {
   BerryFlavor(
@@ -33,7 +33,7 @@ pub fn new() {
 /// let result = flavor.new() |> flavor.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a berry flavor given a berry flavor resource.
@@ -47,7 +47,7 @@ pub fn fetch(client: Client) {
 /// client |> flavor.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, berry_flavor())
+  client.fetch_resource(client, resource, berry_flavor())
 }
 
 /// Fetches a berry flavor given the berry flavor ID.
@@ -58,7 +58,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = flavor.new() |> flavor.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, berry_flavor())
+  client.fetch_by_id(client, path, id, berry_flavor())
 }
 
 /// Fetches a berry flavor given the berry flavor name.
@@ -69,7 +69,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = flavor.new() |> flavor.fetch_by_name("spicy")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, berry_flavor())
+  client.fetch_by_name(client, path, name, berry_flavor())
 }
 
 fn berry_flavor() {

@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
@@ -59,7 +59,7 @@ pub fn new() {
 /// let result = pokemon_type.new() |> pokemon_type.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon type given a pokemon type resource.
@@ -73,7 +73,7 @@ pub fn fetch(client: Client) {
 /// client |> pokemon_type.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, pokemon_type())
+  client.fetch_resource(client, resource, pokemon_type())
 }
 
 /// Fetches a pokemon type given the pokemon type ID.
@@ -84,7 +84,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = pokemon_type.new() |> pokemon_type.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, pokemon_type())
+  client.fetch_by_id(client, path, id, pokemon_type())
 }
 
 /// Fetches a pokemon type given the pokemon type name.
@@ -95,7 +95,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = pokemon_type.new() |> pokemon_type.fetch_by_name("fairy")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, pokemon_type())
+  client.fetch_by_name(client, path, name, pokemon_type())
 }
 
 fn pokemon_type() {

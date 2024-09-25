@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type ContestType {
   ContestType(id: Int, name: String, berry_flavor: Resource, names: List(Name))
@@ -23,7 +23,7 @@ pub fn new() {
 /// let result = contest_type.new() |> contest_type.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a contest type given a contest type resource.
@@ -37,7 +37,7 @@ pub fn fetch(client: Client) {
 /// client |> contest_type.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, contest_type())
+  client.fetch_resource(client, resource, contest_type())
 }
 
 /// Fetches a contest type given the contest type ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = contest_type.new() |> contest_type.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, contest_type())
+  client.fetch_by_id(client, path, id, contest_type())
 }
 
 /// Fetches a contest type given the contest type name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = contest_type.new() |> contest_type.fetch_by_name("cool")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, contest_type())
+  client.fetch_by_name(client, path, name, contest_type())
 }
 
 fn contest_type() {

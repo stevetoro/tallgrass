@@ -1,7 +1,7 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type EvolutionChain {
   EvolutionChain(id: Int, baby_trigger_item: Option(Resource), chain: ChainLink)
@@ -56,7 +56,7 @@ pub fn new() {
 /// let result = chain.new() |> chain.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches an evolution chain given an evolution chain resource.
@@ -70,7 +70,7 @@ pub fn fetch(client: Client) {
 /// client |> chain.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, evolution_chain())
+  client.fetch_resource(client, resource, evolution_chain())
 }
 
 /// Fetches an evolution chain given the evolution chain ID.
@@ -81,7 +81,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = chain.new() |> chain.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, evolution_chain())
+  client.fetch_by_id(client, path, id, evolution_chain())
 }
 
 fn evolution_chain() {

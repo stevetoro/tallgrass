@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/description.{type Description, description}
 
 pub type GrowthRate {
@@ -34,7 +34,7 @@ pub fn new() {
 /// let result = growth_rate.new() |> growth_rate.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon growth rate given a pokemon growth rate resource.
@@ -48,7 +48,7 @@ pub fn fetch(client: Client) {
 /// client |> growth_rate.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, growth_rate())
+  client.fetch_resource(client, resource, growth_rate())
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate ID.
@@ -59,7 +59,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = growth_rate.new() |> growth_rate.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, growth_rate())
+  client.fetch_by_id(client, path, id, growth_rate())
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate name.
@@ -70,7 +70,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = growth_rate.new() |> growth_rate.fetch_by_name("slow")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, growth_rate())
+  client.fetch_by_name(client, path, name, growth_rate())
 }
 
 fn growth_rate() {

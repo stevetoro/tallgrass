@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/resource.{NamedResource}
+import tallgrass/common/resource.{NamedResource}
 import tallgrass/pokemon/growth_rate.{type GrowthRate}
 
 pub fn fetch_test() {

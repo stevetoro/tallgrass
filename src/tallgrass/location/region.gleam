@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
 
 pub type Region {
@@ -31,7 +31,7 @@ pub fn new() {
 /// let result = region.new() |> region.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a region given a region resource.
@@ -45,7 +45,7 @@ pub fn fetch(client: Client) {
 /// client |> region.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, region())
+  client.fetch_resource(client, resource, region())
 }
 
 /// Fetches a region given the region ID.
@@ -56,7 +56,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = region.new() |> region.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, region())
+  client.fetch_by_id(client, path, id, region())
 }
 
 /// Fetches a region given the region name.
@@ -67,7 +67,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = region.new() |> region.fetch_by_name("kanto")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, region())
+  client.fetch_by_name(client, path, name, region())
 }
 
 fn region() {

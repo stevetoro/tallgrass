@@ -1,8 +1,8 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type Nature {
   Nature(
@@ -46,7 +46,7 @@ pub fn new() {
 /// let result = nature.new() |> nature.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon nature given a pokemon nature resource.
@@ -60,7 +60,7 @@ pub fn fetch(client: Client) {
 /// client |> nature.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, nature())
+  client.fetch_resource(client, resource, nature())
 }
 
 /// Fetches a pokemon nature given the pokemon nature ID.
@@ -71,7 +71,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = nature.new() |> nature.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, nature())
+  client.fetch_by_id(client, path, id, nature())
 }
 
 /// Fetches a pokemon nature given the pokemon nature name.
@@ -82,7 +82,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = nature.new() |> nature.fetch_by_name("bold")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, nature())
+  client.fetch_by_name(client, path, name, nature())
 }
 
 fn nature() {

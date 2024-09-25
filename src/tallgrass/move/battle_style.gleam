@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource}
+import tallgrass/common/resource.{type Resource}
 import tallgrass/common/name.{type Name, name}
 
 pub type MoveBattleStyle {
@@ -23,7 +23,7 @@ pub fn new() {
 /// let result = battle_style.new() |> battle_style.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a move battle style given a move battle style resource.
@@ -37,7 +37,7 @@ pub fn fetch(client: Client) {
 /// client |> battle_style.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, move_battle_style())
+  client.fetch_resource(client, resource, move_battle_style())
 }
 
 /// Fetches a move battle style given the move battle style ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = battle_style.new() |> battle_style.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, move_battle_style())
+  client.fetch_by_id(client, path, id, move_battle_style())
 }
 
 /// Fetches a move battle style given the move battle style name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = battle_style.new() |> battle_style.fetch_by_name("attack")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, move_battle_style())
+  client.fetch_by_name(client, path, name, move_battle_style())
 }
 
 fn move_battle_style() {

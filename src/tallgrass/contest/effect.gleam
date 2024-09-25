@@ -1,8 +1,8 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource}
 import tallgrass/common/effect.{type Effect, effect}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
+import tallgrass/common/resource.{type Resource}
 
 pub type ContestEffect {
   ContestEffect(
@@ -30,7 +30,7 @@ pub fn new() {
 /// let result = effect.new() |> effect.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a contest effect given a contest effect resource.
@@ -44,7 +44,7 @@ pub fn fetch(client: Client) {
 /// client |> effect.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, contest_effect())
+  client.fetch_resource(client, resource, contest_effect())
 }
 
 /// Fetches a contest effect given the contest effect ID.
@@ -55,7 +55,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = effect.new() |> effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, contest_effect())
+  client.fetch_by_id(client, path, id, contest_effect())
 }
 
 fn contest_effect() {

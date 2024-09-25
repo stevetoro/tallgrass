@@ -42,13 +42,11 @@ You can also fetch (and traverse) paginated resources. The returned resources wi
 the name of the resource (if available) and its corresponding PokeAPI URL.
 
 Pagination options (limit and offset) need to be specified for these requests. Specify one
-or both of these options using `resource.PaginationOptions`.
+or both of these options using `client.PaginationOptions`.
 
 ```gleam
 import gleam/list
-import tallgrass/client.{with_pagination}
-import tallgrass/client/pagination.{Limit, Offset, Paginate}
-import tallgrass/client/resource.{next, previous}
+import tallgrass/client.{Limit, Offset, Paginate, with_pagination}
 import tallgrass/pokemon
 
 fn example() {
@@ -67,8 +65,8 @@ fn example() {
   let assert Ok(pokemon) = pokemon.fetch_resource(client, resource)
 
   // or you can move on to the next or previous page
-  let assert Ok(next_page) = client |> next(page)
-  let assert Ok(previous_page) = client |> previous(next_page)
+  let assert Ok(next_page) = client.next(client, page)
+  let assert Ok(previous_page) = client.previous(client, next_page)
 }
 ```
 

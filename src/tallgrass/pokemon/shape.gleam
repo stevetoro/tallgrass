@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, Name, name}
 
 pub type PokemonShape {
@@ -29,7 +29,7 @@ pub fn new() {
 /// let result = shape.new() |> shape.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon shape given a pokemon shape resource.
@@ -43,7 +43,7 @@ pub fn fetch(client: Client) {
 /// client |> shape.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, pokemon_shape())
+  client.fetch_resource(client, resource, pokemon_shape())
 }
 
 /// Fetches a pokemon shape given the pokemon shape ID.
@@ -54,7 +54,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = shape.new() |> shape.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, pokemon_shape())
+  client.fetch_by_id(client, path, id, pokemon_shape())
 }
 
 /// Fetches a pokemon shape given the pokemon shape name.
@@ -65,7 +65,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = shape.new() |> shape.fetch_by_name("ball")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, pokemon_shape())
+  client.fetch_by_name(client, path, name, pokemon_shape())
 }
 
 fn pokemon_shape() {

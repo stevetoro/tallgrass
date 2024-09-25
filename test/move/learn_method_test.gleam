@@ -1,24 +1,32 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/move/learn_method.{type MoveLearnMethod}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = learn_method.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  learn_method.fetch_resource(resource, NoCache)
+  let resource =
+    learn_method.new()
+    |> learn_method.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  learn_method.new()
+  |> learn_method.fetch_resource(resource)
   |> should.be_ok
   |> should_be_level_up
 }
 
 pub fn fetch_by_id_test() {
-  learn_method.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_level_up
+  learn_method.new()
+  |> learn_method.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_level_up
 }
 
 pub fn fetch_by_name_test() {
-  learn_method.fetch_by_name("level-up", NoCache)
+  learn_method.new()
+  |> learn_method.fetch_by_name("level-up")
   |> should.be_ok
   |> should_be_level_up
 }

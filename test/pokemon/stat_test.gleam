@@ -1,22 +1,37 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
+import tallgrass/client.{with_pagination}
+import tallgrass/page.{Offset}
 import tallgrass/pokemon/stat.{type Stat}
-import tallgrass/resource.{NamedResource, Offset}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = stat.fetch(Offset(1), NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  stat.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_attack
+  let resource =
+    stat.new()
+    |> with_pagination(Offset(1))
+    |> stat.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  stat.new()
+  |> stat.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_attack
 }
 
 pub fn fetch_by_id_test() {
-  stat.fetch_by_id(2, NoCache) |> should.be_ok |> should_be_attack
+  stat.new()
+  |> stat.fetch_by_id(2)
+  |> should.be_ok
+  |> should_be_attack
 }
 
 pub fn fetch_by_name_test() {
-  stat.fetch_by_name("attack", NoCache) |> should.be_ok |> should_be_attack
+  stat.new()
+  |> stat.fetch_by_name("attack")
+  |> should.be_ok
+  |> should_be_attack
 }
 
 fn should_be_attack(stat: Stat) {

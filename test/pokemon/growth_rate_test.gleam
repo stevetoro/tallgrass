@@ -1,23 +1,33 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/growth_rate.{type GrowthRate}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = growth_rate.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  growth_rate.fetch_resource(resource, NoCache)
+  let resource =
+    growth_rate.new()
+    |> growth_rate.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  growth_rate.new()
+  |> growth_rate.fetch_resource(resource)
   |> should.be_ok
   |> should_be_slow
 }
 
 pub fn fetch_by_id_test() {
-  growth_rate.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_slow
+  growth_rate.new()
+  |> growth_rate.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_slow
 }
 
 pub fn fetch_by_name_test() {
-  growth_rate.fetch_by_name("slow", NoCache) |> should.be_ok |> should_be_slow
+  growth_rate.new()
+  |> growth_rate.fetch_by_name("slow")
+  |> should.be_ok
+  |> should_be_slow
 }
 
 fn should_be_slow(growth_rate: GrowthRate) {

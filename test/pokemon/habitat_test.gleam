@@ -1,22 +1,33 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/habitat.{type Habitat}
-import tallgrass/resource.{DefaultPagination}
 
 pub fn fetch_test() {
-  let response = habitat.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  habitat.fetch_resource(resource, NoCache) |> should.be_ok |> should_be_cave
+  let resource =
+    habitat.new()
+    |> habitat.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  habitat.new()
+  |> habitat.fetch_resource(resource)
+  |> should.be_ok
+  |> should_be_cave
 }
 
 pub fn fetch_by_id_test() {
-  habitat.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_cave
+  habitat.new()
+  |> habitat.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_cave
 }
 
 pub fn fetch_by_name_test() {
-  habitat.fetch_by_name("cave", NoCache) |> should.be_ok |> should_be_cave
+  habitat.new()
+  |> habitat.fetch_by_name("cave")
+  |> should.be_ok
+  |> should_be_cave
 }
 
 fn should_be_cave(habitat: Habitat) {

@@ -1,11 +1,11 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/location_area.{type PokemonLocationArea}
 import tallgrass/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
-  location_area.fetch_for_pokemon_with_id(1, NoCache)
+  location_area.new()
+  |> location_area.fetch_for_pokemon_with_id(1)
   |> should.be_ok
   |> list.first
   |> should.be_ok
@@ -13,7 +13,8 @@ pub fn fetch_by_id_test() {
 }
 
 pub fn fetch_by_name_test() {
-  location_area.fetch_for_pokemon_with_name("bulbasaur", NoCache)
+  location_area.new()
+  |> location_area.fetch_for_pokemon_with_name("bulbasaur")
   |> should.be_ok
   |> list.first
   |> should.be_ok

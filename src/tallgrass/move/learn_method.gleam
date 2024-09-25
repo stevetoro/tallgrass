@@ -1,8 +1,8 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type MoveLearnMethod {
   MoveLearnMethod(
@@ -16,17 +16,21 @@ pub type MoveLearnMethod {
 
 const path = "move-learn-method"
 
-/// Fetches a list of move learn method resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of move learn method resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = learn_method.fetch(DefaultPagination, NoCache)
-/// let result = learn_method.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = learn_method.new() |> learn_method.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a move learn method given a move learn method resource.
@@ -34,12 +38,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(learn_method.fetch(DefaultPagination, NoCache))
+/// let client = learn_method.new()
+/// use res <- result.try(client |> learn_method.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// learn_method.fetch_resource(first)
+/// client |> learn_method.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, move_learn_method(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, move_learn_method())
 }
 
 /// Fetches a move learn method given the move learn method ID.
@@ -47,10 +52,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = learn_method.fetch_by_id(1)
+/// let result = learn_method.new() |> learn_method.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, move_learn_method(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, move_learn_method())
 }
 
 /// Fetches a move learn method given the move learn method name.
@@ -58,10 +63,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = learn_method.fetch_by_name("ailment")
+/// let result = learn_method.new() |> learn_method.fetch_by_name("level-up")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, move_learn_method(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, move_learn_method())
 }
 
 fn move_learn_method() {

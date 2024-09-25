@@ -1,20 +1,24 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/cache.{NoCache}
 import tallgrass/pokemon/characteristic.{type Characteristic}
-import tallgrass/resource.{DefaultPagination, NamedResource}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response =
-    characteristic.fetch(DefaultPagination, NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  characteristic.fetch_resource(resource, NoCache)
+  let resource =
+    characteristic.new()
+    |> characteristic.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  characteristic.new()
+  |> characteristic.fetch_resource(resource)
   |> should.be_ok
   |> should_be_characteristic
 }
 
 pub fn fetch_by_id_test() {
-  characteristic.fetch_by_id(1, NoCache)
+  characteristic.new()
+  |> characteristic.fetch_by_id(1)
   |> should.be_ok
   |> should_be_characteristic
 }

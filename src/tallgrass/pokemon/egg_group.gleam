@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type EggGroup {
   EggGroup(
@@ -14,52 +14,57 @@ pub type EggGroup {
 
 const path = "egg-group"
 
-/// Fetches a list of pokemon egg group resources.
-/// Optionally accepts pagination options `limit` and `offset`.
-///
-/// # Example
-///
-/// ```gleam
-/// let result = egg_group.fetch(DefaultPagination, NoCache)
-/// let result = egg_group.fetch(Paginate(limit: 100, offset: 0), NoCache)
-/// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
 }
 
-/// Fetches a pokemon egg group given a pokemon egg group resource.
+/// Fetches a paginated list of egg group resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(egg_group.fetch(DefaultPagination, NoCache))
+/// let result = egg_group.new() |> egg_group.fetch()
+/// ```
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
+}
+
+/// Fetches a egg group given a egg group resource.
+///
+/// # Example
+///
+/// ```gleam
+/// let client = egg_group.new()
+/// use res <- result.try(client |> egg_group.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// egg_group.fetch_resource(first)
+/// client |> egg_group.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, egg_group(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, egg_group())
 }
 
-/// Fetches a pokemon egg group given the pokemon egg group ID.
+/// Fetches a egg group given the egg group ID.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = egg_group.fetch_by_id(13)
+/// let result = egg_group.new() |> egg_group.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, egg_group(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, egg_group())
 }
 
-/// Fetches a pokemon egg group given the pokemon egg group name.
+/// Fetches a egg group given the egg group name.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = egg_group.fetch_by_name("ditto")
+/// let result = egg_group.new() |> egg_group.fetch_by_name("monster")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, egg_group(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, egg_group())
 }
 
 fn egg_group() {

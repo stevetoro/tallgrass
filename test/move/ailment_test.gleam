@@ -1,24 +1,35 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/cache.{NoCache}
+import tallgrass/client.{with_pagination}
 import tallgrass/move/ailment.{type MoveAilment}
-import tallgrass/resource.{NamedResource, Offset}
+import tallgrass/page.{Offset}
+import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
-  let response = ailment.fetch(Offset(2), NoCache) |> should.be_ok
-  let resource = response.results |> list.first |> should.be_ok
-  ailment.fetch_resource(resource, NoCache)
+  let resource =
+    ailment.new()
+    |> with_pagination(Offset(2))
+    |> ailment.fetch
+    |> should.be_ok
+    |> fn(response) { response.results |> list.first |> should.be_ok }
+
+  ailment.new()
+  |> ailment.fetch_resource(resource)
   |> should.be_ok
   |> should_be_paralysis
 }
 
 pub fn fetch_by_id_test() {
-  ailment.fetch_by_id(1, NoCache) |> should.be_ok |> should_be_paralysis
+  ailment.new()
+  |> ailment.fetch_by_id(1)
+  |> should.be_ok
+  |> should_be_paralysis
 }
 
 pub fn fetch_by_name_test() {
-  ailment.fetch_by_name("paralysis", NoCache)
+  ailment.new()
+  |> ailment.fetch_by_name("paralysis")
   |> should.be_ok
   |> should_be_paralysis
 }

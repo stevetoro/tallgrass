@@ -1,7 +1,7 @@
 import decode
-import tallgrass/cache.{type Cache}
+import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type PaginationOptions, type Resource, resource}
+import tallgrass/resource.{type Resource, resource}
 
 pub type Habitat {
   Habitat(
@@ -14,17 +14,21 @@ pub type Habitat {
 
 const path = "pokemon-habitat"
 
-/// Fetches a list of pokemon habitat resources.
-/// Optionally accepts pagination options `limit` and `offset`.
+/// Creates a new Client.
+/// This is a re-export of client.new, for the sake of convenience.
+pub fn new() {
+  client.new()
+}
+
+/// Fetches a paginated list of pokemon habitat resources.
 ///
 /// # Example
 ///
 /// ```gleam
-/// let result = habitat.fetch(DefaultPagination, NoCache)
-/// let result = habitat.fetch(Paginate(limit: 100, offset: 0), NoCache)
+/// let result = habitat.new() |> habitat.fetch()
 /// ```
-pub fn fetch(options: PaginationOptions, cache: Cache) {
-  resource.fetch_resources(path, options, cache)
+pub fn fetch(client: Client) {
+  resource.client_fetch_resources(client, path)
 }
 
 /// Fetches a pokemon habitat given a pokemon habitat resource.
@@ -32,12 +36,13 @@ pub fn fetch(options: PaginationOptions, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(habitat.fetch(DefaultPagination, NoCache))
+/// let client = habitat.new()
+/// use res <- result.try(client |> habitat.fetch())
 /// let assert Ok(first) = res.results |> list.first
-/// habitat.fetch_resource(first)
+/// client |> habitat.fetch_resource(first)
 /// ```
-pub fn fetch_resource(resource: Resource, cache: Cache) {
-  resource.fetch_resource(resource, habitat(), cache)
+pub fn fetch_resource(client: Client, resource: Resource) {
+  resource.client_fetch_resource(client, resource, habitat())
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat ID.
@@ -45,10 +50,10 @@ pub fn fetch_resource(resource: Resource, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = habitat.fetch_by_id(1)
+/// let result = habitat.new() |> habitat.fetch_by_id(1)
 /// ```
-pub fn fetch_by_id(id: Int, cache: Cache) {
-  resource.fetch_by_id(id, path, habitat(), cache)
+pub fn fetch_by_id(client: Client, id: Int) {
+  resource.client_fetch_by_id(client, path, id, habitat())
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat name.
@@ -56,10 +61,10 @@ pub fn fetch_by_id(id: Int, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// let result = habitat.fetch_by_name("cave")
+/// let result = habitat.new() |> habitat.fetch_by_name("cave")
 /// ```
-pub fn fetch_by_name(name: String, cache: Cache) {
-  resource.fetch_by_name(name, path, habitat(), cache)
+pub fn fetch_by_name(client: Client, name: String) {
+  resource.client_fetch_by_name(client, path, name, habitat())
 }
 
 fn habitat() {

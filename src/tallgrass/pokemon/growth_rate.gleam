@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/common/description.{type Description, description}
 import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/description.{type Description, description}
 
 pub type GrowthRate {
   GrowthRate(

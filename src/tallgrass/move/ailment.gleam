@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/common/name.{type Name, name}
 import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/name.{type Name, name}
 
 pub type MoveAilment {
   MoveAilment(id: Int, name: String, moves: List(Resource), names: List(Name))

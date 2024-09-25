@@ -1,7 +1,7 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/common/name.{type Name}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/common/name.{type Name}
 
 pub fn should_have_english_name(names: List(Name)) {
   names

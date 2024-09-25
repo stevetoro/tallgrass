@@ -1,8 +1,8 @@
 import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
-import tallgrass/evolution/trigger.{type EvolutionTrigger}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/evolution/trigger.{type EvolutionTrigger}
 
 pub fn fetch_test() {
   let resource =

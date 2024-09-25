@@ -1,7 +1,7 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/pokemon/characteristic.{type Characteristic}
 import tallgrass/client/resource.{NamedResource}
+import tallgrass/pokemon/characteristic.{type Characteristic}
 
 pub fn fetch_test() {
   let resource =

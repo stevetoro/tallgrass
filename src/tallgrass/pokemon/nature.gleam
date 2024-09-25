@@ -1,8 +1,8 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/client.{type Client}
-import tallgrass/common/name.{type Name, name}
 import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/name.{type Name, name}
 
 pub type Nature {
   Nature(

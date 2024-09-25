@@ -31,7 +31,7 @@ pub fn new() {
 /// let result = version_group.new() |> version_group.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a version group given a version group resource.
@@ -45,7 +45,7 @@ pub fn fetch(client: Client) {
 /// client |> version_group.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, version_group())
+  resource.fetch_resource(client, resource, version_group())
 }
 
 /// Fetches a version group given the version group ID.
@@ -56,7 +56,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = version_group.new() |> version_group.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, version_group())
+  resource.fetch_by_id(client, path, id, version_group())
 }
 
 /// Fetches a version group given the version group name.
@@ -67,7 +67,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = version_group.new() |> version_group.fetch_by_name("red-blue")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, version_group())
+  resource.fetch_by_name(client, path, name, version_group())
 }
 
 fn version_group() {

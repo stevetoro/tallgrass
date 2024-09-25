@@ -39,7 +39,7 @@ pub fn new() {
 /// let result = berry.new() |> berry.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a berry given a berry resource.
@@ -53,7 +53,7 @@ pub fn fetch(client: Client) {
 /// client |> berry.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, berry())
+  resource.fetch_resource(client, resource, berry())
 }
 
 /// Fetches a berry given the berry ID.
@@ -64,7 +64,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = berry.new() |> berry.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, berry())
+  resource.fetch_by_id(client, path, id, berry())
 }
 
 /// Fetches a berry given the berry name.
@@ -75,7 +75,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = berry.new() |> berry.fetch_by_name("cheri")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, berry())
+  resource.fetch_by_name(client, path, name, berry())
 }
 
 fn berry() {

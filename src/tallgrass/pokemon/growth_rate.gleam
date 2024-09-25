@@ -34,7 +34,7 @@ pub fn new() {
 /// let result = growth_rate.new() |> growth_rate.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon growth rate given a pokemon growth rate resource.
@@ -48,7 +48,7 @@ pub fn fetch(client: Client) {
 /// client |> growth_rate.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, growth_rate())
+  resource.fetch_resource(client, resource, growth_rate())
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate ID.
@@ -59,7 +59,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = growth_rate.new() |> growth_rate.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, growth_rate())
+  resource.fetch_by_id(client, path, id, growth_rate())
 }
 
 /// Fetches a pokemon growth rate given the pokemon growth rate name.
@@ -70,7 +70,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = growth_rate.new() |> growth_rate.fetch_by_name("slow")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, growth_rate())
+  resource.fetch_by_name(client, path, name, growth_rate())
 }
 
 fn growth_rate() {

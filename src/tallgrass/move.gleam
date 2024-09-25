@@ -47,7 +47,7 @@ pub fn new() {
 /// let result = move.new() |> move.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a move given a move resource.
@@ -61,7 +61,7 @@ pub fn fetch(client: Client) {
 /// client |> move.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, move())
+  resource.fetch_resource(client, resource, move())
 }
 
 /// Fetches a move given the move ID.
@@ -72,7 +72,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = move.new() |> move.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, move())
+  resource.fetch_by_id(client, path, id, move())
 }
 
 /// Fetches a move given the move name.
@@ -83,7 +83,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = move.new() |> move.fetch_by_name("pound")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, move())
+  resource.fetch_by_name(client, path, name, move())
 }
 
 fn move() {

@@ -30,7 +30,7 @@ pub fn new() {
 /// let result = attribute.new() |> attribute.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches an item attribute given an item attribute resource.
@@ -44,7 +44,7 @@ pub fn fetch(client: Client) {
 /// client |> attribute.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, item_attribute())
+  resource.fetch_resource(client, resource, item_attribute())
 }
 
 /// Fetches an item attribute given the item attribute ID.
@@ -55,7 +55,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = attribute.new() |> attribute.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, item_attribute())
+  resource.fetch_by_id(client, path, id, item_attribute())
 }
 
 /// Fetches an item attribute given the item attribute name.
@@ -66,7 +66,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = attribute.new() |> attribute.fetch_by_name("countable")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, item_attribute())
+  resource.fetch_by_name(client, path, name, item_attribute())
 }
 
 fn item_attribute() {

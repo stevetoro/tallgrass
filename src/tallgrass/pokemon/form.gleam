@@ -35,7 +35,7 @@ pub fn new() {
 /// let result = form.new() |> form.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon form given a pokemon form resource.
@@ -49,7 +49,7 @@ pub fn fetch(client: Client) {
 /// client |> form.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, pokemon_form())
+  resource.fetch_resource(client, resource, pokemon_form())
 }
 
 /// Fetches a pokemon form given the pokemon form ID.
@@ -60,7 +60,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = form.new() |> form.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, pokemon_form())
+  resource.fetch_by_id(client, path, id, pokemon_form())
 }
 
 /// Fetches a pokemon form given the pokemon form name.
@@ -71,7 +71,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = form.new() |> form.fetch_by_name("arceus-bug")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, pokemon_form())
+  resource.fetch_by_name(client, path, name, pokemon_form())
 }
 
 fn pokemon_form() {

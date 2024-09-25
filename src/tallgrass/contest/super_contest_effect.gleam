@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = super_contest_effect.new() |> super_contest_effect.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a super contest effect given a super contest effect resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> super_contest_effect.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, super_contest_effect())
+  resource.fetch_resource(client, resource, super_contest_effect())
 }
 
 /// Fetches a super contest effect given the super contest effect ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = super_contest_effect.new() |> super_contest_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, super_contest_effect())
+  resource.fetch_by_id(client, path, id, super_contest_effect())
 }
 
 fn super_contest_effect() {

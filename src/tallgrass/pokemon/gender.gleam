@@ -31,7 +31,7 @@ pub fn new() {
 /// let result = gender.new() |> gender.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon gender given a pokemon gender resource.
@@ -45,7 +45,7 @@ pub fn fetch(client: Client) {
 /// client |> gender.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, gender())
+  resource.fetch_resource(client, resource, gender())
 }
 
 /// Fetches a pokemon gender given the pokemon gender ID.
@@ -56,7 +56,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = gender.new() |> gender.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, gender())
+  resource.fetch_by_id(client, path, id, gender())
 }
 
 /// Fetches a pokemon gender given the pokemon gender name.
@@ -67,7 +67,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = gender.new() |> gender.fetch_by_name("genderless")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, gender())
+  resource.fetch_by_name(client, path, name, gender())
 }
 
 fn gender() {

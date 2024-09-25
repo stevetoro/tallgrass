@@ -33,7 +33,7 @@ pub fn new() {
 /// let result = flavor.new() |> flavor.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a berry flavor given a berry flavor resource.
@@ -47,7 +47,7 @@ pub fn fetch(client: Client) {
 /// client |> flavor.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, berry_flavor())
+  resource.fetch_resource(client, resource, berry_flavor())
 }
 
 /// Fetches a berry flavor given the berry flavor ID.
@@ -58,7 +58,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = flavor.new() |> flavor.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, berry_flavor())
+  resource.fetch_by_id(client, path, id, berry_flavor())
 }
 
 /// Fetches a berry flavor given the berry flavor name.
@@ -69,7 +69,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = flavor.new() |> flavor.fetch_by_name("spicy")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, berry_flavor())
+  resource.fetch_by_name(client, path, name, berry_flavor())
 }
 
 fn berry_flavor() {

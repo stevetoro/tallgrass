@@ -23,7 +23,7 @@ pub fn new() {
 /// let result = method |> method.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches an encounter method given an encounter method resource.
@@ -37,7 +37,7 @@ pub fn fetch(client: Client) {
 /// client |> method.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, encounter_method())
+  resource.fetch_resource(client, resource, encounter_method())
 }
 
 /// Fetches an encounter method given the encounter method ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = method.new() |> method.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, encounter_method())
+  resource.fetch_by_id(client, path, id, encounter_method())
 }
 
 /// Fetches an encounter method given the encounter method name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = method.new() |> method.fetch_by_name("walk")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, encounter_method())
+  resource.fetch_by_name(client, path, name, encounter_method())
 }
 
 fn encounter_method() {

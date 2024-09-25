@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = value |> method.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches an encounter condition value given an encounter condition value resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> value.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, encounter_condition_value())
+  resource.fetch_resource(client, resource, encounter_condition_value())
 }
 
 /// Fetches an encounter condition value given the encounter condition value ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = value.new() |> value.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, encounter_condition_value())
+  resource.fetch_by_id(client, path, id, encounter_condition_value())
 }
 
 /// Fetches an encounter condition value given the encounter condition value name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = value.new() |> value.fetch_by_name("swarm-yes")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, encounter_condition_value())
+  resource.fetch_by_name(client, path, name, encounter_condition_value())
 }
 
 fn encounter_condition_value() {

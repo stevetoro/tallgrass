@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = fling_effect.new() |> fling_effect.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches an item fling effect given an item fling effect resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> fling_effect.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, item_fling_effect())
+  resource.fetch_resource(client, resource, item_fling_effect())
 }
 
 /// Fetches an item fling effect given the item fling effect ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = fling_effect.new() |> fling_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, item_fling_effect())
+  resource.fetch_by_id(client, path, id, item_fling_effect())
 }
 
 /// Fetches an item fling effect given the item fling effect name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = fling_effect.new() |> fling_effect.fetch_by_name("badly-poison")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, item_fling_effect())
+  resource.fetch_by_name(client, path, name, item_fling_effect())
 }
 
 fn item_fling_effect() {

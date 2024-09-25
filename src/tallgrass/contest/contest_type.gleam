@@ -23,7 +23,7 @@ pub fn new() {
 /// let result = contest_type.new() |> contest_type.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a contest type given a contest type resource.
@@ -37,7 +37,7 @@ pub fn fetch(client: Client) {
 /// client |> contest_type.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, contest_type())
+  resource.fetch_resource(client, resource, contest_type())
 }
 
 /// Fetches a contest type given the contest type ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = contest_type.new() |> contest_type.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, contest_type())
+  resource.fetch_by_id(client, path, id, contest_type())
 }
 
 /// Fetches a contest type given the contest type name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = contest_type.new() |> contest_type.fetch_by_name("cool")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, contest_type())
+  resource.fetch_by_name(client, path, name, contest_type())
 }
 
 fn contest_type() {

@@ -30,7 +30,7 @@ pub fn new() {
 /// let result = damage_class.new() |> damage_class.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a move damage class given a move damage class resource.
@@ -44,7 +44,7 @@ pub fn fetch(client: Client) {
 /// client |> damage_class.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, move_damage_class())
+  resource.fetch_resource(client, resource, move_damage_class())
 }
 
 /// Fetches a move damage class given the move damage class ID.
@@ -55,7 +55,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = damage_class.new() |> damage_class.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, move_damage_class())
+  resource.fetch_by_id(client, path, id, move_damage_class())
 }
 
 /// Fetches a move damage class given the move damage class name.
@@ -66,7 +66,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = damage_class.new() |> damage_class.fetch_by_name("status")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, move_damage_class())
+  resource.fetch_by_name(client, path, name, move_damage_class())
 }
 
 fn move_damage_class() {

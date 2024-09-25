@@ -30,7 +30,7 @@ pub fn new() {
 /// let result = target.new() |> target.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a move target given a move target resource.
@@ -44,7 +44,7 @@ pub fn fetch(client: Client) {
 /// client |> target.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, move_target())
+  resource.fetch_resource(client, resource, move_target())
 }
 
 /// Fetches a move target given the move target ID.
@@ -55,7 +55,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = target.new() |> target.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, move_target())
+  resource.fetch_by_id(client, path, id, move_target())
 }
 
 /// Fetches a move target given the move target name.
@@ -66,7 +66,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = target.new() |> target.fetch_by_name("specific-move")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, move_target())
+  resource.fetch_by_name(client, path, name, move_target())
 }
 
 fn move_target() {

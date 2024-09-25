@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = color.new() |> color.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon color given a pokemon color resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> color.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, pokemon_color())
+  resource.fetch_resource(client, resource, pokemon_color())
 }
 
 /// Fetches a pokemon color given the pokemon color ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = color.new() |> color.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, pokemon_color())
+  resource.fetch_by_id(client, path, id, pokemon_color())
 }
 
 /// Fetches a pokemon color given the pokemon color name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = color.new() |> color.fetch_by_name("black")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, pokemon_color())
+  resource.fetch_by_name(client, path, name, pokemon_color())
 }
 
 fn pokemon_color() {

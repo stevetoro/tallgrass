@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = firmness.new() |> firmness.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a berry firmness given a berry firmness resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> firmness.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, berry_firmness())
+  resource.fetch_resource(client, resource, berry_firmness())
 }
 
 /// Fetches a berry firmness given the berry firmness ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = firmness.new() |> firmness.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, berry_firmness())
+  resource.fetch_by_id(client, path, id, berry_firmness())
 }
 
 /// Fetches a berry firmness given the berry firmness name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = firmness.new() |> firmness.fetch_by_name("very-soft")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, berry_firmness())
+  resource.fetch_by_name(client, path, name, berry_firmness())
 }
 
 fn berry_firmness() {

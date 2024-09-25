@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 // TODO: Add support for encounter_method_rates and pokemon_encounters.
 

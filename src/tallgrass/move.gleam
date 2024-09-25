@@ -6,7 +6,7 @@ import tallgrass/common/flavor_text.{
   type FlavorTextVersionGroup, flavor_text_version_group,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/client/resource.{type Resource, resource}
 
 pub type Move {
   Move(

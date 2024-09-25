@@ -1,5 +1,5 @@
-import tallgrass/cache.{type Cache, NoCache}
-import tallgrass/page.{type PaginationOptions, Default}
+import tallgrass/client/cache.{type Cache, NoCache}
+import tallgrass/client/pagination.{type PaginationOptions, Default}
 
 pub opaque type Client {
   Client(cache: Cache, pagination: PaginationOptions)

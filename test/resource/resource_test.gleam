@@ -1,9 +1,9 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/client.{with_pagination}
-import tallgrass/page.{Limit, Paginate}
-import tallgrass/request.{NoNextPage, NoPreviousPage}
-import tallgrass/resource.{NamedResource, next, previous}
+import tallgrass/client/pagination.{Limit, Paginate}
+import tallgrass/client/request.{NoNextPage, NoPreviousPage}
+import tallgrass/client/resource.{NamedResource, next, previous}
 
 pub fn pagination_test() {
   let first_page =

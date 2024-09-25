@@ -20,17 +20,17 @@ The majority of PokeAPI resources can be fetched directly by either name or ID. 
 need to be fetched by ID.
 
 ```gleam
-import tallgrass/cache.{NoCache}
+import tallgrass/client/cache.{NoCache}
 import tallgrass/machine
 import tallgrass/pokemon
 
 fn example() {
   // Pokemon can be fetched by name or ID.
-  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", NoCache)
-  let assert Ok(ditto) = pokemon.fetch_by_id(132, NoCache)
+  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", None)
+  let assert Ok(ditto) = pokemon.fetch_by_id(132, None)
 
   // Machines can only be fetched by ID.
-  let assert Ok(tm_01) = machine.fetch_by_id(2, NoCache)
+  let assert Ok(tm_01) = machine.fetch_by_id(2, None)
 }
 ```
 
@@ -44,26 +44,26 @@ or both of these options using `resource.PaginationOptions`.
 
 ```gleam
 import gleam/list
-import tallgrass/cache.{NoCache}
-import tallgrass/resource.{DefaultPagination, Limit, Paginate, Offset, next, previous}
+import tallgrass/client/cache.{NoCache}
+import tallgrass/client/resource.{DefaultPagination, Limit, Paginate, Offset, next, previous}
 import tallgrass/pokemon
 
 fn example() {
   // fetches a page with the first twenty pokemon resources
-  let assert Ok(page) = pokemon.fetch(DefaultPagination, NoCache)
+  let assert Ok(page) = pokemon.fetch(DefaultPagination, None)
 
   // or specify a larger limit or offset, or both
-  let assert Ok(page) = pokemon.fetch(Limit(100), NoCache)
-  let assert Ok(page) = pokemon.fetch(Offset(20), NoCache)
-  let assert Ok(page) = pokemon.fetch(Paginate(limit: 100, offset: 20), NoCache)
+  let assert Ok(page) = pokemon.fetch(Limit(100), None)
+  let assert Ok(page) = pokemon.fetch(Offset(20), None)
+  let assert Ok(page) = pokemon.fetch(Paginate(limit: 100, offset: 20), None)
 
   // the returned resources can then be fetched directly
   let assert Ok(resource) = page.results |> list.first
-  let assert Ok(bulbsaur) = pokemon.fetch_resource(resource, NoCache)
+  let assert Ok(bulbsaur) = pokemon.fetch_resource(resource, None)
 
   // or you can move on to the next or previous page
-  let assert Ok(next_page) = page |> next(NoCache)
-  let assert Ok(previous_page) = next_page |> previous(NoCache)
+  let assert Ok(next_page) = page |> next(None)
+  let assert Ok(previous_page) = next_page |> previous(None)
 }
 ```
 
@@ -73,7 +73,7 @@ Every request response can be cached so that subsequent requests for the same re
 can be served without sending an additional HTTP request.
 
 ```gleam
-import tallgrass/cache.{Hours}
+import tallgrass/client/cache.{Hours}
 import tallgrass/pokemon
 
 fn example() {

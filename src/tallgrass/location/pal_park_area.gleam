@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource}
+import tallgrass/client/resource.{type Resource}
 
 // TODO: Add support for pokemon_encounters.
 

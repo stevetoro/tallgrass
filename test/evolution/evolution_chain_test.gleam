@@ -1,9 +1,9 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/client.{with_pagination}
+import tallgrass/client/pagination.{Offset}
 import tallgrass/evolution/chain.{type EvolutionChain}
-import tallgrass/page.{Offset}
-import tallgrass/resource.{NamedResource}
+import tallgrass/client/resource.{NamedResource}
 
 // TODO: Add test cases covering more fields.
 

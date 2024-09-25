@@ -1,5 +1,5 @@
 import decode
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/client/resource.{type Resource, resource}
 
 pub type Effect {
   Effect(effect: String, language: Resource)

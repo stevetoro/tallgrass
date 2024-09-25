@@ -1,9 +1,9 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/client.{with_pagination}
-import tallgrass/page.{Paginate}
+import tallgrass/client/pagination.{Paginate}
+import tallgrass/client/resource.{NamedResource}
 import tallgrass/pokemon/form.{type PokemonForm}
-import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
   let resource =

@@ -6,7 +6,7 @@ import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
 }
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/client/resource.{type Resource, resource}
 
 pub type Item {
   Item(

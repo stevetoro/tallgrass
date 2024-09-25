@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/client/resource.{type Resource, resource}
 
 pub type PokemonForm {
   PokemonForm(

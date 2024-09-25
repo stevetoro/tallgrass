@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/client/resource.{type Resource, resource}
 
 pub type Machine {
   Machine(id: Int, item: Resource, move: Resource, version_group: Resource)

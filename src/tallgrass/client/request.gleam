@@ -7,7 +7,7 @@ import gleam/option.{type Option, None, Some}
 import gleam/result
 import gleam/string.{split}
 import gleam/uri
-import tallgrass/cache.{type Cache, Cache, NoCache, insert, lookup}
+import tallgrass/client/cache.{type Cache, Cache, NoCache, insert, lookup}
 
 const host = "pokeapi.co/api/v2"
 

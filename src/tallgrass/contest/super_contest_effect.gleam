@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/client/resource.{type Resource, resource}
 
 pub type SuperContestEffect {
   SuperContestEffect(

@@ -20,17 +20,19 @@ The majority of PokeAPI resources can be fetched directly by either name or ID. 
 need to be fetched by ID.
 
 ```gleam
-import tallgrass/client/cache.{NoCache}
+import tallgrass/client
 import tallgrass/machine
 import tallgrass/pokemon
 
 fn example() {
+  let client = client.new()
+
   // Pokemon can be fetched by name or ID.
-  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", None)
-  let assert Ok(ditto) = pokemon.fetch_by_id(132, None)
+  let assert Ok(ditto) = pokemon.fetch_by_name(client, "ditto")
+  let assert Ok(ditto) = pokemon.fetch_by_id(client, 132)
 
   // Machines can only be fetched by ID.
-  let assert Ok(tm_01) = machine.fetch_by_id(2, None)
+  let assert Ok(tm_01) = machine.fetch_by_id(client, 2)
 }
 ```
 
@@ -44,26 +46,29 @@ or both of these options using `resource.PaginationOptions`.
 
 ```gleam
 import gleam/list
-import tallgrass/client/cache.{NoCache}
-import tallgrass/client/resource.{DefaultPagination, Limit, Paginate, Offset, next, previous}
+import tallgrass/client.{with_pagination}
+import tallgrass/client/pagination.{Limit, Offset, Paginate}
+import tallgrass/client/resource.{next, previous}
 import tallgrass/pokemon
 
 fn example() {
-  // fetches a page with the first twenty pokemon resources
-  let assert Ok(page) = pokemon.fetch(DefaultPagination, None)
+  let client = client.new()
 
-  // or specify a larger limit or offset, or both
-  let assert Ok(page) = pokemon.fetch(Limit(100), None)
-  let assert Ok(page) = pokemon.fetch(Offset(20), None)
-  let assert Ok(page) = pokemon.fetch(Paginate(limit: 100, offset: 20), None)
+  // default to a limit of 20
+  let assert Ok(page) = client |> pokemon.fetch()
+
+  // or specify a different limit or offset, or both
+  let assert Ok(page) = client |> with_pagination(Limit(100)) |> pokemon.fetch()
+  let assert Ok(page) = client |> with_pagination(Offset(20)) |> pokemon.fetch()
+  let assert Ok(page) = client |> with_pagination(Paginate(limit: 100, offset: 20)) |> pokemon.fetch()
 
   // the returned resources can then be fetched directly
   let assert Ok(resource) = page.results |> list.first
-  let assert Ok(bulbsaur) = pokemon.fetch_resource(resource, None)
+  let assert Ok(pokemon) = pokemon.fetch_resource(client, resource)
 
   // or you can move on to the next or previous page
-  let assert Ok(next_page) = page |> next(None)
-  let assert Ok(previous_page) = next_page |> previous(None)
+  let assert Ok(next_page) = client |> next(page)
+  let assert Ok(previous_page) = client |> previous(next_page)
 }
 ```
 
@@ -73,15 +78,18 @@ Every request response can be cached so that subsequent requests for the same re
 can be served without sending an additional HTTP request.
 
 ```gleam
+import tallgrass/client.{with_cache}
 import tallgrass/client/cache.{Hours}
 import tallgrass/pokemon
 
 fn example() {
   // Initialize a new cache with a unique name and the expiration interval.
   let assert Ok(cache) = cache.new("unique-cache-name", Hours(4))
-  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", cache)
+  let client = client.new() |> with_cache(cache)
+
+  let assert Ok(ditto) = pokemon.fetch_by_name(client, "ditto")
 
   // Subsequent requests will be served from cache/memory instead of the API.
-  let assert Ok(ditto) = pokemon.fetch_by_name("ditto", cache)
+  let assert Ok(ditto) = pokemon.fetch_by_name(client, "ditto")
 }
 ```

@@ -1,7 +1,7 @@
 import gleam/list
 import gleeunit/should
+import tallgrass/client/resource.{NamedResource}
 import tallgrass/pokemon/gender.{type Gender}
-import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
   let resource =

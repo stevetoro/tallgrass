@@ -2,9 +2,9 @@ import gleam/list
 import gleeunit/should
 import helpers.{should_have_english_name}
 import tallgrass/client.{with_pagination}
-import tallgrass/page.{Offset}
+import tallgrass/client/pagination.{Offset}
 import tallgrass/pokemon/stat.{type Stat}
-import tallgrass/resource.{NamedResource}
+import tallgrass/client/resource.{NamedResource}
 
 pub fn fetch_test() {
   let resource =

@@ -1,7 +1,7 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/pokemon/location_area.{type PokemonLocationArea}
-import tallgrass/resource.{NamedResource}
+import tallgrass/client/resource.{NamedResource}
 
 pub fn fetch_by_id_test() {
   location_area.new()

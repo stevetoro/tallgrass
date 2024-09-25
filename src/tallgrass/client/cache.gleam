@@ -5,17 +5,13 @@ import gleam/erlang/process.{type Subject}
 import gleam/otp/actor
 
 /// A ready-to-use cache can be initialized by using the `new` function.
-/// Use the `NoCache` constructor to signal that an API call shouldn't use a cache.
 ///
 /// # Example
 ///
 /// ```gleam
-/// // will not use cache at all
-/// pokemon.fetch(DefaultPagination, NoCache)
-///
-/// // will check cache prior to call and cache response if not found
 /// let assert Ok(cache) = cache.new("my-unique-name")
-/// pokemon.fetch(DefaultPagination, cache)
+/// let client = client.new() |> with_cache(cache)
+/// client |> pokemon.fetch()
 /// ```
 pub type Cache {
   Cache(Set(String, String))
@@ -44,7 +40,7 @@ pub type Error {
   NotFound
 }
 
-/// Initializes a cache that can be passed to fetch functions.
+/// Initializes a cache that can be passed to client.with_cache()
 /// If multiple caches are initialized, the `name` param should be unique in order to avoid ETS runtime errors.
 pub fn new(name: String, expiry: CacheExpiry) {
   case table(name) {

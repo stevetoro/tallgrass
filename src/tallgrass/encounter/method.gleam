@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
 import tallgrass/common/name.{type Name, name}
-import tallgrass/resource.{type Resource}
+import tallgrass/client/resource.{type Resource}
 
 pub type EncounterMethod {
   EncounterMethod(id: Int, name: String, order: Int, names: List(Name))

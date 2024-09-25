@@ -5,11 +5,13 @@ import gleam/int.{to_string}
 import gleam/option.{type Option, None, Some}
 import gleam/string
 import tallgrass/client.{type Client, cache, pagination}
-import tallgrass/page.{type PaginationOptions, Default, Limit, Offset, Paginate}
-import tallgrass/request
+import tallgrass/client/pagination.{
+  type PaginationOptions, Default, Limit, Offset, Paginate,
+}
+import tallgrass/client/request
 
-/// The type of response returned by paginated endpoints. `count` is the total number of records for that resource, `results` are a list of
-/// fetcheable `Resource` on the current page, and the `next` and `previous` links can be used to traverse the rest of the pages.
+/// The type of response returned by paginated endpoints. `count` is the total number of records for that type of resource, `results` is a list of
+/// fetcheable resources on the current page, and the `next` and `previous` links can be used to traverse the rest of the pages.
 pub type ResourceList {
   ResourceList(
     count: Int,
@@ -25,7 +27,7 @@ pub type ResourceList {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon.fetch(DefaultPagination, NoCache))
+/// use res <- result.try(pokemon.fetch(DefaultPagination, None))
 /// let assert Ok(resource) = res.results |> list.first
 ///
 /// // most resources will take this shape
@@ -38,7 +40,7 @@ pub type ResourceList {
 /// }
 ///
 /// // fetch the full resource to get more than just the name and url
-/// pokemon.fetch_resource(resource, NoCache)
+/// pokemon.fetch_resource(resource, None)
 /// ```
 pub type Resource {
   Resource(url: String)

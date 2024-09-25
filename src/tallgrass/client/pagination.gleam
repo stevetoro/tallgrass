@@ -1,5 +1,4 @@
 /// Paginated endpoints accept `limit` and `offset` query parameters.
-/// If `Default` is used, PokeAPI will use a limit of 20 and an offset of 0.
 ///
 /// # Example
 ///

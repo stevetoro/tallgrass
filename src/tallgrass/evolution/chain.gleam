@@ -1,7 +1,7 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/client.{type Client}
-import tallgrass/resource.{type Resource, resource}
+import tallgrass/client/resource.{type Resource, resource}
 
 pub type EvolutionChain {
   EvolutionChain(id: Int, baby_trigger_item: Option(Resource), chain: ChainLink)

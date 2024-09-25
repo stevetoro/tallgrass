@@ -2,7 +2,7 @@ import decode
 import tallgrass/client.{type Client}
 import tallgrass/common/effect.{type Effect, effect}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
-import tallgrass/resource.{type Resource}
+import tallgrass/client/resource.{type Resource}
 
 pub type ContestEffect {
   ContestEffect(

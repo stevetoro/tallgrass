@@ -1,9 +1,9 @@
 import gleam/list
 import gleeunit/should
 import tallgrass/client.{with_pagination}
+import tallgrass/client/pagination.{Offset}
+import tallgrass/client/resource.{NamedResource}
 import tallgrass/move/category.{type MoveCategory}
-import tallgrass/page.{Offset}
-import tallgrass/resource.{NamedResource}
 
 pub fn fetch_test() {
   let resource =

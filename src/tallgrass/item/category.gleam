@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type ItemCategory {
   ItemCategory(
@@ -29,7 +29,7 @@ pub fn new() {
 /// let result = category.new() |> category.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches an item category given an item category resource.
@@ -43,7 +43,7 @@ pub fn fetch(client: Client) {
 /// client |> category.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, item_category())
+  client.fetch_resource(client, resource, item_category())
 }
 
 /// Fetches an item category given the item category ID.
@@ -54,7 +54,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = category.new() |> category.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, item_category())
+  client.fetch_by_id(client, path, id, item_category())
 }
 
 /// Fetches an item category given the item category name.
@@ -65,7 +65,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = category.new() |> category.fetch_by_name("stat-boosts")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, item_category())
+  client.fetch_by_name(client, path, name, item_category())
 }
 
 fn item_category() {

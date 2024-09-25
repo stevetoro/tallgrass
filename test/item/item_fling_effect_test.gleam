@@ -1,6 +1,6 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client/resource.{NamedResource}
+import tallgrass/common/resource.{NamedResource}
 import tallgrass/item/fling_effect.{type ItemFlingEffect}
 
 pub fn fetch_test() {

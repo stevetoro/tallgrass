@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/description.{type Description, description}
 
 pub type MoveCategory {
@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = category.new() |> category.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a move category given a move category resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> category.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, move_category())
+  client.fetch_resource(client, resource, move_category())
 }
 
 /// Fetches a move category given the move category ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = category.new() |> category.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, move_category())
+  client.fetch_by_id(client, path, id, move_category())
 }
 
 /// Fetches a move category given the move category name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = category.new() |> category.fetch_by_name("ailment")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, move_category())
+  client.fetch_by_name(client, path, name, move_category())
 }
 
 fn move_category() {

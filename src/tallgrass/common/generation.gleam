@@ -1,5 +1,5 @@
 import decode
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type GenerationGameIndex {
   GenerationGameIndex(index: Int, generation: Resource)

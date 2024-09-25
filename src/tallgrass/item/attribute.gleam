@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
 
@@ -30,7 +30,7 @@ pub fn new() {
 /// let result = attribute.new() |> attribute.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches an item attribute given an item attribute resource.
@@ -44,7 +44,7 @@ pub fn fetch(client: Client) {
 /// client |> attribute.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, item_attribute())
+  client.fetch_resource(client, resource, item_attribute())
 }
 
 /// Fetches an item attribute given the item attribute ID.
@@ -55,7 +55,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = attribute.new() |> attribute.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, item_attribute())
+  client.fetch_by_id(client, path, id, item_attribute())
 }
 
 /// Fetches an item attribute given the item attribute name.
@@ -66,7 +66,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = attribute.new() |> attribute.fetch_by_name("countable")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, item_attribute())
+  client.fetch_by_name(client, path, name, item_attribute())
 }
 
 fn item_attribute() {

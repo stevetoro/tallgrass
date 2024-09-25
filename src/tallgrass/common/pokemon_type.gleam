@@ -1,5 +1,5 @@
 import decode
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type PokemonType {
   PokemonType(slot: Int, pokemon_type: Resource)

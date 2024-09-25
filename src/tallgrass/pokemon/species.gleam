@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
 
 pub type PokemonSpecies {
@@ -43,7 +43,7 @@ pub fn new() {
 /// let result = species.new() |> species.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon species given a pokemon species resource.
@@ -57,7 +57,7 @@ pub fn fetch(client: Client) {
 /// client |> species.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, pokemon_species())
+  client.fetch_resource(client, resource, pokemon_species())
 }
 
 /// Fetches a pokemon species given the pokemon species ID.
@@ -68,7 +68,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = species.new() |> species.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, pokemon_species())
+  client.fetch_by_id(client, path, id, pokemon_species())
 }
 
 /// Fetches a pokemon species given the pokemon species name.
@@ -79,7 +79,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = species.new() |> species.fetch_by_name("ditto")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, pokemon_species())
+  client.fetch_by_name(client, path, name, pokemon_species())
 }
 
 fn pokemon_species() {

@@ -1,8 +1,8 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type MoveLearnMethod {
   MoveLearnMethod(
@@ -30,7 +30,7 @@ pub fn new() {
 /// let result = learn_method.new() |> learn_method.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a move learn method given a move learn method resource.
@@ -44,7 +44,7 @@ pub fn fetch(client: Client) {
 /// client |> learn_method.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, move_learn_method())
+  client.fetch_resource(client, resource, move_learn_method())
 }
 
 /// Fetches a move learn method given the move learn method ID.
@@ -55,7 +55,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = learn_method.new() |> learn_method.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, move_learn_method())
+  client.fetch_by_id(client, path, id, move_learn_method())
 }
 
 /// Fetches a move learn method given the move learn method name.
@@ -66,7 +66,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = learn_method.new() |> learn_method.fetch_by_name("level-up")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, move_learn_method())
+  client.fetch_by_name(client, path, name, move_learn_method())
 }
 
 fn move_learn_method() {

@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/pokemon_type.{type PokemonType, pokemon_type}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type PokemonForm {
   PokemonForm(
@@ -35,7 +35,7 @@ pub fn new() {
 /// let result = form.new() |> form.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon form given a pokemon form resource.
@@ -49,7 +49,7 @@ pub fn fetch(client: Client) {
 /// client |> form.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, pokemon_form())
+  client.fetch_resource(client, resource, pokemon_form())
 }
 
 /// Fetches a pokemon form given the pokemon form ID.
@@ -60,7 +60,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = form.new() |> form.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, pokemon_form())
+  client.fetch_by_id(client, path, id, pokemon_form())
 }
 
 /// Fetches a pokemon form given the pokemon form name.
@@ -71,7 +71,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = form.new() |> form.fetch_by_name("arceus-bug")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, pokemon_form())
+  client.fetch_by_name(client, path, name, pokemon_form())
 }
 
 fn pokemon_form() {

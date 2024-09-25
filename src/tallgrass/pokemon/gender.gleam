@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type Gender {
   Gender(
@@ -31,7 +31,7 @@ pub fn new() {
 /// let result = gender.new() |> gender.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon gender given a pokemon gender resource.
@@ -45,7 +45,7 @@ pub fn fetch(client: Client) {
 /// client |> gender.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, gender())
+  client.fetch_resource(client, resource, gender())
 }
 
 /// Fetches a pokemon gender given the pokemon gender ID.
@@ -56,7 +56,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = gender.new() |> gender.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, gender())
+  client.fetch_by_id(client, path, id, gender())
 }
 
 /// Fetches a pokemon gender given the pokemon gender name.
@@ -67,7 +67,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = gender.new() |> gender.fetch_by_name("genderless")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, gender())
+  client.fetch_by_name(client, path, name, gender())
 }
 
 fn gender() {

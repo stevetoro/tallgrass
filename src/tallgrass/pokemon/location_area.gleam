@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type PokemonLocationArea {
   PokemonLocationArea(
@@ -43,12 +43,7 @@ pub fn new() {
 /// let result = location_area.new() |> location_area.fetch_for_pokemon_with_id(1)
 /// ```
 pub fn fetch_for_pokemon_with_id(client: Client, id: Int) {
-  resource.fetch_by_id(
-    client,
-    path,
-    id,
-    decode.list(of: pokemon_location_area()),
-  )
+  client.fetch_by_id(client, path, id, decode.list(of: pokemon_location_area()))
 }
 
 /// Fetches a pokemon location area given the pokemon name.
@@ -59,7 +54,7 @@ pub fn fetch_for_pokemon_with_id(client: Client, id: Int) {
 /// let result = location_area.new() |> location_area.fetch_for_pokemon_with_name("bulbasaur")
 /// ```
 pub fn fetch_for_pokemon_with_name(client: Client, name: String) {
-  resource.fetch_by_name(
+  client.fetch_by_name(
     client,
     path,
     name,

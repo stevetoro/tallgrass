@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type MoveAilment {
   MoveAilment(id: Int, name: String, moves: List(Resource), names: List(Name))
@@ -23,7 +23,7 @@ pub fn new() {
 /// let result = ailment.new() |> ailment.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a move ailment given a move ailment resource.
@@ -37,7 +37,7 @@ pub fn fetch(client: Client) {
 /// client |> ailment.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, move_ailment())
+  client.fetch_resource(client, resource, move_ailment())
 }
 
 /// Fetches a move ailment given the move ailment ID.
@@ -48,7 +48,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = ailment.new() |> ailment.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, move_ailment())
+  client.fetch_by_id(client, path, id, move_ailment())
 }
 
 /// Fetches a move ailment given the move ailment name.
@@ -59,7 +59,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = ailment.new() |> ailment.fetch_by_name("paralysis")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, move_ailment())
+  client.fetch_by_name(client, path, name, move_ailment())
 }
 
 fn move_ailment() {

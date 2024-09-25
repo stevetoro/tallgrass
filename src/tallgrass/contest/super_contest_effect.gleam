@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/flavor_text.{type FlavorText, flavor_text}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type SuperContestEffect {
   SuperContestEffect(
@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = super_contest_effect.new() |> super_contest_effect.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a super contest effect given a super contest effect resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> super_contest_effect.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, super_contest_effect())
+  client.fetch_resource(client, resource, super_contest_effect())
 }
 
 /// Fetches a super contest effect given the super contest effect ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = super_contest_effect.new() |> super_contest_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, super_contest_effect())
+  client.fetch_by_id(client, path, id, super_contest_effect())
 }
 
 fn super_contest_effect() {

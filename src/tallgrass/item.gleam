@@ -1,7 +1,7 @@
 import decode
 import gleam/option.{type Option}
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/effect.{type VerboseEffect, verbose_effect}
 import tallgrass/common/generation.{
   type GenerationGameIndex, generation_game_index,
@@ -61,7 +61,7 @@ pub fn new() {
 /// let result = item.new() |> item.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches an item given an item resource.
@@ -75,7 +75,7 @@ pub fn fetch(client: Client) {
 /// client |> item.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, item())
+  client.fetch_resource(client, resource, item())
 }
 
 /// Fetches an item given the item ID.
@@ -86,7 +86,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = item.new() |> item.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, item())
+  client.fetch_by_id(client, path, id, item())
 }
 
 /// Fetches an item given the item name.
@@ -97,7 +97,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = item.new() |> item.fetch_by_name("master-ball")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, item())
+  client.fetch_by_name(client, path, name, item())
 }
 
 fn item() {

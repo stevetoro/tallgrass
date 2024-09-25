@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type EncounterCondition {
   EncounterCondition(
@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = condition |> method.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches an encounter condition given an encounter condition resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> condition.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, encounter_condition())
+  client.fetch_resource(client, resource, encounter_condition())
 }
 
 /// Fetches an encounter condition given the encounter condition ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = condition.new() |> condition.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, encounter_condition())
+  client.fetch_by_id(client, path, id, encounter_condition())
 }
 
 /// Fetches an encounter condition given the encounter condition name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = condition.new() |> condition.fetch_by_name("swarm")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, encounter_condition())
+  client.fetch_by_name(client, path, name, encounter_condition())
 }
 
 fn encounter_condition() {

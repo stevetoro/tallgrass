@@ -1,8 +1,8 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/description.{type Description, description}
 import tallgrass/common/name.{type Name, name}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type Pokedex {
   Pokedex(
@@ -37,7 +37,7 @@ pub fn new() {
 /// let result = pokedex.new() |> pokedex.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokedex given a pokedex resource.
@@ -51,7 +51,7 @@ pub fn fetch(client: Client) {
 /// client |> pokedex.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, pokedex())
+  client.fetch_resource(client, resource, pokedex())
 }
 
 /// Fetches a pokedex given the pokedex ID.
@@ -62,7 +62,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = pokedex.new() |> pokedex.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, pokedex())
+  client.fetch_by_id(client, path, id, pokedex())
 }
 
 /// Fetches a pokedex given the pokedex name.
@@ -73,7 +73,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = pokedex.new() |> pokedex.fetch_by_name("kanto")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, pokedex())
+  client.fetch_by_name(client, path, name, pokedex())
 }
 
 fn pokedex() {

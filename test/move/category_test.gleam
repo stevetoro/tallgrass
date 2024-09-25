@@ -1,8 +1,7 @@
 import gleam/list
 import gleeunit/should
-import tallgrass/client.{with_pagination}
-import tallgrass/client/pagination.{Offset}
-import tallgrass/client/resource.{NamedResource}
+import tallgrass/client.{Offset, with_pagination}
+import tallgrass/common/resource.{NamedResource}
 import tallgrass/move/category.{type MoveCategory}
 
 pub fn fetch_test() {

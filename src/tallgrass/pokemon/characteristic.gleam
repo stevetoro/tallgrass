@@ -1,7 +1,7 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
 import tallgrass/common/description.{type Description, description}
+import tallgrass/common/resource.{type Resource, resource}
 
 pub type Characteristic {
   Characteristic(
@@ -29,7 +29,7 @@ pub fn new() {
 /// let result = characteristic.new() |> characteristic.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon characteristic given a pokemon characteristic resource.
@@ -43,7 +43,7 @@ pub fn fetch(client: Client) {
 /// client |> characteristic.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, characteristic())
+  client.fetch_resource(client, resource, characteristic())
 }
 
 /// Fetches a pokemon characteristic given the pokemon characteristic ID.
@@ -54,7 +54,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = characteristic.new() |> characteristic.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, characteristic())
+  client.fetch_by_id(client, path, id, characteristic())
 }
 
 fn characteristic() {

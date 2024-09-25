@@ -1,6 +1,6 @@
 import decode
 import tallgrass/client.{type Client}
-import tallgrass/client/resource.{type Resource, resource}
+import tallgrass/common/resource.{type Resource, resource}
 import tallgrass/common/effect.{type Effect, effect}
 
 pub type ItemFlingEffect {
@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = fling_effect.new() |> fling_effect.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.fetch_resources(client, path)
+  client.fetch_resources(client, path)
 }
 
 /// Fetches an item fling effect given an item fling effect resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> fling_effect.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.fetch_resource(client, resource, item_fling_effect())
+  client.fetch_resource(client, resource, item_fling_effect())
 }
 
 /// Fetches an item fling effect given the item fling effect ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = fling_effect.new() |> fling_effect.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.fetch_by_id(client, path, id, item_fling_effect())
+  client.fetch_by_id(client, path, id, item_fling_effect())
 }
 
 /// Fetches an item fling effect given the item fling effect name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = fling_effect.new() |> fling_effect.fetch_by_name("badly-poison")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.fetch_by_name(client, path, name, item_fling_effect())
+  client.fetch_by_name(client, path, name, item_fling_effect())
 }
 
 fn item_fling_effect() {

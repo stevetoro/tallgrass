@@ -43,7 +43,7 @@ pub fn new() {
 /// let result = species.new() |> species.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon species given a pokemon species resource.
@@ -57,7 +57,7 @@ pub fn fetch(client: Client) {
 /// client |> species.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, pokemon_species())
+  resource.fetch_resource(client, resource, pokemon_species())
 }
 
 /// Fetches a pokemon species given the pokemon species ID.
@@ -68,7 +68,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = species.new() |> species.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, pokemon_species())
+  resource.fetch_by_id(client, path, id, pokemon_species())
 }
 
 /// Fetches a pokemon species given the pokemon species name.
@@ -79,7 +79,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = species.new() |> species.fetch_by_name("ditto")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, pokemon_species())
+  resource.fetch_by_name(client, path, name, pokemon_species())
 }
 
 fn pokemon_species() {

@@ -43,7 +43,7 @@ pub fn new() {
 /// let result = location_area.new() |> location_area.fetch_for_pokemon_with_id(1)
 /// ```
 pub fn fetch_for_pokemon_with_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(
+  resource.fetch_by_id(
     client,
     path,
     id,
@@ -59,7 +59,7 @@ pub fn fetch_for_pokemon_with_id(client: Client, id: Int) {
 /// let result = location_area.new() |> location_area.fetch_for_pokemon_with_name("bulbasaur")
 /// ```
 pub fn fetch_for_pokemon_with_name(client: Client, name: String) {
-  resource.client_fetch_by_name(
+  resource.fetch_by_name(
     client,
     path,
     name,

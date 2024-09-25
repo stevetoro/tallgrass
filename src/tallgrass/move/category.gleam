@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = category.new() |> category.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a move category given a move category resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> category.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, move_category())
+  resource.fetch_resource(client, resource, move_category())
 }
 
 /// Fetches a move category given the move category ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = category.new() |> category.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, move_category())
+  resource.fetch_by_id(client, path, id, move_category())
 }
 
 /// Fetches a move category given the move category name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = category.new() |> category.fetch_by_name("ailment")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, move_category())
+  resource.fetch_by_name(client, path, name, move_category())
 }
 
 fn move_category() {

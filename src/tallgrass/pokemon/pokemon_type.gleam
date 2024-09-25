@@ -59,7 +59,7 @@ pub fn new() {
 /// let result = pokemon_type.new() |> pokemon_type.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon type given a pokemon type resource.
@@ -73,7 +73,7 @@ pub fn fetch(client: Client) {
 /// client |> pokemon_type.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, pokemon_type())
+  resource.fetch_resource(client, resource, pokemon_type())
 }
 
 /// Fetches a pokemon type given the pokemon type ID.
@@ -84,7 +84,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = pokemon_type.new() |> pokemon_type.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, pokemon_type())
+  resource.fetch_by_id(client, path, id, pokemon_type())
 }
 
 /// Fetches a pokemon type given the pokemon type name.
@@ -95,7 +95,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = pokemon_type.new() |> pokemon_type.fetch_by_name("fairy")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, pokemon_type())
+  resource.fetch_by_name(client, path, name, pokemon_type())
 }
 
 fn pokemon_type() {

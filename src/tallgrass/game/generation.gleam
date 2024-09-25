@@ -33,7 +33,7 @@ pub fn new() {
 /// let result = generation.new() |> generation.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a generation given a generation resource.
@@ -47,7 +47,7 @@ pub fn fetch(client: Client) {
 /// client |> generation.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, generation())
+  resource.fetch_resource(client, resource, generation())
 }
 
 /// Fetches a generation given the generation ID.
@@ -58,7 +58,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = generation.new() |> generation.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, generation())
+  resource.fetch_by_id(client, path, id, generation())
 }
 
 /// Fetches a generation given the generation name.
@@ -69,7 +69,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = generation.new() |> generation.fetch_by_name("generation-i")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, generation())
+  resource.fetch_by_name(client, path, name, generation())
 }
 
 fn generation() {

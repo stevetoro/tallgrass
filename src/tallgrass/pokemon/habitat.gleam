@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = habitat.new() |> habitat.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon habitat given a pokemon habitat resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> habitat.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, habitat())
+  resource.fetch_resource(client, resource, habitat())
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = habitat.new() |> habitat.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, habitat())
+  resource.fetch_by_id(client, path, id, habitat())
 }
 
 /// Fetches a pokemon habitat given the pokemon habitat name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = habitat.new() |> habitat.fetch_by_name("cave")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, habitat())
+  resource.fetch_by_name(client, path, name, habitat())
 }
 
 fn habitat() {

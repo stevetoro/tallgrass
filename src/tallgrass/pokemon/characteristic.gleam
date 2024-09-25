@@ -29,7 +29,7 @@ pub fn new() {
 /// let result = characteristic.new() |> characteristic.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon characteristic given a pokemon characteristic resource.
@@ -43,7 +43,7 @@ pub fn fetch(client: Client) {
 /// client |> characteristic.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, characteristic())
+  resource.fetch_resource(client, resource, characteristic())
 }
 
 /// Fetches a pokemon characteristic given the pokemon characteristic ID.
@@ -54,7 +54,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = characteristic.new() |> characteristic.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, characteristic())
+  resource.fetch_by_id(client, path, id, characteristic())
 }
 
 fn characteristic() {

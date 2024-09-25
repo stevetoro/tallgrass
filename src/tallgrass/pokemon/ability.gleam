@@ -40,7 +40,7 @@ pub fn new() {
 /// let result = ability.new() |> ability.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon ability given a pokemon ability resource.
@@ -54,7 +54,7 @@ pub fn fetch(client: Client) {
 /// client |> ability.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, ability())
+  resource.fetch_resource(client, resource, ability())
 }
 
 /// Fetches a pokemon ability given the pokemon ability ID.
@@ -65,7 +65,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = ability.new() |> ability.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, ability())
+  resource.fetch_by_id(client, path, id, ability())
 }
 
 /// Fetches a pokemon ability given the pokemon ability name.
@@ -76,7 +76,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = ability.new() |> ability.fetch_by_name("stench")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, ability())
+  resource.fetch_by_name(client, path, name, ability())
 }
 
 fn ability() {

@@ -22,7 +22,7 @@ pub fn new() {
 /// let result = machine.new() |> machine.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a machine given a machine resource.
@@ -36,7 +36,7 @@ pub fn fetch(client: Client) {
 /// client |> machine.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, machine())
+  resource.fetch_resource(client, resource, machine())
 }
 
 /// Fetches a machine given the machine ID.
@@ -47,7 +47,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = machine.new() |> machine.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, machine())
+  resource.fetch_by_id(client, path, id, machine())
 }
 
 fn machine() {

@@ -31,7 +31,7 @@ pub fn new() {
 /// let result = area.new() |> area.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a location area given a location area resource.
@@ -45,7 +45,7 @@ pub fn fetch(client: Client) {
 /// client |> area.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, location_area())
+  resource.fetch_resource(client, resource, location_area())
 }
 
 /// Fetches a location area given the location area ID.
@@ -56,7 +56,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = area.new() |> area.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, location_area())
+  resource.fetch_by_id(client, path, id, location_area())
 }
 
 /// Fetches a location area given the location area name.
@@ -67,7 +67,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = area.new() |> area.fetch_by_name("canalave-city-area")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, location_area())
+  resource.fetch_by_name(client, path, name, location_area())
 }
 
 fn location_area() {

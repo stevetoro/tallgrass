@@ -39,7 +39,7 @@ pub fn new() {
 /// let result = pokeathlon_stat.new() |> pokeathlon_stat.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokeathlon stat given a pokeathlon stat resource.
@@ -53,7 +53,7 @@ pub fn fetch(client: Client) {
 /// client |> pokeathlon_stat.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, pokeathlon_stat())
+  resource.fetch_resource(client, resource, pokeathlon_stat())
 }
 
 /// Fetches a pokeathlon stat given the pokeathlon stat ID.
@@ -64,7 +64,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = pokeathlon_stat.new() |> pokeathlon_stat.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, pokeathlon_stat())
+  resource.fetch_by_id(client, path, id, pokeathlon_stat())
 }
 
 /// Fetches a pokeathlon stat given the pokeathlon stat name.
@@ -75,7 +75,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = pokeathlon_stat.new() |> pokeathlon_stat.fetch_by_name("skill")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, pokeathlon_stat())
+  resource.fetch_by_name(client, path, name, pokeathlon_stat())
 }
 
 fn pokeathlon_stat() {

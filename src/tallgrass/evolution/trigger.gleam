@@ -28,7 +28,7 @@ pub fn new() {
 /// let result = trigger.new() |> trigger.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches an evolution trigger given an evolution trigger resource.
@@ -42,7 +42,7 @@ pub fn fetch(client: Client) {
 /// client |> trigger.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, evolution_trigger())
+  resource.fetch_resource(client, resource, evolution_trigger())
 }
 
 /// Fetches an evolution trigger given the evolution trigger ID.
@@ -53,7 +53,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = trigger.new() |> trigger.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, evolution_trigger())
+  resource.fetch_by_id(client, path, id, evolution_trigger())
 }
 
 /// Fetches an evolution trigger given the evolution trigger name.
@@ -64,7 +64,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = trigger.new() |> trigger.fetch_by_name("level-up")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, evolution_trigger())
+  resource.fetch_by_name(client, path, name, evolution_trigger())
 }
 
 fn evolution_trigger() {

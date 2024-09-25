@@ -4,9 +4,8 @@ import decode.{type Decoder}
 import gleam/int.{to_string}
 import gleam/option.{type Option, None, Some}
 import gleam/string
-import tallgrass/cache.{type Cache}
 import tallgrass/client.{type Client, cache, pagination}
-import tallgrass/page
+import tallgrass/page.{type PaginationOptions, Default, Limit, Offset, Paginate}
 import tallgrass/request
 
 /// The type of response returned by paginated endpoints. `count` is the total number of records for that resource, `results` are a list of
@@ -46,38 +45,17 @@ pub type Resource {
   NamedResource(url: String, name: String)
 }
 
-/// Paginated endpoints accept `limit` and `offset` query parameters.
-/// If `DefaultPagination` is used, PokeAPI will use a limit of 20 and an offset of 0.
-///
-/// # Example
-///
-/// ```gleam
-/// // Sets the limit to 100
-/// pokemon.fetch(Limit(100), NoCache)
-///
-/// // Sets the offset to 20
-/// pokemon.fetch(Offset(20), NoCache)
-///
-/// // Sets the limit to 100 and the offset to 20
-/// pokemon.fetch(Paginate(limit: 100, offset: 20), NoCache)
-/// ```
-pub type PaginationOptions {
-  DefaultPagination
-  Limit(Int)
-  Offset(Int)
-  Paginate(limit: Int, offset: Int)
-}
-
 /// Follows the `next` link of a given `ResourceList` and returns an error if the `next` link is `null`.
 ///
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon.fetch(DefaultPagination, NoCache))
-/// res |> resource.next(NoCache)
+/// let client = client.new()
+/// use res <- result.try(client |> pokemon.fetch())
+/// client |> resource.next(res)
 /// ```
-pub fn next(page: ResourceList, cache: Cache) {
-  request.next(page.next, resource_list(), cache)
+pub fn next(client: Client, page: ResourceList) {
+  request.next(page.next, resource_list(), client |> cache)
 }
 
 /// Follows the `previous` link of a given `ResourceList` and returns an error if the `previous` link is `null`.
@@ -85,43 +63,22 @@ pub fn next(page: ResourceList, cache: Cache) {
 /// # Example
 ///
 /// ```gleam
-/// use res <- result.try(pokemon.fetch(Offset(100), NoCache))
-/// res |> resource.previous(NoCache)
+/// let client = client.new()
+/// use res <- result.try(client |> pokemon.fetch())
+/// client |> resource.previous(res)
 /// ```
-pub fn previous(page: ResourceList, cache: Cache) {
-  request.previous(page.previous, resource_list(), cache)
+pub fn previous(client: Client, page: ResourceList) {
+  request.previous(page.previous, resource_list(), client |> cache)
 }
 
 @internal
-pub fn fetch_by_id(id: Int, path: String, decoder: Decoder(t), cache: Cache) {
-  let path = path_from(Some(id |> to_string), path)
-  request.get(path, [], decoder, cache)
-}
-
-@internal
-pub fn client_fetch_by_id(
-  client: Client,
-  path: String,
-  id: Int,
-  decoder: Decoder(t),
-) {
+pub fn fetch_by_id(client: Client, path: String, id: Int, decoder: Decoder(t)) {
   let path = path_from(Some(id |> to_string), path)
   request.get(path, [], decoder, client |> cache)
 }
 
 @internal
 pub fn fetch_by_name(
-  name: String,
-  path: String,
-  decoder: Decoder(t),
-  cache: Cache,
-) {
-  let path = path_from(Some(name), path)
-  request.get(path, [], decoder, cache)
-}
-
-@internal
-pub fn client_fetch_by_name(
   client: Client,
   path: String,
   name: String,
@@ -132,31 +89,17 @@ pub fn client_fetch_by_name(
 }
 
 @internal
-pub fn fetch_resources(path: String, options: PaginationOptions, cache: Cache) {
-  request.get(path, query(from: options), resource_list(), cache)
-}
-
-@internal
-pub fn client_fetch_resources(client: Client, path: String) {
+pub fn fetch_resources(client: Client, path: String) {
   request.get(
     path,
-    client_query(from: client |> pagination),
+    query(from: client |> pagination),
     resource_list(),
     client |> cache,
   )
 }
 
 @internal
-pub fn fetch_resource(resource: Resource, decoder: Decoder(t), cache: Cache) {
-  request.get_url(resource.url, decoder, cache)
-}
-
-@internal
-pub fn client_fetch_resource(
-  client: Client,
-  resource: Resource,
-  decoder: Decoder(t),
-) {
+pub fn fetch_resource(client: Client, resource: Resource, decoder: Decoder(t)) {
   request.get_url(resource.url, decoder, client |> cache)
 }
 
@@ -204,22 +147,10 @@ fn path_from(resource: Option(String), path: String) {
 
 fn query(from options: PaginationOptions) {
   case options {
-    DefaultPagination -> []
+    Default -> []
     Limit(limit) -> [#("limit", limit |> to_string)]
     Offset(offset) -> [#("offset", offset |> to_string)]
     Paginate(limit, offset) -> [
-      #("limit", limit |> to_string),
-      #("offset", offset |> to_string),
-    ]
-  }
-}
-
-fn client_query(from options: page.PaginationOptions) {
-  case options {
-    page.Default -> []
-    page.Limit(limit) -> [#("limit", limit |> to_string)]
-    page.Offset(offset) -> [#("offset", offset |> to_string)]
-    page.Paginate(limit, offset) -> [
       #("limit", limit |> to_string),
       #("offset", offset |> to_string),
     ]

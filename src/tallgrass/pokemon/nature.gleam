@@ -46,7 +46,7 @@ pub fn new() {
 /// let result = nature.new() |> nature.fetch()
 /// ```
 pub fn fetch(client: Client) {
-  resource.client_fetch_resources(client, path)
+  resource.fetch_resources(client, path)
 }
 
 /// Fetches a pokemon nature given a pokemon nature resource.
@@ -60,7 +60,7 @@ pub fn fetch(client: Client) {
 /// client |> nature.fetch_resource(first)
 /// ```
 pub fn fetch_resource(client: Client, resource: Resource) {
-  resource.client_fetch_resource(client, resource, nature())
+  resource.fetch_resource(client, resource, nature())
 }
 
 /// Fetches a pokemon nature given the pokemon nature ID.
@@ -71,7 +71,7 @@ pub fn fetch_resource(client: Client, resource: Resource) {
 /// let result = nature.new() |> nature.fetch_by_id(1)
 /// ```
 pub fn fetch_by_id(client: Client, id: Int) {
-  resource.client_fetch_by_id(client, path, id, nature())
+  resource.fetch_by_id(client, path, id, nature())
 }
 
 /// Fetches a pokemon nature given the pokemon nature name.
@@ -82,7 +82,7 @@ pub fn fetch_by_id(client: Client, id: Int) {
 /// let result = nature.new() |> nature.fetch_by_name("bold")
 /// ```
 pub fn fetch_by_name(client: Client, name: String) {
-  resource.client_fetch_by_name(client, path, name, nature())
+  resource.fetch_by_name(client, path, name, nature())
 }
 
 fn nature() {

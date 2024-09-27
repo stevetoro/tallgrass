@@ -86,4 +86,11 @@ fn should_be_master_ball(item: Item) {
 
   item.held_by_pokemon |> list.is_empty |> should.be_true
   item.baby_trigger_for |> should.be_none
+
+  item.machines |> list.is_empty |> should.be_true
+
+  item.sprites.default
+  |> should.equal(
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png",
+  )
 }

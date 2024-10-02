@@ -23,8 +23,6 @@ pub type Item {
     names: List(Name),
     held_by_pokemon: List(ItemHolderPokemon),
     baby_trigger_for: Option(Resource),
-    machines: List(MachineVersionDetail),
-    sprites: ItemSprites,
   )
 }
 
@@ -45,14 +43,6 @@ pub type ItemHolderPokemon {
 
 pub type ItemHolderPokemonVersionDetail {
   ItemHolderPokemonVersionDetail(rarity: Int, version: Resource)
-}
-
-pub type MachineVersionDetail {
-  MachineVersionDetail(machine: Resource, version_group: Resource)
-}
-
-pub type ItemSprites {
-  ItemSprites(default: String)
 }
 
 const path = "item"
@@ -125,8 +115,6 @@ fn item() {
     use names <- decode.parameter
     use held_by_pokemon <- decode.parameter
     use baby_trigger_for <- decode.parameter
-    use machines <- decode.parameter
-    use sprites <- decode.parameter
     Item(
       id,
       name,
@@ -141,8 +129,6 @@ fn item() {
       names,
       held_by_pokemon,
       baby_trigger_for,
-      machines,
-      sprites,
     )
   })
   |> decode.field("id", decode.int)
@@ -161,8 +147,6 @@ fn item() {
   |> decode.field("names", decode.list(of: name()))
   |> decode.field("held_by_pokemon", decode.list(of: item_holder_pokemon()))
   |> decode.field("baby_trigger_for", decode.optional(resource()))
-  |> decode.field("machines", decode.list(of: machine()))
-  |> decode.field("sprites", item_sprites())
 }
 
 fn version_group_flavor_text() {
@@ -198,22 +182,4 @@ fn item_holder_pokemon_version_detail() {
   })
   |> decode.field("rarity", decode.int)
   |> decode.field("version", resource())
-}
-
-fn machine() {
-  decode.into({
-    use machine <- decode.parameter
-    use version_group <- decode.parameter
-    MachineVersionDetail(machine, version_group)
-  })
-  |> decode.field("machine", resource())
-  |> decode.field("version_group", resource())
-}
-
-fn item_sprites() {
-  decode.into({
-    use default <- decode.parameter
-    ItemSprites(default)
-  })
-  |> decode.field("default", decode.string)
 }

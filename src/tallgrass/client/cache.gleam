@@ -13,9 +13,8 @@ import gleam/otp/actor
 /// let client = client.new() |> with_cache(cache)
 /// client |> pokemon.fetch()
 /// ```
-pub type Cache {
-  Cache(Set(String, String))
-  NoCache
+pub opaque type Cache {
+  Cache(Set(String, String), fn() -> Nil)
 }
 
 /// Specifies how often the cache should be expired in seconds, minutes, or hours.
@@ -28,10 +27,11 @@ pub type CacheExpiry {
 type CacheFlusherMessage {
   StartCacheFlusher(Subject(CacheFlusherMessage))
   RunCacheFlusher(Subject(CacheFlusherMessage))
+  StopCacheFlusher
 }
 
 type CacheFlusherState {
-  CacheFlusherState(cache: Cache, interval: Int)
+  CacheFlusherState(table: Set(String, String), interval: Int)
 }
 
 @internal
@@ -45,27 +45,33 @@ pub type Error {
 pub fn new(name: String, expiry: CacheExpiry) {
   case table(name) {
     Ok(table) -> {
-      let cache = Cache(table)
-      cache |> start_flusher(expiry)
-      Ok(cache)
+      let flusher = table |> start_flusher(expiry)
+      let stop = fn() { actor.send(flusher, StopCacheFlusher) }
+      Ok(Cache(table, stop))
     }
     _ -> Error(NewCacheError)
   }
 }
 
+/// Shuts down the cache and cache flushing process.
+/// Care should be taken to not pass a shutdown cache to client.with_cache.
+pub fn shutdown(cache: Cache) {
+  let Cache(_, stop_cache_flusher) = cache
+  stop_cache_flusher()
+}
+
 @internal
 pub fn contains(cache: Cache, req: String) {
-  let assert Cache(table) = cache
-  table
-  |> table.contains(req)
+  let Cache(table, _) = cache
+  table |> table.contains(req)
 }
 
 @internal
 pub fn lookup(cache: Cache, req: String) {
-  let assert Cache(table) = cache
   case cache |> contains(req) {
     False -> Error(NotFound)
     True -> {
+      let Cache(table, _) = cache
       let assert [tup, ..] = table |> table.lookup(req)
       Ok(tup.1)
     }
@@ -74,7 +80,7 @@ pub fn lookup(cache: Cache, req: String) {
 
 @internal
 pub fn insert(cache: Cache, req: String, res: String) {
-  let assert Cache(table) = cache
+  let Cache(table, _) = cache
   table |> table.insert([#(req, res)])
 }
 
@@ -88,15 +94,16 @@ fn table(name: String) {
   |> table.set
 }
 
-fn start_flusher(cache: Cache, expiry: CacheExpiry) {
+fn start_flusher(table: Set(String, String), expiry: CacheExpiry) {
   let expire = case expiry {
     Hours(hours) -> 1000 * 60 * 60 * hours
     Minutes(minutes) -> 1000 * 60 * minutes
     Seconds(seconds) -> 1000 * seconds
   }
   let assert Ok(flusher) =
-    actor.start(CacheFlusherState(cache, expire), handle_flusher_message)
+    actor.start(CacheFlusherState(table, expire), handle_flusher_message)
   actor.send(flusher, StartCacheFlusher(flusher))
+  flusher
 }
 
 fn handle_flusher_message(
@@ -109,10 +116,13 @@ fn handle_flusher_message(
       actor.continue(state)
     }
     RunCacheFlusher(subject) -> {
-      let assert Cache(table) = state.cache
-      table |> table.delete_all
+      state.table |> table.delete_all
       process.send_after(subject, state.interval, RunCacheFlusher(subject))
       actor.continue(state)
+    }
+    StopCacheFlusher -> {
+      state.table |> table.drop
+      actor.Stop(process.Normal)
     }
   }
 }

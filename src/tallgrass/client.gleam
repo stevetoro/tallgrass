@@ -2,7 +2,7 @@ import decode.{type Decoder}
 import gleam/int.{to_string}
 import gleam/option.{type Option, None, Some}
 import gleam/string
-import tallgrass/client/cache.{type Cache, NoCache}
+import tallgrass/client/cache.{type Cache}
 import tallgrass/client/request
 import tallgrass/common/resource.{
   type PaginatedResource, type Resource, paginated_resource,
@@ -11,12 +11,12 @@ import tallgrass/common/resource.{
 /// Client is the basic type used to make requests. Client should be initialized with client.new and provided
 /// with the desired cache and pagination options via `with_cache` and `with_pagination`.
 pub opaque type Client {
-  Client(cache: Cache, pagination: PaginationOptions)
+  Client(pagination: PaginationOptions, cache: Option(Cache))
 }
 
 /// Initializes a Client with no cache and default pagination settings.
 pub fn new() {
-  Client(cache: NoCache, pagination: Default)
+  Client(pagination: Default, cache: None)
 }
 
 @internal
@@ -31,7 +31,7 @@ pub fn pagination(client: Client) {
 
 /// Returns a Client with the provided Cache.
 pub fn with_cache(client: Client, cache: Cache) {
-  Client(..client, cache: cache)
+  Client(..client, cache: Some(cache))
 }
 
 /// Returns a Client with the provided pagination options.

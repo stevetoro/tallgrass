@@ -2,12 +2,13 @@ import decode.{type Decoder}
 import gleam/hackney
 import gleam/http/request.{type Request, Request}
 import gleam/http/response.{type Response}
+import gleam/io
 import gleam/json
 import gleam/option.{type Option, None, Some}
 import gleam/result
 import gleam/string.{split}
 import gleam/uri
-import tallgrass/client/cache.{type Cache, Cache, NoCache, insert, lookup}
+import tallgrass/client/cache.{type Cache, insert, lookup}
 
 const host = "pokeapi.co/api/v2"
 
@@ -23,33 +24,40 @@ pub type Error {
 pub type QueryParams =
   List(#(String, String))
 
-pub fn next(url: Option(String), decoder: Decoder(t), cache: Cache) {
+pub fn next(url: Option(String), decoder: Decoder(t), cache: Option(Cache)) {
   case url {
     Some(url) -> get_url(url, decoder, cache)
     None -> Error(NoNextPage)
   }
 }
 
-pub fn previous(url: Option(String), decoder: Decoder(t), cache: Cache) {
+pub fn previous(url: Option(String), decoder: Decoder(t), cache: Option(Cache)) {
   case url {
     Some(url) -> get_url(url, decoder, cache)
     None -> Error(NoPreviousPage)
   }
 }
 
-pub fn get_url(url: String, decoder: Decoder(t), cache: Cache) {
+pub fn get_url(url: String, decoder: Decoder(t), cache: Option(Cache)) {
   let assert [_, path] = url |> split(on: api_url)
   get(path, [], decoder, cache)
 }
 
-pub fn get(path: String, query: QueryParams, decoder: Decoder(t), cache: Cache) {
+pub fn get(
+  path: String,
+  query: QueryParams,
+  decoder: Decoder(t),
+  cache: Option(Cache),
+) {
   let req = new(path, query)
   case cache {
-    Cache(_) -> {
+    Some(cache) -> {
+      io.debug("Trying cache")
       use res <- result.try(req |> send_and_cache(using: cache))
       decode(res, using: decoder)
     }
-    NoCache -> {
+    None -> {
+      io.debug("Not trying cache")
       use res <- result.try(req |> send)
       decode(res, using: decoder)
     }

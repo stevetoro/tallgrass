@@ -2,7 +2,6 @@ import decode.{type Decoder}
 import gleam/hackney
 import gleam/http/request.{type Request, Request}
 import gleam/http/response.{type Response}
-import gleam/io
 import gleam/json
 import gleam/option.{type Option, None, Some}
 import gleam/result
@@ -52,12 +51,10 @@ pub fn get(
   let req = new(path, query)
   case cache {
     Some(cache) -> {
-      io.debug("Trying cache")
       use res <- result.try(req |> send_and_cache(using: cache))
       decode(res, using: decoder)
     }
     None -> {
-      io.debug("Not trying cache")
       use res <- result.try(req |> send)
       decode(res, using: decoder)
     }
